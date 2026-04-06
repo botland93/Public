@@ -1555,12 +1555,17 @@
             Book a free 30-minute strategy call. I'll review your current setup
             and tell you exactly where to start — no strings attached.
           </p>
-          <a href="mailto:your@email.com" class="btn btn-primary">
-            Book a 30-min Strategy Call
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px;">
+            <a href="mailto:botland93@gmail.com" class="btn btn-primary">
+              ✉ botland93@gmail.com
+            </a>
+            <a href="tel:+40748472200" class="btn btn-primary" style="background: var(--teal);">
+              📞 +40 748 472 200
+            </a>
+            <a href="https://wa.me/40748472200" target="_blank" rel="noopener" class="btn btn-primary" style="background: #25D366;">
+              💬 WhatsApp
+            </a>
+          </div>
           <div class="cta-details">
             <span>Free — no commitment</span>
             <span>Actionable advice in 30 min</span>
@@ -1660,10 +1665,8 @@
         }
       });
     }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.15
     });
-
     revealElements.forEach(el => revealObserver.observe(el));
   </script>
 </body>
