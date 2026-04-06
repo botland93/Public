@@ -155,14 +155,7 @@
       letter-spacing: -0.02em;
       white-space: nowrap;
     }
-    .brand-mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--gradient-accent);
-      box-shadow: 0 2px 8px rgba(79,70,229,0.25);
-      flex-shrink: 0;
-    }
+    /* brand mark removed until a logo is ready */
     .nav-r { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
     .nav-r a {
       text-decoration: none;
@@ -586,7 +579,6 @@
   <nav id="nb" aria-label="Primary">
     <div class="wrap">
       <a href="#" class="brand" aria-label="Botland Solutions home">
-        <div class="brand-mark" aria-hidden="true"></div>
         Botland Solutions
       </a>
       <button class="mobile-toggle" id="menuBtn" aria-label="Menu">☰</button>
@@ -764,24 +756,53 @@
       <button class="mo-x" aria-label="Close privacy policy" onclick="document.getElementById('pm').style.display='none'">✕</button>
       <h2 id="privacy-title">Privacy Policy</h2>
       <p class="dt">Last updated: April 6, 2026</p>
-      <p>This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. This policy explains what data may be processed when you visit this site or contact me.</p>
+      <p>This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. This Privacy Policy explains what data may be processed when you visit this website or contact me.</p>
+
       <h3>1. Data Controller</h3>
-      <p>Botond Nagy · Târgu Mureș, Romania · Contact: botland93@gmail.com</p>
-      <h3>2. Hosting</h3>
-      <p>This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., USA). When you access this site, GitHub may collect technical data such as your IP address and browser type. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a>.</p>
-      <h3>3. Google Fonts</h3>
-      <p>This site loads fonts from Google's servers, which may receive your IP address. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
-      <h3>4. Cookies</h3>
-      <p>This website uses only a single <strong>localStorage</strong> entry for theme preference. No tracking cookies or analytics are used.</p>
-      <h3>5. Contact Data</h3>
-      <p>If you contact me, I process the data you provide solely to respond, based on consent (Art. 6(1)(a) GDPR) or legitimate interest (Art. 6(1)(f) GDPR).</p>
-      <h3>6. Your Rights</h3>
-      <p>Under the GDPR, you have the right to access, rectify, erase, restrict, and port your data. You may also lodge a complaint with <a href="https://www.dataprotection.ro" target="_blank" rel="noopener">ANSPDCP</a>.</p>
-      <h3>7. Data Retention</h3>
-      <p>Personal data from correspondence is retained only as long as necessary, then deleted.</p>
+      <p><strong>Botond Nagy</strong><br>Târgu Mureș, Romania<br>Contact: <a href="mailto:botland93@gmail.com">botland93@gmail.com</a></p>
+
+      <h3>2. What Data May Be Collected</h3>
+      <p>When you use this website, the following data may be processed:</p>
+      <p><strong>Technical data</strong> (automatically collected by the hosting provider): IP address, browser type and version, device information, and access time.</p>
+      <p><strong>Contact data</strong> (only if you contact me): name, email address, phone number, and any information you include in your message.</p>
+
+      <h3>3. Purpose and Legal Basis</h3>
+      <p>Your data may be processed for the following purposes:</p>
+      <p><strong>Website operation</strong> — legal basis: legitimate interest (Art. 6(1)(f) GDPR).</p>
+      <p><strong>Responding to inquiries</strong> — legal basis: consent (Art. 6(1)(a) GDPR) and/or legitimate interest (Art. 6(1)(f) GDPR).</p>
+      <p><strong>Basic technical functionality</strong> (such as theme preference) — legal basis: legitimate interest (Art. 6(1)(f) GDPR).</p>
+
+      <h3>4. Hosting</h3>
+      <p>This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., USA). When you access the website, GitHub may process technical data such as your IP address.</p>
+      <p>This may involve a transfer of data outside the European Union. Such transfers rely on appropriate safeguards, such as Standard Contractual Clauses.</p>
+      <p>More information: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a>.</p>
+
+      <h3>5. Google Fonts</h3>
+      <p>This website loads fonts from Google's servers, which may receive your IP address.</p>
+      <p>More information: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+
+      <h3>6. External Links &amp; Communication Tools</h3>
+      <p>This website may contain links to external services, including email, phone, WhatsApp, and LinkedIn. When you use these services, your data is processed by the respective provider under their own privacy policies.</p>
+
+      <h3>7. Cookies and Storage</h3>
+      <p>This website does not use tracking cookies or analytics.</p>
+      <p>Only a single <strong>localStorage</strong> entry is used to store your theme preference (light/dark mode).</p>
+
+      <h3>8. Data Retention</h3>
+      <p>Personal data provided via contact is stored only as long as necessary to respond and manage communication, then deleted.</p>
+
+      <h3>9. Your Rights</h3>
+      <p>Under the GDPR, you have the right to access your data, rectify inaccurate data, request deletion, restrict processing, object to processing, and request data portability.</p>
+      <p>If processing is based on consent, you may withdraw consent at any time.</p>
+
+      <h3>10. Complaint</h3>
+      <p>You have the right to lodge a complaint with the Romanian data protection authority:</p>
+      <p><a href="https://www.dataprotection.ro" target="_blank" rel="noopener">ANSPDCP</a></p>
+
+      <h3>11. Automated Decision-Making</h3>
+      <p>No automated decision-making or profiling is carried out on this website.</p>
     </div>
   </div>
-
   <script>
     const tt = document.getElementById('tt');
     const ti = document.getElementById('ti');
