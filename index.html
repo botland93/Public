@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -538,14 +539,41 @@
       .tags { justify-content: center; }
     }
     @media (max-width: 700px) {
-      .srv-grid, .c-grid { grid-template-columns: 1fr; }
+      nav .wrap { gap: 10px; }
+      .brand { font-size: 0.96rem; }
+      .mobile-toggle {
+        display: flex;
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+      .nav-r {
+        flex-wrap: nowrap;
+        gap: 6px;
+        align-items: center;
+      }
       .nav-r a.hm { display: none; }
+      .nav-cta {
+        margin-left: 0;
+        padding: 8px 12px;
+        font-size: 0.76rem;
+        white-space: nowrap;
+      }
+      .theme-toggle {
+        margin-left: 0;
+        width: 42px;
+        height: 24px;
+      }
+      .theme-toggle .thumb {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+      }
       .hero { padding: 122px 0 56px; }
       .f-inner { flex-direction: column; text-align: center; }
       .f-links { justify-content: center; }
       .about-card, .srv, .step, .c-card, .mo-box { padding: 24px; }
-      .nav-cta { margin-left: 0; }
-      .mobile-toggle { display: flex; }
       .nav-r.open {
         display: flex;
         flex-direction: column;
