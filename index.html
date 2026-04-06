@@ -1587,10 +1587,43 @@
           <li><a href="#proof">Results</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
+          <li><a href="#" onclick="document.getElementById('privacyModal').style.display='flex';return false;">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
   </footer>
+
+  <!-- ====== PRIVACY POLICY MODAL ====== -->
+  <div id="privacyModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:var(--surface);color:var(--text);max-width:720px;width:100%;max-height:85vh;overflow-y:auto;border-radius:var(--radius-xl);padding:40px;position:relative;box-shadow:var(--card-shadow-hover);">
+      <button onclick="document.getElementById('privacyModal').style.display='none'" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted);">✕</button>
+      <h2 style="font-size:1.5rem;margin-bottom:8px;">Privacy Policy</h2>
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:24px;">Last updated: April 6, 2026</p>
+
+      <p style="margin-bottom:16px;">This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. I take your privacy seriously. This policy explains what data is collected when you visit this site and how it is handled.</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">1. Data Controller</h3>
+      <p style="margin-bottom:16px;">Botond Nagy · Târgu Mureș, Romania · Contact: botland93@gmail.com</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">2. Hosting</h3>
+      <p style="margin-bottom:16px;">This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., San Francisco, CA, USA). When you access this site, GitHub may collect technical data such as your IP address, browser type, and access times in server logs. For more information, see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">GitHub's Privacy Statement</a>.</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">3. Google Fonts</h3>
+      <p style="margin-bottom:16px;">This site uses Google Fonts, loaded from Google's servers (fonts.googleapis.com, fonts.gstatic.com). When a page is loaded, your browser connects to Google's servers, which may receive your IP address. For details, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">Google's Privacy Policy</a>.</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">4. Cookies</h3>
+      <p style="margin-bottom:16px;">This website uses only a single <strong>localStorage</strong> entry to remember your light/dark theme preference. No tracking cookies, analytics cookies, or third-party cookies are used.</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">5. Contact Data</h3>
+      <p style="margin-bottom:16px;">If you contact me via email, phone, or WhatsApp, I will process the personal data you provide (such as your name and message) solely to respond to your inquiry. This data is processed based on your consent (Art. 6(1)(a) GDPR) or legitimate interest (Art. 6(1)(f) GDPR). I will not share your data with third parties unless required by law.</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">6. Your Rights</h3>
+      <p style="margin-bottom:16px;">Under the GDPR, you have the right to access, rectify, erase, restrict processing, and port your personal data. You also have the right to object to processing and to lodge a complaint with the Romanian data protection authority (ANSPDCP — <a href="https://www.dataprotection.ro" target="_blank" rel="noopener" style="color:var(--accent);">www.dataprotection.ro</a>).</p>
+
+      <h3 style="font-size:1.1rem;margin:20px 0 8px;">7. Data Retention</h3>
+      <p>Personal data from correspondence is retained only as long as necessary to fulfill the purpose for which it was collected, after which it is deleted.</p>
+    </div>
+  </div>
 
   <!-- ====== SCRIPTS ====== -->
   <script>
