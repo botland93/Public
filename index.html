@@ -132,11 +132,11 @@
     .nav-r a:hover { color:var(--text); background:var(--surface-hover); }
     .nav-cta {
       text-decoration:none; color:#fff; background:var(--accent);
-      font-weight:600; font-size:0.88rem; padding:9px 20px;
+      font-family:"Sora",sans-serif; font-weight:600; font-size:0.88rem; padding:10px 22px;
       border-radius:8px; transition:transform 0.2s,box-shadow 0.2s,background 0.2s;
-      box-shadow:0 2px 12px rgba(79,70,229,0.3); margin-left:8px;
+      box-shadow:0 2px 10px rgba(79,70,229,0.2); margin-left:8px;
     }
-    .nav-cta:hover { transform:translateY(-1px); background:var(--accent-soft); box-shadow:0 4px 18px rgba(79,70,229,0.35); }
+    .nav-cta:hover { transform:translateY(-1px); background:var(--accent-soft); box-shadow:0 4px 16px rgba(79,70,229,0.25); }
 
     /* THEME TOGGLE */
     .theme-toggle {
@@ -232,7 +232,7 @@
     section { padding:72px 0; }
     .s-label {
       display:inline-block; font-family:"Sora",sans-serif;
-      font-size:0.7rem; font-weight:700; letter-spacing:0.14em;
+      font-size:0.82rem; font-weight:800; letter-spacing:0.12em;
       text-transform:uppercase; color:var(--accent);
       margin-bottom:10px;
     }
@@ -275,6 +275,7 @@
       box-shadow:var(--card-shadow); transition:var(--transition);
     }
     .srv:hover { box-shadow:var(--card-shadow-hover); transform:translateY(-2px); }
+    .srv:last-child:nth-child(odd) { grid-column:1/-1; }
     .srv-ic {
       width:44px; height:44px; border-radius:11px;
       display:grid; place-items:center; font-size:1.15rem; margin-bottom:16px;
@@ -436,6 +437,11 @@
             <div class="srv-ic" style="background:#fff1f2;color:#e11d48;">🔒</div>
             <h3>GDPR &amp; Security Review</h3>
             <p>Audit your current setup, identify compliance gaps, configure access policies, and document everything so your organization is protected and audit-ready.</p>
+          </div>
+          <div class="srv rv">
+            <div class="srv-ic" style="background:var(--brand-bg);color:var(--brand);">🤖</div>
+            <h3>AI &amp; LLM Training for Teams</h3>
+            <p>I help your team adopt AI tools effectively — choosing the right LLM for each use case, building prompt workflows, interpreting outputs, and integrating AI into daily operations. Practical, hands-on training — not theory.</p>
           </div>
         </div>
       </div>
