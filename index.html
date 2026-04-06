@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Botland Solutions | Operations & Digital Infrastructure for Growing Teams</title>
-  <meta name="description" content="Botland Solutions helps growing teams, NGOs, and event-driven organizations build reliable operations — from Google Workspace setup to full project execution." />
+  <title>Botland Solutions | Operations & Digital Infrastructure</title>
+  <meta name="description" content="Botland Solutions helps growing teams build reliable digital operations — project management, internal digitalization, and operational infrastructure." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 
   <style>
-    /* ====== TOKENS ====== */
+    /* ====== TOKENS (original botland.ro) ====== */
     :root {
       --bg: #ffffff;
       --bg-soft: #f8f9fb;
-      --bg-warm: #faf9f7;
       --surface: #ffffff;
       --surface-hover: #f3f4f6;
       --line: #e5e7eb;
@@ -25,37 +24,27 @@
       --muted: #6b7280;
       --dim: #9ca3af;
       --brand: #b8913a;
-      --brand-soft: #d4a84b;
       --brand-bg: #fdf8ef;
-      --brand-border: #f0ddb8;
       --accent: #4f46e5;
       --accent-soft: #6366f1;
       --accent-bg: #eef2ff;
-      --accent-border: #c7d2fe;
       --teal: #0d9488;
       --teal-bg: #ecfdf5;
-      --teal-border: #a7f3d0;
       --green: #16a34a;
-      --rose: #e11d48;
-      --rose-bg: #fff1f2;
-      --rose-border: #fecdd3;
-      --gradient-brand: linear-gradient(135deg, #b8913a, #d4a84b);
       --gradient-accent: linear-gradient(135deg, #4f46e5, #7c3aed);
-      --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 6px 16px rgba(0, 0, 0, 0.04);
-      --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 12px 28px rgba(0, 0, 0, 0.06);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04);
+      --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 12px 28px rgba(0,0,0,0.06);
       --radius-xl: 20px;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
-      --container: min(1140px, 92%);
+      --container: min(1060px, 92%);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* ====== DARK THEME ====== */
     [data-theme="dark"] {
       --bg: #0a0f1a;
       --bg-soft: #111827;
-      --bg-warm: #131b2e;
       --surface: #111827;
       --surface-hover: #1e293b;
       --line: #253354;
@@ -65,1642 +54,482 @@
       --muted: #94a3b8;
       --dim: #64748b;
       --brand: #c9a265;
-      --brand-soft: #f0d9b2;
-      --brand-bg: rgba(201, 162, 101, 0.08);
-      --brand-border: rgba(201, 162, 101, 0.22);
+      --brand-bg: rgba(201,162,101,0.08);
       --accent: #818cf8;
       --accent-soft: #a5b4fc;
-      --accent-bg: rgba(99, 102, 241, 0.1);
-      --accent-border: rgba(99, 102, 241, 0.22);
+      --accent-bg: rgba(99,102,241,0.1);
       --teal: #33b8a6;
-      --teal-bg: rgba(51, 184, 166, 0.08);
-      --teal-border: rgba(51, 184, 166, 0.22);
+      --teal-bg: rgba(51,184,166,0.08);
       --green: #22c55e;
-      --rose: #fb7185;
-      --rose-bg: rgba(244, 63, 94, 0.08);
-      --rose-border: rgba(244, 63, 94, 0.22);
-      --gradient-brand: linear-gradient(135deg, #c9a265, #ecd6b5);
       --gradient-accent: linear-gradient(135deg, #818cf8, #a78bfa);
-      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 12px 28px rgba(0, 0, 0, 0.2);
-      --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.35), 0 20px 40px rgba(0, 0, 0, 0.25);
+      --card-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 12px 28px rgba(0,0,0,0.2);
+      --card-shadow-hover: 0 8px 24px rgba(0,0,0,0.35), 0 20px 40px rgba(0,0,0,0.25);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
 
     body {
       font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text);
       line-height: 1.7;
-      background-color: var(--bg);
+      background: var(--bg);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       transition: background-color 0.35s ease, color 0.35s ease;
     }
-
-    body.no-transition,
-    body.no-transition *,
-    body.no-transition *::before,
-    body.no-transition *::after {
+    body.no-tr, body.no-tr *, body.no-tr *::before, body.no-tr *::after {
       transition: none !important;
     }
 
-    h1, h2, h3, h4 {
+    h1,h2,h3,h4 {
       font-family: "Sora", sans-serif;
       letter-spacing: -0.03em;
       color: var(--text);
-      transition: color 0.35s ease;
     }
 
-    section, .hero, footer, nav,
-    .problem-card, .audience-card, .service-card, .case-card,
-    .intro-shell, .cta-shell, .approach-grid li, .logo-strip-inner {
-      transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, color 0.35s ease;
-    }
+    .wrap { width: var(--container); margin: 0 auto; }
 
-    .container {
-      width: var(--container);
-      margin-inline: auto;
-      position: relative;
-    }
-
-    /* ====== NAVIGATION ====== */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      position: fixed; top:0; left:0; right:0; z-index:100;
       padding: 16px 0;
-      transition: var(--transition);
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255,255,255,0.6);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition);
     }
-
+    [data-theme="dark"] nav { background: rgba(10,15,26,0.6); }
     nav.scrolled {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255,255,255,0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       padding: 10px 0;
       border-bottom: 1px solid var(--line);
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
-
-    nav .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    [data-theme="dark"] nav.scrolled {
+      background: rgba(10,15,26,0.92);
     }
-
+    nav .wrap { display:flex; justify-content:space-between; align-items:center; }
     .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
+      display:inline-flex; align-items:center; gap:10px;
+      text-decoration:none; color:var(--text);
+      font-family:"Sora",sans-serif; font-weight:700;
+      font-size:1.2rem; letter-spacing:-0.02em;
     }
-
     .brand-mark {
-      width: 30px; height: 30px;
-      border-radius: 8px;
-      background: var(--gradient-accent);
-      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+      width:30px; height:30px; border-radius:8px;
+      background:var(--gradient-accent);
+      box-shadow: 0 2px 8px rgba(79,70,229,0.25);
     }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 4px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 7px 14px;
-      border-radius: 8px;
+    .nav-r { display:flex; align-items:center; gap:4px; }
+    .nav-r a {
+      text-decoration:none; color:var(--muted); font-size:0.88rem;
+      font-weight:500; padding:7px 14px; border-radius:8px;
       transition: color 0.2s, background 0.2s;
     }
-
-    .nav-links a:hover {
-      color: var(--text);
-      background: var(--surface-hover);
-    }
-
+    .nav-r a:hover { color:var(--text); background:var(--surface-hover); }
     .nav-cta {
-      text-decoration: none;
-      color: #fff;
-      background: var(--accent);
-      font-weight: 600;
-      font-size: 0.85rem;
-      padding: 8px 18px;
-      border-radius: 8px;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
-      margin-left: 8px;
+      text-decoration:none; color:#fff; background:var(--accent);
+      font-weight:600; font-size:0.85rem; padding:8px 18px;
+      border-radius:8px; transition:transform 0.2s,box-shadow 0.2s,background 0.2s;
+      box-shadow:0 2px 8px rgba(79,70,229,0.2); margin-left:8px;
     }
+    .nav-cta:hover { transform:translateY(-1px); background:var(--accent-soft); box-shadow:0 4px 14px rgba(79,70,229,0.25); }
 
-    .nav-cta:hover {
-      transform: translateY(-1px);
-      background: var(--accent-soft);
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
-    }
-
-    .mobile-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text);
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-
-    /* ====== THEME TOGGLE ====== */
+    /* THEME TOGGLE */
     .theme-toggle {
-      position: relative;
-      width: 48px;
-      height: 26px;
-      background: var(--line);
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-left: 8px;
-      transition: background 0.3s;
-      flex-shrink: 0;
+      width:48px; height:26px; background:var(--line);
+      border-radius:999px; border:none; cursor:pointer;
+      padding:0; margin-left:8px; position:relative; transition:background 0.3s; flex-shrink:0;
     }
-
-    .theme-toggle:hover {
-      background: var(--dim);
+    .theme-toggle:hover { background:var(--dim); }
+    .theme-toggle .thumb {
+      position:absolute; top:3px; left:3px;
+      width:20px; height:20px; border-radius:50%;
+      background:var(--surface); box-shadow:0 1px 3px rgba(0,0,0,0.15);
+      transition:transform 0.3s; display:grid; place-items:center;
+      font-size:0.65rem;
     }
+    [data-theme="dark"] .theme-toggle .thumb { transform:translateX(22px); }
 
-    .theme-toggle .toggle-thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--bg);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      line-height: 1;
-    }
-
-    [data-theme="dark"] .theme-toggle {
-      background: #374151;
-    }
-
-    [data-theme="dark"] .theme-toggle:hover {
-      background: #4b5563;
-    }
-
-    [data-theme="dark"] .theme-toggle .toggle-thumb {
-      transform: translateX(22px);
-      background: #1e293b;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Dark nav overrides */
-    [data-theme="dark"] nav {
-      background: rgba(10, 15, 26, 0.6);
-    }
-
-    [data-theme="dark"] nav.scrolled {
-      background: rgba(10, 15, 26, 0.85);
-      border-bottom-color: var(--line-soft);
-      box-shadow: 0 1px 8px rgba(0,0,0,0.3);
-    }
-
-    [data-theme="dark"] .nav-cta {
-      background: var(--accent);
-      box-shadow: 0 2px 8px rgba(129, 140, 248, 0.25);
-    }
-
-    [data-theme="dark"] .nav-cta:hover {
-      background: var(--accent-soft);
-    }
-
-    /* Dark hero badge */
-    [data-theme="dark"] .hero-badge {
-      background: rgba(34, 197, 94, 0.08);
-      border-color: rgba(34, 197, 94, 0.3);
-    }
-
-    /* Dark btn-primary */
-    [data-theme="dark"] .btn-primary {
-      background: var(--gradient-brand);
-      color: #0a0f1a;
-      box-shadow: 0 4px 14px rgba(201, 162, 101, 0.2);
-    }
-
-    [data-theme="dark"] .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(201, 162, 101, 0.3);
-    }
-
-    /* Dark btn-secondary */
-    [data-theme="dark"] .btn-secondary {
-      border-color: var(--line);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    [data-theme="dark"] .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    /* Dark problem icon */
-    [data-theme="dark"] .problem-icon {
-      background: rgba(244, 63, 94, 0.08);
-      border-color: rgba(244, 63, 94, 0.22);
-    }
-
-    /* Dark mobile menu */
-    [data-theme="dark"] .nav-links.mobile-open {
-      background: rgba(10, 15, 26, 0.97);
-    }
-
-    /* ====== HERO ====== */
+    /* HERO */
     .hero {
-      position: relative;
-      padding: 140px 0 70px;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--line);
-      overflow: hidden;
+      position:relative; padding:150px 0 80px;
+      background:var(--bg-soft); border-bottom:1px solid var(--line-soft);
+      overflow:hidden; transition:background-color 0.35s, border-color 0.35s;
     }
-
     .hero::before {
-      content: "";
-      position: absolute;
-      top: -30%; right: -10%;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(79, 70, 229, 0.06), transparent 65%);
-      pointer-events: none;
+      content:""; position:absolute; top:-30%; right:-10%;
+      width:600px; height:600px; border-radius:50%;
+      background:radial-gradient(circle, rgba(79,70,229,0.06), transparent 65%);
+      pointer-events:none;
     }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      bottom: -20%; left: -8%;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(184, 145, 58, 0.05), transparent 65%);
-      pointer-events: none;
-    }
-
     .hero-content {
-      text-align: center;
-      max-width: 780px;
-      margin-inline: auto;
-      position: relative;
-      z-index: 2;
-      animation: fadeInUp 0.7s ease-out both;
+      text-align:center; max-width:720px; margin:0 auto;
+      position:relative; z-index:2; animation:fadeUp .7s ease-out both;
     }
-
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--green);
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      border-radius: 999px;
-      padding: 6px 16px;
-      margin-bottom: 24px;
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;
+      font-weight:600; color:var(--green); background:#ecfdf5;
+      border:1px solid #bbf7d0; border-radius:999px;
+      padding:6px 16px; margin-bottom:24px;
     }
-
+    [data-theme="dark"] .hero-badge { background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.2); }
     .hero-badge::before {
-      content: "";
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse-dot 2s ease-in-out infinite;
+      content:""; width:7px; height:7px; border-radius:50%;
+      background:var(--green); animation:dot 2s ease-in-out infinite;
     }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.6); }
-    }
-
+    @keyframes dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.6)} }
     h1 {
-      font-size: clamp(2.2rem, 4.8vw, 3.2rem);
-      line-height: 1.12;
-      margin-bottom: 18px;
-      font-weight: 800;
-      color: var(--text);
+      font-size:clamp(2.2rem,4.8vw,3.2rem);
+      line-height:1.12; margin-bottom:18px; font-weight:800;
     }
-
-    h1 .gradient-text {
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    h1 em {
+      font-style:normal; background:var(--gradient-accent);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
-
     .hero-sub {
-      color: var(--muted);
-      font-size: clamp(1.02rem, 1.4vw, 1.12rem);
-      max-width: 56ch;
-      margin-inline: auto;
-      margin-bottom: 32px;
-      line-height: 1.75;
+      color:var(--muted); font-size:clamp(1rem,1.4vw,1.1rem);
+      max-width:54ch; margin:0 auto 32px; line-height:1.75;
     }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 44px;
-    }
-
+    .hero-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
     .btn {
-      text-decoration: none;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      border-radius: 10px;
-      padding: 13px 24px;
-      font-weight: 600;
-      font-size: 0.93rem;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-      cursor: pointer;
-      border: none;
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:"Sora",sans-serif; font-weight:600;
+      border-radius:var(--radius-sm); padding:13px 26px;
+      font-size:0.92rem; text-decoration:none; transition:var(--transition);
     }
-
-    .btn:hover { transform: translateY(-1px); }
-
     .btn-primary {
-      color: #fff;
-      background: var(--accent);
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.22);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-soft);
-      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
-    }
-
-    .btn-secondary {
-      color: var(--text);
-      border: 1px solid var(--line);
-      background: var(--bg);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-hover);
-      border-color: #d1d5db;
-    }
-
-    .hero-proof {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-    }
-
-    .hero-proof-item { text-align: center; }
-
-    .hero-proof-item strong {
-      display: block;
-      font-family: "Sora", sans-serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    .hero-proof-item span {
-      color: var(--dim);
-      font-size: 0.82rem;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ====== LOGO STRIP ====== */
-    .logo-strip { padding: 36px 0; }
-
-    .logo-strip-inner {
-      border: 1px solid var(--line-soft);
-      border-radius: var(--radius-lg);
-      background: var(--bg);
-      padding: 20px 28px;
-      text-align: center;
-    }
-
-    .logo-strip-label {
-      font-size: 0.75rem;
-      color: var(--dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 14px;
-    }
-
-    .logo-strip-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .logo-placeholder {
-      border: 1px dashed var(--line);
-      border-radius: 8px;
-      padding: 10px 20px;
-      color: var(--dim);
-      font-size: 0.8rem;
-      font-weight: 500;
-    }
-
-    /* ====== SECTIONS ====== */
-    section { padding: 80px 0; position: relative; }
-
-    .section-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 14px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 14px;
-      background: var(--accent-bg);
-      border: 1px solid var(--accent-border);
-      color: var(--accent);
-    }
-
-    .section-label.gold {
-      background: var(--brand-bg);
-      border-color: var(--brand-border);
-      color: var(--brand);
-    }
-
-    .section-label.teal {
-      background: var(--teal-bg);
-      border-color: var(--teal-border);
-      color: var(--teal);
-    }
-
-    .section-label.rose {
-      background: var(--rose-bg);
-      border-color: var(--rose-border);
-      color: var(--rose);
-    }
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 44px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.3rem);
-      margin-bottom: 10px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      max-width: 58ch;
-      margin-inline: auto;
-      font-size: 1.02rem;
-    }
-
-    /* ====== PROBLEMS ====== */
-    .problems-section {
-      background: var(--bg-soft);
-      border-top: 1px solid var(--line-soft);
-      border-bottom: 1px solid var(--line-soft);
-    }
-
-    .problems-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .problem-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: var(--bg);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-
-    .problem-card:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .problem-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-    }
-
-    .problem-card h3 {
-      font-size: 1rem;
-      margin-bottom: 8px;
-      line-height: 1.35;
-    }
-
-    .problem-card p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.7;
-    }
-
-    /* ====== AUDIENCE ====== */
-    .audience-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .audience-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: var(--bg);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .audience-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .audience-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
-    .audience-card:hover::before { opacity: 1; }
-
-    .audience-card:nth-child(1)::before { background: var(--accent); }
-    .audience-card:nth-child(2)::before { background: var(--brand); }
-    .audience-card:nth-child(3)::before { background: var(--teal); }
-
-    .audience-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
-
-    .audience-icon.indigo { background: var(--accent-bg); border: 1px solid var(--accent-border); }
-    .audience-icon.gold { background: var(--brand-bg); border: 1px solid var(--brand-border); }
-    .audience-icon.teal-bg { background: var(--teal-bg); border: 1px solid var(--teal-border); }
-
-    .audience-card h3 { font-size: 1.02rem; margin-bottom: 8px; }
-    .audience-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.7; }
-
-    .fit-tag {
-      display: inline-block;
-      margin-top: 14px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--teal);
-      letter-spacing: 0.02em;
-    }
-
-    /* ====== PHOTO BANNER ====== */
-    .photo-banner {
-      width: 100%;
-      height: 320px;
-      position: relative;
-      overflow: hidden;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .photo-banner img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: brightness(0.55) saturate(1.1);
-    }
-
-    .photo-banner-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, rgba(17, 24, 39, 0.85) 0%, rgba(17, 24, 39, 0.3) 55%, transparent 100%);
-      display: flex;
-      align-items: center;
-      padding: 0 10%;
-    }
-
-    .photo-banner-text h3 {
-      font-family: "Sora", sans-serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 800;
-      color: #f8fafc;
-      letter-spacing: -1px;
-      margin-bottom: 8px;
-    }
-
-    .photo-banner-text h3 .gradient-text {
-      background: linear-gradient(135deg, #818cf8, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .photo-banner-text p {
-      font-size: 0.95rem;
-      color: #cbd5e1;
-      max-width: 400px;
-      line-height: 1.7;
-    }
-
-    /* ====== SERVICES ====== */
-    .services-section {
-      background: var(--bg-soft);
-      border-top: 1px solid var(--line-soft);
-      border-bottom: 1px solid var(--line-soft);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .service-card {
-      position: relative;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: var(--bg);
-      padding: 30px;
-      box-shadow: var(--card-shadow);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .service-card:nth-child(1)::before { background: var(--accent); }
-    .service-card:nth-child(2)::before { background: var(--brand); }
-    .service-card:nth-child(3)::before { background: var(--teal); }
-    .service-card:nth-child(4)::before { background: var(--rose); }
-
-    .service-card:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .service-card:hover::before { opacity: 1; }
-
-    .service-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 16px;
-    }
-
-    .service-icon.indigo { background: var(--accent-bg); border: 1px solid var(--accent-border); }
-    .service-icon.gold { background: var(--brand-bg); border: 1px solid var(--brand-border); }
-    .service-icon.teal { background: var(--teal-bg); border: 1px solid var(--teal-border); }
-    .service-icon.rose { background: var(--rose-bg); border: 1px solid var(--rose-border); }
-
-    .service-outcome {
-      display: inline-block;
-      font-size: 0.76rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 10px;
-    }
-
-    .service-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-    .service-card p { color: var(--muted); font-size: 0.93rem; line-height: 1.7; }
-
-    /* ====== PERSONAL INTRO ====== */
-    .intro-shell {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: var(--bg);
-      padding: clamp(30px, 4vw, 48px);
-      box-shadow: var(--card-shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .intro-shell::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 20%; right: 20%;
-      height: 3px;
-      background: var(--gradient-accent);
-      border-radius: 2px;
-    }
-
-    .intro-layout {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    .intro-avatar {
-      width: 88px; height: 88px;
-      border-radius: 50%;
-      border: 2px solid var(--line);
-      background: linear-gradient(135deg, var(--accent-bg), var(--brand-bg));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      color: var(--accent);
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .intro-text h2 { font-size: 1.5rem; margin-bottom: 4px; }
-
-    .intro-text .intro-role {
-      color: var(--accent);
-      font-size: 0.92rem;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    .intro-text p {
-      color: var(--muted);
-      font-size: 0.97rem;
-      line-height: 1.8;
-      margin-bottom: 12px;
-    }
-
-    .intro-text p:last-of-type { margin-bottom: 0; }
-
-    .intro-highlights {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-      list-style: none;
-    }
-
-    .intro-highlights li {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.85rem;
-      color: var(--muted);
-      background: var(--bg-soft);
-      border: 1px solid var(--line-soft);
-      border-radius: 8px;
-      padding: 6px 12px;
-    }
-
-    .intro-highlights li::before {
-      content: "✓";
-      color: var(--teal);
-      font-weight: 700;
-      font-size: 0.8rem;
-    }
-
-    /* ====== CASE STUDIES ====== */
-    .cases-section {
-      background: var(--bg-soft);
-      border-top: 1px solid var(--line-soft);
-      border-bottom: 1px solid var(--line-soft);
-    }
-
-    .cases-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .case-card {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      background: var(--bg);
-      padding: 30px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-
-    .case-card:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .case-type {
-      font-size: 0.73rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .case-card h3 { font-size: 1.12rem; margin-bottom: 10px; }
-
-    .case-card > p {
-      color: var(--muted);
-      font-size: 0.93rem;
-      line-height: 1.7;
-      margin-bottom: 18px;
-    }
-
-    .case-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      list-style: none;
-    }
-
-    .case-metrics li {
-      border: 1px solid var(--line-soft);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      background: var(--bg-soft);
-      text-align: center;
-    }
-
-    .case-metrics strong {
-      display: block;
-      font-family: "Sora", sans-serif;
-      font-size: 1.15rem;
-      margin-bottom: 2px;
-      color: var(--accent);
-    }
-
-    .case-metrics span {
-      color: var(--dim);
-      font-size: 0.76rem;
-    }
-
-    .testimonial-placeholder {
-      border: 1px dashed var(--line);
-      border-radius: var(--radius-lg);
-      padding: 22px 28px;
-      margin-top: 18px;
-      text-align: center;
-      color: var(--dim);
-      font-size: 0.86rem;
-      font-style: italic;
-      background: var(--bg);
-    }
-
-    /* ====== APPROACH ====== */
-    .approach-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      list-style: none;
-    }
-
-    .approach-grid li {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 24px 18px;
-      background: var(--bg);
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-
-    .approach-grid li:hover {
-      box-shadow: var(--card-shadow-hover);
-      transform: translateY(-2px);
-    }
-
-    .step-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      font-size: 0.8rem;
-      margin-bottom: 14px;
-      background: var(--accent-bg);
-      border: 1px solid var(--accent-border);
-      color: var(--accent);
-    }
-
-    .approach-grid strong {
-      display: block;
-      margin-bottom: 6px;
-      font-family: "Sora", sans-serif;
-      color: var(--text);
-      font-size: 1.02rem;
-    }
-
-    .approach-grid span {
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    /* ====== CTA ====== */
-    .cta-section { padding: 80px 0; }
-
-    .cta-shell {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      background: var(--bg-soft);
-      box-shadow: var(--card-shadow);
-      padding: clamp(36px, 5vw, 56px);
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-shell::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 20%; right: 20%;
-      height: 3px;
-      background: var(--gradient-accent);
-      border-radius: 2px;
-    }
-
-    .cta-shell h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      margin-bottom: 12px;
-    }
-
-    .cta-shell > p {
-      color: var(--muted);
-      max-width: 54ch;
-      margin: 0 auto 28px;
-      font-size: 1.02rem;
-    }
-
-    .cta-shell .btn { font-size: 0.98rem; padding: 14px 30px; }
-
-    .cta-details {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
-
-    .cta-details span {
-      color: var(--dim);
-      font-size: 0.83rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .cta-details span::before {
-      content: "✓";
-      color: var(--teal);
-      font-weight: 700;
-    }
-
-    /* ====== FOOTER ====== */
+      background:var(--accent); color:#fff;
+      box-shadow:0 2px 10px rgba(79,70,229,0.2);
+    }
+    .btn-primary:hover { background:var(--accent-soft); transform:translateY(-1px); box-shadow:0 4px 16px rgba(79,70,229,0.25); }
+
+    /* STATS */
+    .stats-bar {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:1px; background:var(--line); border:1px solid var(--line);
+      border-radius:var(--radius-lg); overflow:hidden;
+      margin:-36px auto 0; position:relative; z-index:3;
+      max-width:800px; box-shadow:var(--card-shadow);
+      transition:background-color 0.35s, border-color 0.35s;
+    }
+    .stat-item {
+      background:var(--surface); padding:24px 16px; text-align:center;
+      transition:background-color 0.35s;
+    }
+    .stat-item strong {
+      display:block; font-family:"Sora",sans-serif;
+      font-size:1.5rem; font-weight:700; letter-spacing:-0.03em;
+    }
+    .stat-item span { font-size:0.78rem; color:var(--muted); font-weight:500; }
+
+    /* SECTIONS */
+    section { padding:72px 0; }
+    .s-label {
+      display:inline-block; font-family:"Sora",sans-serif;
+      font-size:0.7rem; font-weight:700; letter-spacing:0.14em;
+      text-transform:uppercase; color:var(--accent);
+      margin-bottom:10px;
+    }
+    .s-label.gold { color:var(--brand); }
+    .s-label.teal { color:var(--teal); }
+    section h2 {
+      font-size:clamp(1.6rem,3vw,2rem); font-weight:700;
+      margin-bottom:10px;
+    }
+    .s-desc { color:var(--muted); max-width:480px; margin-bottom:36px; }
+
+    /* ABOUT CARD */
+    .about-card {
+      background:var(--surface); border:1px solid var(--line);
+      border-radius:var(--radius-xl); padding:40px;
+      display:flex; gap:32px; align-items:flex-start;
+      box-shadow:var(--card-shadow); transition:var(--transition);
+    }
+    .avatar {
+      width:72px; height:72px; border-radius:50%;
+      background:var(--gradient-accent); display:grid;
+      place-items:center; color:#fff; font-family:"Sora",sans-serif;
+      font-weight:700; font-size:1.3rem; flex-shrink:0;
+    }
+    .about-text h3 { font-size:1.2rem; font-weight:700; margin-bottom:2px; }
+    .about-role { color:var(--muted); font-size:0.88rem; margin-bottom:14px; font-weight:500; }
+    .about-text p { color:var(--text-secondary); margin-bottom:10px; font-size:0.93rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:14px; }
+    .tag {
+      font-size:0.75rem; font-weight:500; padding:5px 12px;
+      border-radius:6px; background:var(--bg-soft); color:var(--text-secondary);
+      border:1px solid var(--line);
+    }
+
+    /* SERVICES */
+    .srv-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .srv {
+      background:var(--surface); border:1px solid var(--line);
+      border-radius:var(--radius-xl); padding:32px;
+      box-shadow:var(--card-shadow); transition:var(--transition);
+    }
+    .srv:hover { box-shadow:var(--card-shadow-hover); transform:translateY(-2px); }
+    .srv-ic {
+      width:44px; height:44px; border-radius:11px;
+      display:grid; place-items:center; font-size:1.15rem; margin-bottom:16px;
+    }
+    .srv h3 { font-size:1.02rem; font-weight:650; margin-bottom:8px; }
+    .srv p { font-size:0.86rem; color:var(--muted); line-height:1.65; }
+
+    /* CONTACT */
+    .c-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .c-card {
+      background:var(--surface); border:1px solid var(--line);
+      border-radius:var(--radius-xl); padding:30px; text-align:center;
+      text-decoration:none; color:var(--text); transition:var(--transition);
+      box-shadow:var(--card-shadow); display:flex; flex-direction:column;
+      align-items:center; gap:8px;
+    }
+    .c-card:hover { box-shadow:var(--card-shadow-hover); transform:translateY(-2px); }
+    .c-ic {
+      width:46px; height:46px; border-radius:50%;
+      display:grid; place-items:center; font-size:1.2rem;
+    }
+    .c-card strong { font-size:0.95rem; font-weight:600; }
+    .c-card span { font-size:0.82rem; color:var(--muted); }
+
+    /* FOOTER */
     footer {
-      padding: 32px 0;
-      border-top: 1px solid var(--line);
+      padding:36px 0; border-top:1px solid var(--line);
+      transition:border-color 0.35s;
     }
+    .f-inner { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+    footer p { font-size:0.8rem; color:var(--muted); }
+    .f-links { list-style:none; display:flex; gap:18px; }
+    .f-links a { font-size:0.8rem; color:var(--muted); text-decoration:none; transition:color 0.2s; }
+    .f-links a:hover { color:var(--text); }
 
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
+    /* REVEAL */
+    .rv { opacity:0; transform:translateY(18px); transition:opacity .6s ease,transform .6s ease; }
+    .rv.vis { opacity:1; transform:translateY(0); }
+
+    /* MODAL */
+    .mo {
+      display:none; position:fixed; inset:0; z-index:999;
+      background:rgba(0,0,0,0.5); backdrop-filter:blur(4px);
+      align-items:center; justify-content:center; padding:24px;
     }
-
-    footer p { color: var(--dim); font-size: 0.85rem; }
-
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
+    .mo-box {
+      background:var(--surface); color:var(--text);
+      max-width:660px; width:100%; max-height:85vh; overflow-y:auto;
+      border-radius:var(--radius-xl); padding:40px; position:relative;
+      box-shadow:var(--card-shadow-hover);
     }
-
-    .footer-links a {
-      color: var(--dim);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.2s;
+    .mo-x {
+      position:absolute; top:14px; right:18px; background:none;
+      border:none; font-size:1.4rem; cursor:pointer; color:var(--muted);
     }
+    .mo-x:hover { color:var(--text); }
+    .mo-box h2 { font-size:1.35rem; margin-bottom:4px; }
+    .mo-box .dt { font-size:0.8rem; color:var(--muted); margin-bottom:22px; }
+    .mo-box h3 { font-size:0.98rem; font-weight:600; margin:18px 0 5px; }
+    .mo-box p { font-size:0.9rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.7; }
+    .mo-box a { color:var(--accent); }
 
-    .footer-links a:hover { color: var(--text); }
-
-    /* ====== SCROLL REVEAL ====== */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
+    /* RESPONSIVE */
+    @media(max-width:700px){
+      .stats-bar { grid-template-columns:repeat(2,1fr); }
+      .about-card { flex-direction:column; align-items:center; text-align:center; }
+      .tags { justify-content:center; }
+      .srv-grid,.c-grid { grid-template-columns:1fr; }
+      .nav-r a.hm { display:none; }
+      .hero { padding:120px 0 56px; }
+      .f-inner { flex-direction:column; text-align:center; }
+      .f-links { justify-content:center; }
     }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ====== RESPONSIVE ====== */
-    @media (max-width: 1050px) {
-      .problems-grid,
-      .audience-grid { grid-template-columns: 1fr; }
-
-      .approach-grid { grid-template-columns: repeat(2, 1fr); }
-
-      .intro-layout {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-
-      .intro-avatar { margin-inline: auto; }
-      .intro-highlights { justify-content: center; }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: color-mix(in srgb, var(--bg) 97%, transparent);
-        backdrop-filter: blur(20px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 24px;
-        z-index: 999;
-      }
-
-      .nav-links.active { display: flex; }
-      .nav-links a { font-size: 1.1rem; color: var(--text); }
-      .nav-cta { display: none; }
-      .mobile-toggle { display: block; z-index: 1001; }
-      .theme-toggle { z-index: 1001; }
-
-      .hero { padding: 120px 0 56px; }
-      .hero-proof { gap: 16px; }
-
-      .services-grid,
-      .cases-grid { grid-template-columns: 1fr; }
-
-      .approach-grid { grid-template-columns: 1fr; }
-      .case-metrics { grid-template-columns: 1fr; }
-
-      section { padding: 56px 0; }
-      .photo-banner { height: 240px; }
-    }
-
-    @media (max-width: 480px) {
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn { justify-content: center; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-      .service-card, .btn, .problem-card, .audience-card, .case-card, .approach-grid li { transition: none; }
+    @media(prefers-reduced-motion:reduce){
+      .rv { opacity:1; transform:none; transition:none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ====== NAVIGATION ====== -->
-  <nav id="navbar">
-    <div class="container">
-      <a href="#" class="brand">
-        <span class="brand-mark"></span>
-        Botland Solutions
-      </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#problems" onclick="closeMenu()">Problems I Solve</a></li>
-        <li><a href="#services" onclick="closeMenu()">Services</a></li>
-        <li><a href="#proof" onclick="closeMenu()">Results</a></li>
-        <li><a href="#about" onclick="closeMenu()">About</a></li>
-        <li><a href="#contact" class="nav-cta" onclick="closeMenu()">Book a Call</a></li>
-      </ul>
-      <div class="nav-right">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-          <span class="toggle-thumb" id="toggleIcon">☀️</span>
-        </button>
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">☰</button>
+  <!-- NAV -->
+  <nav id="nb">
+    <div class="wrap">
+      <a href="#" class="brand"><div class="brand-mark"></div>Botland Solutions</a>
+      <div class="nav-r">
+        <a href="#about" class="hm">About</a>
+        <a href="#services" class="hm">Services</a>
+        <a href="#contact" class="nav-cta">Get in Touch</a>
+        <button class="theme-toggle" id="tt" aria-label="Toggle theme"><span class="thumb" id="ti">☀️</span></button>
       </div>
     </div>
   </nav>
 
-  <!-- ====== HERO ====== -->
+  <!-- HERO -->
   <header class="hero">
-    <div class="container">
+    <div class="wrap">
       <div class="hero-content">
         <span class="hero-badge">Available for Q2 2026 Projects</span>
-        <h1>
-          Your team is growing.<br>
-          Your operations <span class="gradient-text">should keep up.</span>
-        </h1>
-        <p class="hero-sub">
-          I help teams of 10–50 people build reliable digital operations — from Google&nbsp;Workspace setup
-          and project management to event execution — so nothing falls through the cracks.
-        </p>
+        <h1>Your team is growing.<br>Your operations <em>should keep up.</em></h1>
+        <p class="hero-sub">I help organizations build structured project management workflows and digitalize their internal operations — so nothing falls through the cracks.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">
-            Book a 30-min Strategy Call
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-          <a href="#services" class="btn btn-secondary">See How I Can Help</a>
-        </div>
-        <div class="hero-proof">
-          <div class="hero-proof-item">
-            <strong>10+</strong>
-            <span>Years in operations</span>
-          </div>
-          <div class="hero-proof-item">
-            <strong>15+</strong>
-            <span>Teams restructured</span>
-          </div>
-          <div class="hero-proof-item">
-            <strong>150+</strong>
-            <span>Event participants managed</span>
-          </div>
-          <div class="hero-proof-item">
-            <strong>3</strong>
-            <span>Platforms (Win / Mac / Linux)</span>
-          </div>
+          <a href="#contact" class="btn btn-primary">Get in Touch <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div>
   </header>
 
+
+
   <main>
 
-    <!-- ====== LOGO STRIP ====== -->
-    <section class="logo-strip reveal" style="padding: 36px 0;">
-      <div class="container">
-        <div class="logo-strip-inner">
-          <p class="logo-strip-label">Trusted by organizations across Central Europe</p>
-          <div class="logo-strip-logos">
-            <span class="logo-placeholder">Client Logo 1</span>
-            <span class="logo-placeholder">Client Logo 2</span>
-            <span class="logo-placeholder">Client Logo 3</span>
-            <span class="logo-placeholder">Client Logo 4</span>
-            <span class="logo-placeholder">Client Logo 5</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== PROBLEMS ====== -->
-    <section id="problems" class="problems-section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-label rose">Sound familiar?</span>
-          <h2>Growing Pains That Slow Teams Down</h2>
-          <p>If any of these describe your team, we should talk.</p>
-        </div>
-        <div class="problems-grid">
-          <article class="problem-card reveal">
-            <div class="problem-icon">🔥</div>
-            <h3>Projects run on memory, not systems</h3>
-            <p>
-              Deadlines slip because there's no clear workflow. People depend on informal check-ins
-              instead of structured processes — and things get lost between Slack, email, and spreadsheets.
-            </p>
-          </article>
-          <article class="problem-card reveal">
-            <div class="problem-icon">🔓</div>
-            <h3>Google Workspace is set up — but not governed</h3>
-            <p>
-              Shared drives are chaotic. Security settings are default. Nobody owns the admin console.
-              Your team adopted Google Workspace fast — but nobody configured it properly.
-            </p>
-          </article>
-          <article class="problem-card reveal">
-            <div class="problem-icon">⏱️</div>
-            <h3>Events eat up all your bandwidth</h3>
-            <p>
-              You're organizing conferences with 50–150 people, but logistics, communication,
-              and stakeholder coordination still run on good intentions instead of operational structure.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== WHO I WORK WITH ====== -->
-    <section id="audience">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-label gold">Is this for you?</span>
-          <h2>Who I Work With</h2>
-          <p>I work best with teams that are past the startup phase but don't yet need a full-time ops hire.</p>
-        </div>
-        <div class="audience-grid">
-          <article class="audience-card reveal">
-            <div class="audience-icon indigo">🏢</div>
-            <h3>Growing Teams (10–50 people)</h3>
-            <p>
-              You've outgrown ad-hoc processes. You need structure — project tracking, documentation standards,
-              role clarity — without the overhead of an enterprise system.
-            </p>
-            <span class="fit-tag">→ Best fit for operational consulting</span>
-          </article>
-          <article class="audience-card reveal">
-            <div class="audience-icon gold">🌍</div>
-            <h3>NGOs & Grant-Funded Organizations</h3>
-            <p>
-              You manage multiple programs, report to donors, and coordinate events — but your digital
-              infrastructure hasn't caught up with the complexity of your mission.
-            </p>
-            <span class="fit-tag">→ Best fit for project + event management</span>
-          </article>
-          <article class="audience-card reveal">
-            <div class="audience-icon teal-bg">💻</div>
-            <h3>Remote & Hybrid Teams</h3>
-            <p>
-              Your people work across locations and devices. You need a secure, well-governed Google Workspace,
-              consistent onboarding, and cross-platform technical support.
-            </p>
-            <span class="fit-tag">→ Best fit for digital transformation</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== PHOTO BANNER ====== -->
-    <div class="photo-banner">
-      <img src="team_photo.png" alt="Professional team collaborating on digital strategy" />
-      <div class="photo-banner-overlay">
-        <div class="photo-banner-text">
-          <h3>From Chaos to<br><span class="gradient-text">Clarity</span></h3>
-          <p>Reliable operations that work under real pressure — not just in ideal conditions.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ====== SERVICES ====== -->
-    <section id="services" class="services-section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-label">What you get</span>
-          <h2>Services Built for Results</h2>
-          <p>Every engagement starts with your specific challenge — and ends with a working system your team actually uses.</p>
-        </div>
-        <div class="services-grid">
-          <article class="service-card reveal">
-            <div class="service-icon indigo">📋</div>
-            <span class="service-outcome">→ Projects delivered on time, every time</span>
-            <h3>Project & Event Management</h3>
-            <p>
-              I take ownership of your project timeline, stakeholder communication, and event logistics — so your team
-              can focus on the work itself. From 5-person sprints to 150-person conferences.
-            </p>
-          </article>
-          <article class="service-card reveal">
-            <div class="service-icon gold">🔧</div>
-            <span class="service-outcome">→ A Google Workspace that actually works</span>
-            <h3>Google Workspace Setup & Governance</h3>
-            <p>
-              I configure your admin console, security policies, shared drives, and collaboration workflows
-              from scratch or fix an existing chaotic setup.
-            </p>
-          </article>
-          <article class="service-card reveal">
-            <div class="service-icon teal">⚙️</div>
-            <span class="service-outcome">→ IT that doesn't break when you scale</span>
-            <h3>Technical Ecosystem Management</h3>
-            <p>
-              Cross-platform support for Windows, macOS, and Ubuntu. Device setup, security baselines,
-              onboarding processes, and troubleshooting — consistent across all hardware.
-            </p>
-          </article>
-          <article class="service-card reveal">
-            <div class="service-icon rose">🎨</div>
-            <span class="service-outcome">→ Professional comms without a design team</span>
-            <h3>Visual Communication & Content</h3>
-            <p>
-              Branded assets, event materials, and presentation-ready visuals via CorelDRAW and Canva.
-              Basic video editing in DaVinci Resolve.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== CASE STUDIES ====== -->
-    <section id="proof" class="cases-section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-label teal">Proof</span>
-          <h2>Real Work. Measurable Results.</h2>
-          <p>Here's what structured operations look like in practice.</p>
-        </div>
-        <div class="cases-grid">
-          <article class="case-card reveal">
-            <p class="case-type">Event + Project Management</p>
-            <h3>Regional Mentorship Program — 4 Seasons</h3>
-            <p>
-              Managed end-to-end logistics, stakeholder communication, and participant coordination
-              for a multi-season mentorship program serving young professionals across Transylvania.
-            </p>
-            <ul class="case-metrics">
-              <li><strong>4</strong><span>Seasons managed</span></li>
-              <li><strong>150+</strong><span>Participants</span></li>
-              <li><strong>0</strong><span>Missed deadlines</span></li>
-            </ul>
-          </article>
-          <article class="case-card reveal">
-            <p class="case-type">Digital Transformation</p>
-            <h3>NGO Workspace & Security Overhaul</h3>
-            <p>
-              Rebuilt the Google Workspace environment for a grant-funded organization: migrated shared drives,
-              configured security policies, and trained 15+ team members on the new system.
-            </p>
-            <ul class="case-metrics">
-              <li><strong>15+</strong><span>Users onboarded</span></li>
-              <li><strong>100%</strong><span>GDPR gaps closed</span></li>
-              <li><strong>3 wks</strong><span>Full rollout</span></li>
-            </ul>
-          </article>
-        </div>
-        <div class="testimonial-placeholder reveal">
-          💬 Client testimonials will appear here — ask past collaborators for a short quote about working with you.
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== PERSONAL INTRO ====== -->
+    <!-- ABOUT -->
     <section id="about">
-      <div class="container">
-        <div class="intro-shell reveal">
-          <div class="section-heading" style="margin-bottom: 24px;">
-            <span class="section-label gold">The person behind the systems</span>
-          </div>
-          <div class="intro-layout">
-            <div class="intro-avatar">BN</div>
-            <div class="intro-text">
-              <h2>Hi, I'm Botond.</h2>
-              <p class="intro-role">Operations consultant · Project manager · Workspace architect</p>
-              <p>
-                I've spent 10+ years helping organizations in Central Europe get their operations right.
-                My background is in Communication & PR, but my day-to-day is deeply technical:
-                Google Workspace administration, cross-platform IT setups, and hands-on project execution.
-              </p>
-              <p>
-                I'm not an agency. I'm a single operator who embeds directly with your team,
-                understands your context, and builds systems you'll actually keep using after I leave.
-                I work in Hungarian, Romanian, and English.
-              </p>
-              <ul class="intro-highlights">
-                <li>BA in Communication & PR</li>
-                <li>Google Workspace certified</li>
-                <li>Win / Mac / Linux fluent</li>
-                <li>Based in Transylvania</li>
-              </ul>
+      <div class="wrap">
+        <span class="s-label gold">About</span>
+        <h2>The person behind the systems</h2>
+        <div class="about-card rv">
+          <div class="avatar">BN</div>
+          <div class="about-text">
+            <h3>Botond Nagy</h3>
+            <p class="about-role">Operations Consultant · Project Manager · Digital Infrastructure Specialist</p>
+            <p>I've spent over a decade helping organizations across Central Europe get their operations right. My background is in Communication &amp; PR, but my day-to-day is deeply operational: project management, internal digitalization, cross-platform IT setups, and hands-on execution.</p>
+            <p>I'm not an agency. I'm a single operator who embeds directly with your team, understands your context, and builds systems you'll actually keep using after I leave. I work in English, Hungarian, and Romanian.</p>
+            <div class="tags">
+              <span class="tag">Project Management</span>
+              <span class="tag">Internal Digitalization</span>
+              <span class="tag">Event Logistics</span>
+              <span class="tag">Operational Infrastructure</span>
+              <span class="tag">Cross-platform IT</span>
+              <span class="tag">Based in Transylvania</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ====== APPROACH ====== -->
-    <section style="background: var(--bg-soft); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-label">How I work</span>
-          <h2>A Process That Gets You Results Fast</h2>
-          <p>No 6-month discovery phases. We start with your biggest pain point and build from there.</p>
+    <!-- SERVICES -->
+    <section id="services" style="background:var(--bg-soft);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);transition:background-color 0.35s,border-color 0.35s;">
+      <div class="wrap">
+        <span class="s-label">Services</span>
+        <h2>What I can do for your team</h2>
+        <p class="s-desc">No 6-month discovery phases. We start with your biggest pain point and build from there.</p>
+        <div class="srv-grid">
+          <div class="srv rv">
+            <div class="srv-ic" style="background:var(--accent-bg);color:var(--accent);">📋</div>
+            <h3>Project &amp; Event Management</h3>
+            <p>End-to-end coordination for multi-stakeholder projects, grant programs, and events — with clear timelines, structured communication, and zero missed deadlines.</p>
+          </div>
+          <div class="srv rv">
+            <div class="srv-ic" style="background:var(--teal-bg);color:var(--teal);">⚙️</div>
+            <h3>Internal Digitalization</h3>
+            <p>Replace ad-hoc processes with structured digital workflows. From document management to team collaboration — I build the operational backbone your team needs to scale.</p>
+          </div>
+          <div class="srv rv">
+            <div class="srv-ic" style="background:var(--brand-bg);color:var(--brand);">🖥️</div>
+            <h3>Technical Infrastructure</h3>
+            <p>Cross-platform support for Windows, macOS, and Linux. Workspace configuration, security baselines, onboarding processes, and troubleshooting — consistent across all devices.</p>
+          </div>
+          <div class="srv rv">
+            <div class="srv-ic" style="background:#fff1f2;color:#e11d48;">🔒</div>
+            <h3>GDPR &amp; Security Review</h3>
+            <p>Audit your current setup, identify compliance gaps, configure access policies, and document everything so your organization is protected and audit-ready.</p>
+          </div>
         </div>
-        <ul class="approach-grid reveal">
-          <li>
-            <span class="step-num">01</span>
-            <strong>Diagnose</strong>
-            <span>30-minute call to map your current setup, pain points, and goals.</span>
-          </li>
-          <li>
-            <span class="step-num">02</span>
-            <strong>Design</strong>
-            <span>I propose a concrete plan: what to fix, what to build, and a realistic timeline.</span>
-          </li>
-          <li>
-            <span class="step-num">03</span>
-            <strong>Deliver</strong>
-            <span>Hands-on implementation with weekly check-ins. You see progress every week.</span>
-          </li>
-          <li>
-            <span class="step-num">04</span>
-            <strong>Document</strong>
-            <span>Everything is documented so your team can maintain it without me.</span>
-          </li>
-        </ul>
       </div>
     </section>
 
-    <!-- ====== CTA ====== -->
-    <section id="contact" class="cta-section">
-      <div class="container">
-        <div class="cta-shell reveal">
-          <h2>Let's Fix Your Operations<br>in the Next 30 Days</h2>
-          <p>
-            Book a free 30-minute strategy call. I'll review your current setup
-            and tell you exactly where to start — no strings attached.
-          </p>
-          <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px;">
-            <a href="mailto:botland93@gmail.com" class="btn btn-primary">
-              ✉ botland93@gmail.com
-            </a>
-            <a href="tel:+40748472200" class="btn btn-primary" style="background: var(--teal);">
-              📞 +40 748 472 200
-            </a>
-            <a href="https://wa.me/40748472200" target="_blank" rel="noopener" class="btn btn-primary" style="background: #25D366;">
-              💬 WhatsApp
-            </a>
-          </div>
-          <div class="cta-details">
-            <span>Free — no commitment</span>
-            <span>Actionable advice in 30 min</span>
-            <span>English, Hungarian, or Romanian</span>
-          </div>
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="wrap">
+        <span class="s-label teal">Contact</span>
+        <h2>Let's talk about your operations</h2>
+        <p class="s-desc">Book a free 30-minute strategy call. I'll review your setup and tell you exactly where to start — no strings attached.</p>
+        <div class="c-grid">
+          <a href="mailto:__________" class="c-card rv">
+            <div class="c-ic" style="background:var(--accent-bg);color:var(--accent);">✉</div>
+            <strong>Email</strong>
+            <span>Drop me a message anytime</span>
+          </a>
+          <a href="tel:__________" class="c-card rv">
+            <div class="c-ic" style="background:var(--teal-bg);color:var(--teal);">📞</div>
+            <strong>Phone</strong>
+            <span>Available during business hours</span>
+          </a>
+          <a href="https://wa.me/__________" target="_blank" rel="noopener" class="c-card rv">
+            <div class="c-ic" style="background:#ecfdf5;color:#16a34a;">💬</div>
+            <strong>WhatsApp</strong>
+            <span>Quick questions welcome</span>
+          </a>
+          <a href="https://www.linkedin.com/in/botond-nagy-198a11a6/" target="_blank" rel="noopener" class="c-card rv">
+            <div class="c-ic" style="background:var(--accent-bg);color:var(--accent);font-weight:700;font-family:'Sora',sans-serif;font-size:0.95rem;">in</div>
+            <strong>LinkedIn</strong>
+            <span>Connect &amp; follow updates</span>
+          </a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ====== FOOTER ====== -->
+  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <div class="footer-content">
-        <p>&copy; 2026 Botland Solutions — Operations & Digital Infrastructure Consulting</p>
-        <ul class="footer-links">
-          <li><a href="#services">Services</a></li>
-          <li><a href="#proof">Results</a></li>
+    <div class="wrap">
+      <div class="f-inner">
+        <p>&copy; 2026 Botland Solutions — Operations &amp; Digital Infrastructure</p>
+        <ul class="f-links">
           <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href="#" onclick="document.getElementById('privacyModal').style.display='flex';return false;">Privacy Policy</a></li>
+          <li><a href="#" onclick="document.getElementById('pm').style.display='flex';return false;">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
   </footer>
 
-  <!-- ====== PRIVACY POLICY MODAL ====== -->
-  <div id="privacyModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:24px;" onclick="if(event.target===this)this.style.display='none'">
-    <div style="background:var(--surface);color:var(--text);max-width:720px;width:100%;max-height:85vh;overflow-y:auto;border-radius:var(--radius-xl);padding:40px;position:relative;box-shadow:var(--card-shadow-hover);">
-      <button onclick="document.getElementById('privacyModal').style.display='none'" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--muted);">✕</button>
-      <h2 style="font-size:1.5rem;margin-bottom:8px;">Privacy Policy</h2>
-      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:24px;">Last updated: April 6, 2026</p>
-
-      <p style="margin-bottom:16px;">This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. I take your privacy seriously. This policy explains what data is collected when you visit this site and how it is handled.</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">1. Data Controller</h3>
-      <p style="margin-bottom:16px;">Botond Nagy · Târgu Mureș, Romania · Contact: botland93@gmail.com</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">2. Hosting</h3>
-      <p style="margin-bottom:16px;">This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., San Francisco, CA, USA). When you access this site, GitHub may collect technical data such as your IP address, browser type, and access times in server logs. For more information, see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" style="color:var(--accent);">GitHub's Privacy Statement</a>.</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">3. Google Fonts</h3>
-      <p style="margin-bottom:16px;">This site uses Google Fonts, loaded from Google's servers (fonts.googleapis.com, fonts.gstatic.com). When a page is loaded, your browser connects to Google's servers, which may receive your IP address. For details, see <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);">Google's Privacy Policy</a>.</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">4. Cookies</h3>
-      <p style="margin-bottom:16px;">This website uses only a single <strong>localStorage</strong> entry to remember your light/dark theme preference. No tracking cookies, analytics cookies, or third-party cookies are used.</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">5. Contact Data</h3>
-      <p style="margin-bottom:16px;">If you contact me via email, phone, or WhatsApp, I will process the personal data you provide (such as your name and message) solely to respond to your inquiry. This data is processed based on your consent (Art. 6(1)(a) GDPR) or legitimate interest (Art. 6(1)(f) GDPR). I will not share your data with third parties unless required by law.</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">6. Your Rights</h3>
-      <p style="margin-bottom:16px;">Under the GDPR, you have the right to access, rectify, erase, restrict processing, and port your personal data. You also have the right to object to processing and to lodge a complaint with the Romanian data protection authority (ANSPDCP — <a href="https://www.dataprotection.ro" target="_blank" rel="noopener" style="color:var(--accent);">www.dataprotection.ro</a>).</p>
-
-      <h3 style="font-size:1.1rem;margin:20px 0 8px;">7. Data Retention</h3>
-      <p>Personal data from correspondence is retained only as long as necessary to fulfill the purpose for which it was collected, after which it is deleted.</p>
+  <!-- PRIVACY MODAL -->
+  <div class="mo" id="pm" onclick="if(event.target===this)this.style.display='none'">
+    <div class="mo-box">
+      <button class="mo-x" onclick="document.getElementById('pm').style.display='none'">✕</button>
+      <h2>Privacy Policy</h2>
+      <p class="dt">Last updated: April 6, 2026</p>
+      <p>This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. This policy explains what data is collected when you visit this site.</p>
+      <h3>1. Data Controller</h3>
+      <p>Botond Nagy · Târgu Mureș, Romania</p>
+      <h3>2. Hosting</h3>
+      <p>This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., USA). When you access this site, GitHub may collect technical data such as your IP address and browser type. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a>.</p>
+      <h3>3. Google Fonts</h3>
+      <p>This site loads fonts from Google's servers, which may receive your IP address. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+      <h3>4. Cookies</h3>
+      <p>This website uses only a single <strong>localStorage</strong> entry for your theme preference. No tracking cookies or analytics are used.</p>
+      <h3>5. Contact Data</h3>
+      <p>If you contact me, I process the data you provide solely to respond, based on consent (Art. 6(1)(a) GDPR) or legitimate interest (Art. 6(1)(f) GDPR).</p>
+      <h3>6. Your Rights</h3>
+      <p>Under the GDPR, you have the right to access, rectify, erase, restrict, and port your data. You may lodge a complaint with <a href="https://www.dataprotection.ro" target="_blank" rel="noopener">ANSPDCP</a>.</p>
+      <h3>7. Data Retention</h3>
+      <p>Personal data from correspondence is retained only as long as necessary, then deleted.</p>
     </div>
   </div>
 
-  <!-- ====== SCRIPTS ====== -->
+  <!-- SCRIPTS -->
   <script>
-    // ---- Theme toggle ----
-    const themeToggle = document.getElementById('themeToggle');
-    const toggleIcon = document.getElementById('toggleIcon');
-    const root = document.documentElement;
+    // Theme
+    const tt=document.getElementById('tt'),ti=document.getElementById('ti'),rt=document.documentElement;
+    function setT(t){rt.setAttribute('data-theme',t);ti.textContent=t==='dark'?'🌙':'☀️';try{localStorage.setItem('bl-t',t)}catch(e){}}
+    (function(){document.body.classList.add('no-tr');let s;try{s=localStorage.getItem('bl-t')}catch(e){}if(s)setT(s);else if(window.matchMedia?.('(prefers-color-scheme:dark)').matches)setT('dark');else setT('light');requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove('no-tr')))})();
+    tt.addEventListener('click',()=>setT((rt.getAttribute('data-theme')||'light')==='dark'?'light':'dark'));
+    window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',e=>{let s;try{s=localStorage.getItem('bl-t')}catch(x){}if(!s)setT(e.matches?'dark':'light')});
 
-    function setTheme(theme) {
-      root.setAttribute('data-theme', theme);
-      toggleIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
-      try { localStorage.setItem('botland-theme', theme); } catch(e) {}
-    }
+    // Nav scroll
+    const nb=document.getElementById('nb');
+    window.addEventListener('scroll',()=>nb.classList.toggle('scrolled',scrollY>50));
 
-    // Init: check saved preference, then system preference
-    (function initTheme() {
-      document.body.classList.add('no-transition');
-      let saved;
-      try { saved = localStorage.getItem('botland-theme'); } catch(e) {}
-      if (saved) {
-        setTheme(saved);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          document.body.classList.remove('no-transition');
-        });
-      });
-    })();
-
-    themeToggle.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') || 'light';
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
-
-    // Listen for OS theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      let saved;
-      try { saved = localStorage.getItem('botland-theme'); } catch(ex) {}
-      if (!saved) setTheme(e.matches ? 'dark' : 'light');
-    });
-
-    // ---- Navbar scroll ----
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-    // ---- Mobile menu ----
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navLinks = document.getElementById('navLinks');
-
-    mobileToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      mobileToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-    });
-
-    function closeMenu() {
-      navLinks.classList.remove('active');
-      mobileToggle.textContent = '☰';
-    }
-
-    // ---- Scroll reveal ----
-    const revealElements = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.15
-    });
-    revealElements.forEach(el => revealObserver.observe(el));
+    // Reveal
+    const ob=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.15});
+    document.querySelectorAll('.rv').forEach(el=>ob.observe(el));
   </script>
 </body>
 </html>
