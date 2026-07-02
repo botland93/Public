@@ -1,737 +1,1353 @@
 <!doctype html>
 <html lang="hu">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mobiscroll vs Bryntum</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #f6fbff;
-      --bg-2: #eef5ff;
-      --surface: #ffffff;
-      --ink: #0f172a;
-      --muted: #5b6474;
-      --line: #d9e7ff;
-      --brand: #1d4ed8;
-      --brand-2: #0ea5e9;
-      --mint: #14b8a6;
-      --amber: #f59e0b;
-      --radius: 18px;
-      --shadow: 0 18px 45px rgba(29, 78, 216, 0.14);
-    }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      color: var(--ink);
-      font-family: "Outfit", sans-serif;
-      background:
-        radial-gradient(1000px 450px at 0% -5%, #dff2ff 0%, transparent 60%),
-        radial-gradient(900px 420px at 100% 5%, #e8eeff 0%, transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-    }
-
-    .bg-blob {
-      position: fixed;
-      z-index: -1;
-      width: 460px;
-      height: 460px;
-      border-radius: 50%;
-      filter: blur(40px);
-      opacity: 0.35;
-      animation: drift 11s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .blob-a {
-      top: -160px;
-      right: -120px;
-      background: radial-gradient(circle, #60a5fa 0%, #22d3ee 45%, transparent 70%);
-    }
-
-    .blob-b {
-      left: -180px;
-      bottom: -220px;
-      animation-delay: -5.5s;
-      background: radial-gradient(circle, #2dd4bf 0%, #3b82f6 45%, transparent 72%);
-    }
-
-    @keyframes drift {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-20px, 24px) scale(1.07); }
-    }
-
-    .container {
-      width: min(1120px, 92vw);
-      margin: 0 auto;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      backdrop-filter: blur(10px);
-      background: rgba(246, 251, 255, 0.85);
-      border-bottom: 1px solid rgba(217, 231, 255, 0.9);
-    }
-
-    .nav {
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      text-decoration: none;
-      color: var(--ink);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-
-    .brand-mark {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
-      background: linear-gradient(145deg, var(--brand), var(--brand-2));
-      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
-    }
-
-    .menu {
-      display: inline-flex;
-      gap: 1.2rem;
-    }
-
-    .menu a {
-      text-decoration: none;
-      color: #23314b;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.72rem 1.18rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      border: 1px solid transparent;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      color: #fff;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.26);
-    }
-
-    .btn-ghost {
-      color: var(--brand);
-      border-color: #bfdbfe;
-      background: #fff;
-    }
-
-    .btn-soft {
-      color: #0b3a82;
-      border-color: #bfdbfe;
-      background: rgba(255, 255, 255, 0.7);
-    }
-
-    .hero {
-      padding: 5.2rem 0 3.4rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 2.3rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #1d4ed8;
-      padding: 0.45rem 0.72rem;
-      border-radius: 999px;
-      border: 1px solid #bfdbfe;
-      background: #eff6ff;
-      margin: 0 0 1rem;
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 0.8rem;
-      font-family: "Sora", sans-serif;
-      line-height: 1.13;
-      letter-spacing: -0.02em;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5.5vw, 3.45rem);
-    }
-
-    h1 span {
-      color: var(--brand);
-    }
-
-    .lead {
-      max-width: 60ch;
-      color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.6;
-      margin: 0 0 1.6rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 0.72rem;
-      flex-wrap: wrap;
-    }
-
-    .kpi-grid {
-      margin-top: 1.3rem;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.7rem;
-    }
-
-    .kpi {
-      background: rgba(255, 255, 255, 0.82);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 0.78rem 0.86rem;
-    }
-
-    .kpi strong {
-      display: block;
-      font-family: "Sora", sans-serif;
-      font-size: 1.05rem;
-      margin-bottom: 0.2rem;
-    }
-
-    .kpi span {
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .mockup {
-      background: linear-gradient(180deg, #fff, #f8fbff);
-      border: 1px solid #dbeafe;
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .mockup-head {
-      display: flex;
-      align-items: center;
-      gap: 0.42rem;
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #e2ecff;
-      background: #f5f9ff;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .red { background: #fb7185; }
-    .yellow { background: #facc15; }
-    .green { background: #34d399; }
-
-    .mockup-body {
-      padding: 1rem;
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .lane {
-      position: relative;
-      height: 68px;
-      border-radius: 12px;
-      border: 1px solid #d6e6ff;
-      background: linear-gradient(90deg, #f0f7ff 0%, #f8fbff 100%);
-      padding: 0.55rem 0.75rem;
-    }
-
-    .lane p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: #475569;
-      font-weight: 600;
-    }
-
-    .event {
-      position: absolute;
-      top: 31px;
-      height: 24px;
-      border-radius: 8px;
-      display: inline-flex;
-      align-items: center;
-      padding: 0 0.6rem;
-      font-size: 0.76rem;
-      color: #fff;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .e1 { left: 17%; width: 40%; background: linear-gradient(90deg, #2563eb, #0ea5e9); }
-    .e2 { left: 60%; width: 28%; background: linear-gradient(90deg, #0f766e, #14b8a6); }
-    .e3 { left: 35%; width: 48%; background: linear-gradient(90deg, #7c3aed, #3b82f6); }
-    .e4 { left: 10%; width: 35%; background: linear-gradient(90deg, #f59e0b, #f97316); }
-
-    section {
-      padding: 2.1rem 0;
-    }
-
-    .section-head {
-      margin-bottom: 1rem;
-    }
-
-    h2 {
-      font-size: clamp(1.6rem, 3.8vw, 2.45rem);
-    }
-
-    .duel {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-    }
-
-    .product {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 1.15rem;
-      box-shadow: 0 8px 22px rgba(2, 44, 84, 0.07);
-    }
-
-    .product h3 {
-      font-size: 1.35rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .subtitle {
-      margin: 0 0 0.85rem;
-      color: var(--muted);
-    }
-
-    .feature-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      gap: 0.52rem;
-    }
-
-    .feature-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.62rem 0.7rem;
-      border-radius: 12px;
-      border: 1px solid #e3ecff;
-      background: #f8fbff;
-      font-size: 0.93rem;
-    }
-
-    .feature-list em {
-      font-style: normal;
-      font-weight: 700;
-      color: #0f766e;
-      font-size: 0.82rem;
-      letter-spacing: 0.02em;
-    }
-
-    .table-wrap {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      overflow-x: auto;
-      background: #fff;
-      box-shadow: 0 8px 20px rgba(2, 44, 84, 0.06);
-    }
-
-    table {
-      width: 100%;
-      min-width: 680px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 0.92rem 1rem;
-      border-bottom: 1px solid #edf3ff;
-    }
-
-    th {
-      font-size: 0.86rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #3f4f6a;
-      background: #f5f9ff;
-    }
-
-    tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      padding: 0.36rem 0.62rem;
-      font-size: 0.77rem;
-      font-weight: 700;
-      border: 1px solid transparent;
-    }
-
-    .good {
-      color: #0f766e;
-      background: #ecfdf5;
-      border-color: #a7f3d0;
-    }
-
-    .mid {
-      color: #92400e;
-      background: #fffbeb;
-      border-color: #fde68a;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.95rem;
-    }
-
-    .case {
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 1rem;
-      background: #fff;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .case::before {
-      content: "";
-      position: absolute;
-      inset: -60% auto auto -10%;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(14, 165, 233, 0.2), transparent 70%);
-      pointer-events: none;
-    }
-
-    .case h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .case p {
-      color: var(--muted);
-      margin: 0 0 0.8rem;
-      line-height: 1.5;
-    }
-
-    .case a {
-      text-decoration: none;
-      color: var(--brand);
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .cta {
-      padding: 2.4rem 0 3.6rem;
-    }
-
-    .cta-box {
-      border-radius: 24px;
-      background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 58%, #0ea5e9 100%);
-      color: #fff;
-      padding: clamp(1.3rem, 4vw, 2.3rem);
-      box-shadow: var(--shadow);
-    }
-
-    .cta-box p {
-      margin: 0 0 1rem;
-      color: rgba(255, 255, 255, 0.88);
-      max-width: 62ch;
-    }
-
-    footer {
-      border-top: 1px solid #dce9ff;
-      padding: 1rem 0 1.4rem;
-      color: #4b5d7a;
-      font-size: 0.9rem;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid, .duel, .cards {
-        grid-template-columns: 1fr;
-      }
-
-      .menu,
-      .topbar .btn-soft {
-        display: none;
-      }
-
-      .hero {
-        padding-top: 4rem;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .kpi-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VB 2026 — Kieséses ágrajz · eredmények élőben</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0c0f;--bg2:#14161c;--card:#151821;--card2:#11141b;--ink:#f3f1ea;--ink-soft:#c9c6bc;
+    --muted:#82868f;--line:#33363f;--line-soft:#23252c;--gold:#e3af3a;--gold-bright:#ffd277;
+    --gold-bar:#b9891c;--blue-bar:#5e8fe8;--surface-modal:#171a21;--win:#ffe3a1;--tip:#d9b96a;
+    --live:#e05656;--live-soft:#f0908f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;overflow-x:hidden}
+  body{background:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
+    color:var(--ink);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-height:100vh;padding:clamp(14px,2.5vw,28px) 0 40px}
+
+  /* ---------- fejléc ---------- */
+  header{max-width:920px;margin:0 auto;text-align:center;padding:0 16px}
+  .eyebrow{font-family:inherit;font-weight:500;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--gold);font-size:clamp(9px,1.4vw,12px);margin:0 0 8px}
+  h1{font-family:inherit;font-weight:700;font-size:clamp(26px,5.5vw,46px);
+    line-height:.95;margin:0;letter-spacing:.01em;text-transform:uppercase}
+  h1 .yr{color:var(--gold-bright)}
+  .sub{color:var(--muted);font-size:clamp(11px,1.6vw,13.5px);margin:9px auto 0;max-width:680px;line-height:1.55}
+  .sub strong{color:var(--ink-soft)}
+  .statusline{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;
+    background:linear-gradient(180deg,#181a20,#10121a);padding:6px 13px;font-size:11.5px;color:var(--ink-soft)}
+  .chip b{color:var(--gold-bright);font-weight:600}
+  .chip .dotp{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(227,175,58,.8)}
+  .chip .dotl{width:7px;height:7px;border-radius:50%;background:#4caf7d;box-shadow:0 0 6px rgba(76,175,125,.8);
+    animation:pulse 2s infinite}
+  .chip.err .dotl{background:#888;box-shadow:none;animation:none}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  button.chip{cursor:pointer;font-family:inherit}
+  button.chip:hover{border-color:#4d5160}
+  button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .champ{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;
+    border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#181a20,#0f1115)}
+  .champ .lbl{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
+  .champ .who{font-weight:600;font-size:14px;color:var(--muted)}
+  .champ .who.set{color:var(--gold-bright)}
+
+  /* ---------- színpad / görgetés ---------- */
+  .stage{margin-top:clamp(16px,2.5vw,30px);overflow:hidden;overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
+  .stage.mobile-stage{overflow:visible;height:auto!important;padding-inline:12px}
+  .stage::-webkit-scrollbar{height:10px}
+  .stage::-webkit-scrollbar-track{background:#101218;border-radius:6px}
+  .stage::-webkit-scrollbar-thumb{background:#3a3d45;border-radius:6px}
+  .scrollhint{text-align:center;color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.08em}
+
+  .bracketfit{width:max-content;margin:0 auto;transform-origin:top center}
+  .bracket{position:relative;margin:0 auto;width:max-content;
+    display:grid;column-gap:24px;row-gap:8px;
+    grid-template-columns:repeat(4,188px) 214px repeat(4,188px);
+    grid-template-rows:auto repeat(16,52px)}
+  .bracket.mobile{display:block;width:min(100%,460px);max-width:100%;margin-inline:auto}
+  .bracket.mobile .wires{display:none}
+  .mobile-round{margin:0 0 18px}
+  .mobile-round-title{font-family:inherit;font-weight:600;text-transform:uppercase;
+    letter-spacing:.16em;font-size:12px;color:var(--gold);margin:0 0 9px;padding-top:5px}
+  .mobile-round .match{width:100%;margin:0 0 8px}
+  .mobile-trophy{display:flex;justify-content:center;margin:4px 0 12px}
+  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .wire{fill:none;stroke:var(--line);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
+  .wire.live{stroke:var(--gold);opacity:.9}
+  .wire.tip{stroke:var(--gold);stroke-dasharray:5 4;opacity:.6}
+
+  .colhead{grid-row:1;align-self:end;text-align:center;padding-bottom:10px}
+  .right-pull{transform:translateX(-34px)}
+  .colhead .t{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+    font-size:12px;color:var(--gold)}
+  .colhead .d{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
+
+  /* ---------- meccskártya ---------- */
+  .match{position:relative;z-index:1;align-self:center;width:100%;text-align:left;
+    font-family:inherit;color:inherit;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--line);border-radius:10px;padding:7px 9px 8px;cursor:pointer;
+    box-shadow:0 3px 10px rgba(0,0,0,.35);transition:border-color .15s, box-shadow .15s}
+  .match:hover{border-color:#4d5160;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .match.has-stats:hover,.match.pickable:hover{border-color:var(--gold)}
+  .match:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .match.tbd{background:linear-gradient(180deg,#12141b,#0e1016)}
+  .match.tipped{border-color:#5c4d22}
+  .match.islive{border-color:#7c3b3b;box-shadow:0 0 0 1px rgba(224,86,86,.35),0 3px 12px rgba(0,0,0,.5)}
+  .mmeta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:5px}
+  .mmeta .when{font-family:inherit;font-size:9.5px;font-weight:500;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mmeta .ico{font-size:10.5px;color:var(--gold);opacity:.9;flex:0 0 auto}
+  .mmeta .tag{flex:0 0 auto;font-family:inherit;font-size:8.5px;letter-spacing:.18em;
+    color:var(--tip);border:1px dashed #6a5820;border-radius:4px;padding:1px 5px 1px 6px}
+  .mmeta .livechip{flex:0 0 auto;font-family:inherit;font-size:8.5px;letter-spacing:.14em;
+    color:#ffd9d9;background:#57201f;border:1px solid #8a3a38;border-radius:4px;padding:1px 6px;
+    display:inline-flex;align-items:center;gap:4px}
+  .mmeta .livechip::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--live-soft);
+    animation:pulse 1.4s infinite}
+  .trow{display:flex;align-items:center;gap:8px;min-height:26px}
+  .trow + .trow{margin-top:3px}
+  .trow img.fl{width:27px;height:20px;border-radius:3px;object-fit:cover;flex:0 0 auto;
+    background:#262932;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #363a44}
+  .trow .fl.ph{width:27px;height:20px;border-radius:3px;flex:0 0 auto;background:#20232c;
+    box-shadow:inset 0 0 0 1px #30333d;display:flex;align-items:center;justify-content:center;
+    color:#565a66;font-size:11px;font-weight:600}
+  .trow .nm{flex:1;font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow .nm.cand{font-weight:500;font-size:11px;color:#6b6f79;font-style:italic}
+  .trow .nm.tipteam{font-style:italic;color:#b7a878}
+  .trow .sc{flex:0 0 auto;min-width:22px;text-align:center;font-weight:700;font-size:13.5px;
+    font-variant-numeric:tabular-nums;color:var(--ink);background:#0d0f14;border:1px solid var(--line-soft);
+    border-radius:6px;padding:2px 5px}
+  .trow .sc.none{color:#4a4e59;border-style:dashed}
+  .trow .sc.tipsc{border-style:dashed;border-color:#5c4d22;color:var(--tip);font-style:italic}
+  .trow .sc.livesc{border-color:#8a3a38;color:#ffd9d9}
+  .trow.winner .nm{color:var(--win)}
+  .trow.winner .sc{color:var(--gold-bright);border-color:#584417;background:#191307}
+  .trow.winner .sc.tipsc{color:var(--tip);background:#15110a}
+  .trow.loser .nm,.trow.loser img.fl{opacity:.5}
+  .trow.loser .sc{opacity:.75}
+  .pens{margin-top:5px;font-size:10.5px;color:var(--muted);border-top:1px dashed var(--line-soft);padding-top:4px}
+  .pens b{color:var(--ink-soft);font-weight:600}
+  .pens.tipline{color:#8a7c56}
+
+  /* ---------- döntő oszlop ---------- */
+  .finalcol{grid-column:5;grid-row:2 / span 16;align-self:center;display:flex;flex-direction:column;
+    align-items:center;gap:14px;position:relative;z-index:1}
+  .trophywrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .trophywrap .glow{position:absolute;inset:-34px;border-radius:50%;
+    background:radial-gradient(circle,rgba(227,175,58,.33),rgba(227,175,58,0) 65%);filter:blur(3px);pointer-events:none}
+  .worldcup-trophy{position:relative;width:72px;height:112px;object-fit:contain;
+    filter:drop-shadow(0 0 10px rgba(255,210,120,.44))}
+  .worldcup-trophy .gold-main{fill:url(#wcGold)}
+  .worldcup-trophy .gold-dark{fill:#9b6b19}
+  .worldcup-trophy .green-ring{fill:#315c3a}
+  .worldcup-trophy .shadow-line{stroke:#6d4910;stroke-width:1.25;stroke-linecap:round;opacity:.7}
+  .worldcup-trophy .highlight{fill:#ffe79a;opacity:.74}
+  .trophywrap .flbl{font-family:inherit;text-transform:uppercase;letter-spacing:.3em;
+    font-size:11px;color:var(--gold);position:relative}
+  .finalcol .match{width:100%}
+  .champmini{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;max-width:200px}
+
+  /* ---------- góllövőlista ---------- */
+  .scorers{max-width:980px;margin:34px auto 0;padding:0 16px;text-align:center}
+  .sec-title{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
+    font-size:15px;color:var(--gold);margin:0 0 4px;display:flex;align-items:center;gap:14px;justify-content:center}
+  .sec-title::before,.sec-title::after{content:"";flex:0 1 120px;height:1px;background:var(--line)}
+  .sec-sub{color:var(--muted);font-size:11.5px;margin:0 0 18px}
+  .scorer-grid{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .scorer{width:148px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
+    border-radius:12px;padding:14px 10px 12px;position:relative}
+  .scorer.top{border-color:#584417;box-shadow:0 0 14px rgba(227,175,58,.12)}
+  .scorer .rank{position:absolute;top:8px;left:10px;font-family:inherit;font-size:11px;color:var(--muted)}
+  .scorer img.face{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;
+    background:#262932;box-shadow:0 0 0 1px #000,0 0 0 3px #3a3e49}
+  .scorer.top img.face{box-shadow:0 0 0 1px #000,0 0 0 3px var(--gold-bar)}
+  .scorer .pname{font-weight:600;font-size:12.5px;margin-top:8px;color:var(--ink)}
+  .scorer .pteam{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:4px;
+    color:var(--muted);font-size:10.5px}
+  .scorer .pteam img{width:16px;height:12px;border-radius:2px;object-fit:cover}
+  .scorer .goals{font-family:inherit;font-weight:700;font-size:24px;color:var(--gold-bright);
+    margin-top:6px;line-height:1}
+  .scorer .goals small{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.1em;display:block;margin-top:2px}
+  .scorer-more{margin-top:16px;color:var(--muted);font-size:11.5px;line-height:2}
+  .scorer-more .mchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line-soft);
+    border-radius:999px;padding:2px 9px;margin:0 3px;color:var(--ink-soft);font-size:11px;white-space:nowrap}
+  .scorer-more .mchip img{width:14px;height:10.5px;border-radius:2px;object-fit:cover}
+
+  /* ---------- lábléc ---------- */
+  footer{text-align:center;color:var(--muted);font-size:11.5px;margin:26px auto 0;line-height:1.8;max-width:820px;padding:0 16px}
+  footer .k{display:inline-block;margin:0 7px;white-space:nowrap}
+  footer .swatch{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+  footer .dash{display:inline-block;width:16px;height:0;border-top:2px dashed var(--gold);vertical-align:3px;margin-right:5px;opacity:.7}
+  .footlink{appearance:none;border:0;background:none;color:var(--gold);font:inherit;font-weight:700;cursor:pointer;
+    padding:0;text-decoration:underline;text-decoration-color:rgba(227,175,58,.45);text-underline-offset:3px}
+  .footlink:hover{color:var(--gold-bright);text-decoration-color:var(--gold-bright)}
+
+  /* ---------- modális ablak ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(4,5,8,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+    display:none;align-items:flex-start;justify-content:center;z-index:60;padding:4vh 14px 5vh;overflow-y:auto}
+  .overlay.open{display:flex}
+  .modal{width:min(560px,100%);background:linear-gradient(180deg,#1a1d26,var(--surface-modal));
+    border:1px solid #3a3e49;border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.65);overflow:hidden}
+  .modal.privacy-modal{width:min(520px,100%)}
+  .mo-top{position:relative;padding:16px 18px 14px;border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg,rgba(227,175,58,.07),rgba(227,175,58,0))}
+  .mo-round{font-family:inherit;text-transform:uppercase;letter-spacing:.24em;font-size:10.5px;
+    color:var(--gold);text-align:center}
+  .mo-place{text-align:center;color:var(--muted);font-size:11.5px;margin-top:5px}
+  .mo-live{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:10px;
+    letter-spacing:.16em;color:#ffd9d9;background:#57201f;border:1px solid #8a3a38;border-radius:5px;padding:2px 8px}
+  .mo-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--live-soft);animation:pulse 1.4s infinite}
+  .mo-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);
+    background:#141720;color:var(--ink-soft);font-size:15px;cursor:pointer;line-height:1}
+  .mo-close:hover{border-color:#4d5160;color:#fff}
+  .mo-close:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .mo-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:14px}
+  .mo-team{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
+  .mo-team img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
+    box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
+  .mo-team .n{font-weight:600;font-size:13px;text-align:center;color:var(--ink)}
+  .mo-team .tag{width:16px;height:5px;border-radius:3px}
+  .mo-num{font-family:inherit;font-weight:700;font-size:40px;letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;text-align:center;line-height:1}
+  .mo-note{text-align:center;font-size:11px;color:var(--muted);margin-top:2px}
+  .mo-note b{color:var(--ink-soft)}
+  .mo-body{padding:14px 18px 18px}
+  .privacy-copy{font-size:13px;line-height:1.65;color:var(--ink-soft)}
+  .privacy-copy p{margin:0 0 12px}
+  .privacy-copy p:last-child{margin-bottom:0}
+  .privacy-copy b{color:var(--ink)}
+  .mo-goals{display:flex;flex-direction:column;gap:3px;margin:2px 0 6px}
+  .mo-goal{display:flex;font-size:12px;color:var(--ink-soft)}
+  .mo-goal.away{justify-content:flex-end}
+  .mo-goal .min{color:var(--muted);margin:0 5px;font-variant-numeric:tabular-nums}
+  .mo-sec{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
+    color:var(--gold);text-align:center;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
+  .mo-sec::before,.mo-sec::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+  .stat{margin-bottom:9px}
+  .stat .vals{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;margin-bottom:3px}
+  .stat .vals .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);min-width:44px}
+  .stat .vals .v.r{text-align:right}
+  .stat .vals .lab{color:var(--muted);font-size:11px;letter-spacing:.04em;text-align:center;flex:1;padding:0 8px}
+  .stat .bars{display:flex;align-items:center;height:8px}
+  .stat .half{flex:1;display:flex;height:8px}
+  .stat .half.l{justify-content:flex-end}
+  .stat .axis{flex:0 0 2px;height:12px;background:var(--line-soft);margin:0 2px;border-radius:1px}
+  .stat .bar{height:8px}
+  .stat .half.l .bar{background:var(--gold-bar);border-radius:4px 0 0 4px}
+  .stat .half.r .bar{background:var(--blue-bar);border-radius:0 4px 4px 0}
+  .mo-extra{margin-top:12px;padding-top:10px;border-top:1px solid var(--line-soft);
+    color:var(--muted);font-size:11px;line-height:1.7;text-align:center}
+  .mo-extra b{color:var(--ink-soft);font-weight:600}
+  .mo-src{margin-top:8px;font-size:10px;color:#5b5f6a;text-align:center;letter-spacing:.05em}
+  .mo-pend{padding:24px 18px;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.8}
+  .mo-pend .big{font-size:15px;font-weight:600;color:var(--ink)}
+  .mo-loading{padding:30px 18px;text-align:center;color:var(--muted);font-size:12.5px}
+
+  /* ---------- tipp-szerkesztő ---------- */
+  .pickteam{cursor:pointer;background:#141720;border:1px solid var(--line);border-radius:12px;
+    padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;
+    font-family:inherit;color:var(--ink);transition:border-color .12s, background .12s}
+  .pickteam:hover{border-color:#5a5e6b}
+  .pickteam:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .pickteam.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:#1b1710}
+  .pickteam img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
+    box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
+  .pickteam .n{font-weight:600;font-size:13px;text-align:center}
+  .pickteam .adv{font-family:inherit;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+    color:#565a66}
+  .pickteam.sel .adv{color:var(--gold-bright)}
+  .scorewrap{display:flex;align-items:center;gap:7px;justify-content:center}
+  .scoreblock{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .scorelabel{font-family:inherit;text-transform:uppercase;letter-spacing:.16em;font-size:9.5px;color:var(--muted)}
+  .scorein{width:52px;height:46px;text-align:center;font-family:inherit;font-weight:600;font-size:22px;
+    background:#0d0f14;border:1px solid var(--line);border-radius:9px;color:var(--ink);
+    font-variant-numeric:tabular-nums;-moz-appearance:textfield;appearance:textfield}
+  .scorein::-webkit-outer-spin-button,.scorein::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .scorein:focus{outline:none;border-color:var(--gold)}
+  .scoredash{color:var(--muted);font-size:18px;font-weight:600}
+  .mo-help{margin-top:12px;color:var(--muted);font-size:11.5px;text-align:center;line-height:1.6;min-height:18px}
+  .mo-help.err{color:#e8a1a1}
+  .extra-panel{margin:14px 0 0;padding:12px;border:1px solid var(--line-soft);border-radius:12px;
+    background:rgba(13,15,20,.42)}
+  .extra-panel[hidden]{display:none}
+  .extra-panel .mo-sec{margin-top:0}
+  .penpick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+  .penpick button{min-height:38px;border-radius:9px;border:1px solid var(--line);background:#141720;color:var(--ink-soft);
+    cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.09em;font-size:10.5px}
+  .penpick button.sel{border-color:var(--gold);background:#1b1710;color:var(--gold-bright)}
+  .penpick button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .mo-actions{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .btn{font-family:inherit;letter-spacing:.09em;text-transform:uppercase;font-size:11.5px;font-weight:500;
+    border-radius:8px;padding:10px 18px;cursor:pointer;border:1px solid var(--line);background:#161922;color:var(--ink);
+    text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:#4d5160}
+  .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .btn.primary{background:linear-gradient(180deg,#2a2110,#1d1708);border-color:#6a5820;color:var(--gold-bright)}
+  .btn.primary:hover{border-color:var(--gold)}
+  .btn.danger{color:#e8a1a1}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media (max-width:760px){
+    body{padding-top:12px}
+    header{padding-inline:12px}
+    h1{font-size:24px;line-height:1.05}
+    .eyebrow{letter-spacing:.22em}
+    .sub{font-size:12px;line-height:1.5;max-width:100%;overflow-wrap:anywhere}
+    .statusline{display:grid;grid-template-columns:1fr;gap:6px;max-width:100%;padding-inline:4px}
+    .chip{font-size:11px;padding:6px 10px;justify-content:center;max-width:100%;min-width:0}
+    button.chip{width:100%}
+    .stage{max-width:100vw;padding-inline:10px}
+    .bracketfit{width:100%;transform:none!important}
+    .bracket.mobile{width:100%;max-width:100%}
+    .mobile-round{max-width:100%}
+    .mobile-round .match{width:100%;max-width:100%}
+    .match{border-radius:9px;padding:8px 9px}
+    .mmeta .when{min-width:0}
+    .trow img.fl,.trow .fl.ph{width:31px;height:23px}
+    .trow .nm{font-size:13px;flex:0 1 auto;max-width:calc(100vw - 124px)}
+    .trow .sc{min-width:20px;font-size:14px;margin-left:7px}
+    .scrollhint{display:none!important}
+    .scorers{margin-top:24px}
+    .scorer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .scorer{width:auto}
+    .overlay{padding:10px}
+    .modal{border-radius:12px}
+    .mo-score{grid-template-columns:1fr;gap:12px}
+    .mo-team{gap:5px}
+    .mo-num{font-size:32px}
+    .mo-team img{width:40px;height:30px}
+    .pickteam{min-height:82px}
+    .scorein{width:58px;height:44px}
+    .penpick{grid-template-columns:1fr}
+  }
+  @media (max-width:420px){
+    .scorer-grid{grid-template-columns:1fr}
+  }
+</style>
 </head>
 <body>
-  <div class="bg-blob blob-a" aria-hidden="true"></div>
-  <div class="bg-blob blob-b" aria-hidden="true"></div>
-
-  <header class="topbar">
-    <div class="container nav">
-      <a class="brand" href="#">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>CompareLab</span>
-      </a>
-      <nav class="menu">
-        <a href="#osszehasonlitas">Összehasonlítás</a>
-        <a href="#reszletek">Részletek</a>
-        <a href="#usecase">Use case-ek</a>
-      </nav>
-      <a href="#" class="btn btn-soft">Élő demó</a>
+  <header>
+    <p class="eyebrow">FIFA World Cup · Kieséses szakasz</p>
+    <h1>Világbajnokság <span class="yr">2026</span></h1>
+    <p class="sub">Az ágrajz <strong>élőben frissül</strong> a FIFA adataival: gól után percenként frissülnek az állások,
+      élő meccs statisztikáját a pop-up 30 másodpercenként újratölti.
+      <strong>Lejátszott meccsre kattintva</strong> a hivatalos statisztikák,
+      <strong>hátralévő meccsre kattintva</strong> tippelés (továbbjutó + eredmény) és naptárhoz adás érhető el.
+      Minden időpont <strong>romániai idő (EEST)</strong> szerint.</p>
+    <div class="statusline">
+      <span class="chip"><span class="dotp"></span>Legjobb 32: <b id="playedCount">10 / 16</b>&nbsp;lejátszva</span>
+      <span class="chip" id="liveChip"><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></span>
+      <button class="chip" id="btnClearTips" type="button" hidden>↺ Tippek törlése</button>
+      <button class="chip" id="btnAllCalendar" type="button">📅 Összes meccs naptárba</button>
     </div>
+    <div class="champ"><span class="lbl">Bajnok</span><span class="who" id="champWho">— még nem dőlt el —</span></div>
   </header>
 
-  <main>
-    <section class="hero reveal">
-      <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">Scheduling UI Showdown</p>
-          <h1>Mobiscroll vs Bryntum, <span>design fókuszú aloldal</span></h1>
-          <p class="lead">
-            Modern, letisztult B2B termékoldal stílus: hangsúlyos hero blokk, összehasonlító kártyák,
-            részletes táblázat és erős CTA szekció. A tartalom most szándékosan demo jellegű.
-          </p>
-          <div class="actions">
-            <a href="#" class="btn btn-primary">Ingyenes trial</a>
-            <a href="#" class="btn btn-ghost">Dokumentáció</a>
-          </div>
-          <div class="kpi-grid">
-            <article class="kpi"><strong>120+</strong><span>UI minta és variáns</span></article>
-            <article class="kpi"><strong>5.2M</strong><span>Éves renderelt esemény</span></article>
-            <article class="kpi"><strong>99.95%</strong><span>Stabilitási célérték</span></article>
-          </div>
-        </div>
+  <div class="stage" id="stage">
+    <div class="bracketfit" id="bracketFit">
+      <div class="bracket" id="bracket"></div>
+    </div>
+  </div>
+  <p class="scrollhint" id="scrollhint"></p>
 
-        <aside class="mockup" aria-label="Ütemező előnézet">
-          <div class="mockup-head">
-            <span class="dot red"></span>
-            <span class="dot yellow"></span>
-            <span class="dot green"></span>
-          </div>
-          <div class="mockup-body">
-            <div class="lane">
-              <p>Resource A</p>
-              <div class="event e1">Kickoff meeting</div>
-            </div>
-            <div class="lane">
-              <p>Resource B</p>
-              <div class="event e2">Support shift</div>
-            </div>
-            <div class="lane">
-              <p>Resource C</p>
-              <div class="event e3">Field operations</div>
-            </div>
-            <div class="lane">
-              <p>Resource D</p>
-              <div class="event e4">Delivery window</div>
-            </div>
-          </div>
-        </aside>
+  <!-- ================= GÓLLÖVŐLISTA ================= -->
+  <section class="scorers" aria-label="Góllövőlista">
+    <h2 class="sec-title">Góllövőlista</h2>
+    <p class="sec-sub">adidas Aranycipő-verseny · állás: 2026. július 2.</p>
+    <div class="scorer-grid">
+      <div class="scorer top"><span class="rank">1.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Lionel Messi"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg/330px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg">
+        <div class="pname">Lionel Messi</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/ar.png" alt="" width="16" height="12">Argentína</div>
+        <div class="goals">6<small>GÓL</small></div>
       </div>
-    </section>
-
-    <section id="osszehasonlitas" class="reveal">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Product Snapshot</p>
-          <h2>Két termék, eltérő fókusz</h2>
-        </div>
-        <div class="duel">
-          <article class="product">
-            <h3>Mobiscroll</h3>
-            <p class="subtitle">UI-first megközelítés scheduling és calendar use case-ekhez.</p>
-            <ul class="feature-list">
-              <li><span>Design testreszabhatóság</span><em>ERŐS</em></li>
-              <li><span>Touch + desktop UX</span><em>ERŐS</em></li>
-              <li><span>Gyors prototípus építés</span><em>GYORS</em></li>
-              <li><span>Framework támogatás</span><em>SZÉLES</em></li>
-            </ul>
-          </article>
-
-          <article class="product">
-            <h3>Bryntum</h3>
-            <p class="subtitle">Nagyvállalati scheduling/Gantt fókusz, komplex adatszerkezetekhez.</p>
-            <ul class="feature-list">
-              <li><span>Komplex ütemezési logika</span><em>ERŐS</em></li>
-              <li><span>Enterprise skálázhatóság</span><em>ERŐS</em></li>
-              <li><span>Bevezetési görbe</span><em>KÖZEPES</em></li>
-              <li><span>Projekt- és task modellek</span><em>HALADÓ</em></li>
-            </ul>
-          </article>
-        </div>
+      <div class="scorer top"><span class="rank">1.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Kylian Mbappé"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg/330px-Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg">
+        <div class="pname">Kylian Mbappé</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/fr.png" alt="" width="16" height="12">Franciaország</div>
+        <div class="goals">6<small>GÓL</small></div>
       </div>
-    </section>
-
-    <section id="reszletek" class="reveal">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Detailed Matrix</p>
-          <h2>Gyors döntéstámogató táblázat</h2>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Terület</th>
-                <th>Mobiscroll</th>
-                <th>Bryntum</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Scheduler UX</td>
-                <td><span class="tag good">Touch + desktop optimalizált</span></td>
-                <td><span class="tag good">Desktop-heavy környezetben erős</span></td>
-              </tr>
-              <tr>
-                <td>Vizualitás / Theming</td>
-                <td><span class="tag good">Gyorsan brandelhető</span></td>
-                <td><span class="tag mid">Erős, de több finomhangolás kell</span></td>
-              </tr>
-              <tr>
-                <td>Learning curve</td>
-                <td><span class="tag good">Rövidebb indulási idő</span></td>
-                <td><span class="tag mid">Komplexebb onboarding</span></td>
-              </tr>
-              <tr>
-                <td>Ökoszisztéma</td>
-                <td><span class="tag good">React / Angular / Vue orientált</span></td>
-                <td><span class="tag good">Advanced scheduling stack</span></td>
-              </tr>
-              <tr>
-                <td>Ideális use case</td>
-                <td><span class="tag good">SaaS UI, booking, appointment</span></td>
-                <td><span class="tag good">Enterprise planning, Gantt-heavy appok</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="scorer"><span class="rank">3.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Erling Haaland"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg/330px-Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg">
+        <div class="pname">Erling Haaland</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/no.png" alt="" width="16" height="12">Norvégia</div>
+        <div class="goals">5<small>GÓL</small></div>
       </div>
-    </section>
-
-    <section id="usecase" class="reveal">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Use Cases</p>
-          <h2>Tipikus implementációs területek</h2>
-        </div>
-        <div class="cards">
-          <article class="case">
-            <h3>Healthcare Scheduling</h3>
-            <p>Orvosi műszakok, rendelési idősávok és több erőforrás egyidejű kezelése.</p>
-            <a href="#">Use case megnyitása</a>
-          </article>
-          <article class="case">
-            <h3>Field Service Planning</h3>
-            <p>Területi csapatok útvonal-, feladat- és kapacitástervezése valós idejű státusszal.</p>
-            <a href="#">Use case megnyitása</a>
-          </article>
-          <article class="case">
-            <h3>Operations Dashboard</h3>
-            <p>Idővonal alapú nézet menedzsmentnek: ütközések, leterheltség, SLA mutatók.</p>
-            <a href="#">Use case megnyitása</a>
-          </article>
-        </div>
+      <div class="scorer"><span class="rank">3.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Harry Kane"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg/330px-Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg">
+        <div class="pname">Harry Kane</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/gb-eng.png" alt="" width="16" height="12">Anglia</div>
+        <div class="goals">5<small>GÓL</small></div>
       </div>
-    </section>
-
-    <section class="cta reveal">
-      <div class="container cta-box">
-        <h2>Építs gyorsabban scheduling UI-t, kompromisszum nélkül</h2>
-        <p>
-          Ez a mintaoldal design benchmarknak készült. A következő lépésben át tudom írni
-          valós marketing szövegre, logókkal, pricing blokkal és konkrét CTA funnellel.
-        </p>
-        <div class="actions">
-          <a class="btn btn-primary" href="#">Kezdjük el</a>
-          <a class="btn btn-ghost" href="#" style="background:#fff;color:#0f172a;border-color:#fff;">Beszéljünk róla</a>
-        </div>
+      <div class="scorer"><span class="rank">5.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Vinícius Júnior"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg/330px-Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg">
+        <div class="pname">Vinícius Júnior</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/br.png" alt="" width="16" height="12">Brazília</div>
+        <div class="goals">4<small>GÓL</small></div>
       </div>
-    </section>
-  </main>
+      <div class="scorer"><span class="rank">5.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Ousmane Dembélé"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg/330px-Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg">
+        <div class="pname">Ousmane Dembélé</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/fr.png" alt="" width="16" height="12">Franciaország</div>
+        <div class="goals">4<small>GÓL</small></div>
+      </div>
+      <div class="scorer"><span class="rank">5.</span>
+        <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Ismaïla Sarr"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg/330px-Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg">
+        <div class="pname">Ismaïla Sarr</div>
+        <div class="pteam"><img src="https://flagcdn.com/w40/sn.png" alt="" width="16" height="12">Szenegál</div>
+        <div class="goals">4<small>GÓL</small></div>
+      </div>
+    </div>
+    <div class="scorer-more">3 gólnál:
+      <span class="mchip"><img src="https://flagcdn.com/w40/ca.png" alt="Kanada">Jonathan David</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/de.png" alt="Németország">Deniz Undav</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/de.png" alt="Németország">Kai Havertz</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/ch.png" alt="Svájc">Johan Manzambi</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/br.png" alt="Brazília">Matheus Cunha</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/ma.png" alt="Marokkó">Ismael Saibari</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/nl.png" alt="Hollandia">Brian Brobbey</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/nl.png" alt="Hollandia">Cody Gakpo</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/nz.png" alt="Új-Zéland">Elijah Just</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/mx.png" alt="Mexikó">Julián Quiñones</span>
+      <span class="mchip"><img src="https://flagcdn.com/w40/us.png" alt="USA">Folarin Balogun</span>
+    </div>
+  </section>
 
   <footer>
-    <div class="container">
-      Demo oldal • Mobiscroll vs Bryntum • 2026
-    </div>
+    <span class="k"><span class="swatch" style="background:var(--gold-bright)"></span>arany = hivatalos továbbjutó</span>
+    <span class="k"><span class="dash"></span>szaggatott / TIPP = saját tipp</span>
+    <span class="k">📊 = FIFA-statisztika</span>
+    <span class="k">✏️ = tippelhető</span>
+    <span class="k" style="color:var(--live-soft)">● ÉLŐ = most játsszák</span><br>
+    <span class="k">Kezdési időpontok romániai idő (EEST, UTC+3) szerint.</span>
+    <span class="k">h. u. = hosszabbítás után · tiz. = tizenegyesekkel</span><br>
+    Eredmények, statisztikák élőben: <b style="color:#9aa0ab">FIFA (api.fifa.com)</b> ·
+    Góllövőlista: FIFA/NBC · Fotók: Wikimedia Commons · Zászlók: FlagCDN · Alapállapot: 2026. július 2.<br>
+    <button class="footlink" id="btnPrivacy" type="button">Adatkezelési tájékoztató</button>
   </footer>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("is-visible");
-      });
-    }, { threshold: 0.16 });
+  <div class="overlay" id="overlay" role="presentation">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="moTitle" id="modal"></div>
+  </div>
 
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-  </script>
+<script>
+"use strict";
+/* =========================================================================
+   ADATOK — FIFA hivatalos API (api.fifa.com / fdh-api.fifa.com).
+   Beépített alapállapot: 2026. júl. 2. — betöltés után élőben frissül.
+   Minden megjelenített időpont romániai idő (EEST, UTC+3); `utc` = kezdés UTC-ben.
+   R32 sorrend: 0–7 bal szárny (fentről), 8–15 jobb szárny (fentről).
+   goals: [oldal(0/1), név, perc, típus(''|'p'=11-es|'r'=piros lap)]
+   ========================================================================= */
+const TEAMS = {
+  br:"Brazília", jp:"Japán", ci:"Elefántcsontpart", no:"Norvégia", mx:"Mexikó", ec:"Ecuador",
+  "gb-eng":"Anglia", cd:"Kongói DK", ar:"Argentína", cv:"Zöld-foki-szk.", au:"Ausztrália",
+  eg:"Egyiptom", ch:"Svájc", dz:"Algéria", co:"Kolumbia", gh:"Ghána", sn:"Szenegál",
+  be:"Belgium", ba:"Bosznia-Herc.", us:"USA", at:"Ausztria", es:"Spanyolország",
+  hr:"Horvátország", pt:"Portugália", ma:"Marokkó", nl:"Hollandia", ca:"Kanada",
+  za:"Dél-Afrika", se:"Svédország", fr:"Franciaország", py:"Paraguay", de:"Németország"
+};
+/* FIFA rövidítés → zászlókód (élő szinkronhoz) */
+const ABBR = {BRA:"br",JPN:"jp",CIV:"ci",NOR:"no",MEX:"mx",ECU:"ec",ENG:"gb-eng",COD:"cd",
+  ARG:"ar",CPV:"cv",AUS:"au",EGY:"eg",SUI:"ch",ALG:"dz",COL:"co",GHA:"gh",SEN:"sn",BEL:"be",
+  BIH:"ba",USA:"us",AUT:"at",ESP:"es",CRO:"hr",POR:"pt",MAR:"ma",NED:"nl",CAN:"ca",RSA:"za",
+  SWE:"se",FRA:"fr",PAR:"py",GER:"de"};
+
+const R32 = [
+  /* ---- BAL szárny ---- */
+  { no:76, date:"jún. 29.", t:"20:00", utc:"2026-06-29T17:00:00Z", city:"Houston", att:68777, ref:"Maurizio Mariani (olasz)",
+    h:"br", a:"jp", s:[2,1],
+    goals:[[1,"Kaishu Sano","29’",""],[0,"Casemiro","56’",""],[0,"Gabriel Martinelli","90+5’",""]],
+    stats:{pos:[61.6,30.3],xg:[2.12,0.26],sh:[19,5],sot:[7,2],cor:[6,2],fls:[10,4],off:[1,0],pas:[715,330],acc:[91.2,84.5],yc:[2,3],rc:[0,0]} },
+  { no:78, date:"jún. 30.", t:"20:00", utc:"2026-06-30T17:00:00Z", city:"Dallas (Arlington)", att:69665, ref:"Jesús Valenzuela (venezuelai)",
+    h:"ci", a:"no", s:[1,2],
+    goals:[[1,"Antonio Nusa","39’",""],[0,"Amad Diallo","74’",""],[1,"Erling Haaland","86’",""]],
+    stats:{pos:[41.3,50.2],xg:[1.43,2.30],sh:[14,9],sot:[5,4],cor:[14,3],fls:[7,4],off:[2,2],pas:[406,492],acc:[87.0,89.8],yc:[0,1],rc:[0,0]} },
+  { no:79, date:"júl. 1.", t:"05:00", utc:"2026-07-01T02:00:00Z", city:"Mexikóváros", att:80824, ref:"Slavko Vinčić (szlovén)",
+    h:"mx", a:"ec", s:[2,0],
+    goals:[[0,"Julián Quiñones","22’",""],[0,"Raúl Jiménez","31’",""],[1,"Piero Hincapié","90+5’","r"]],
+    stats:{pos:[37.1,52.9],xg:[1.86,0.47],sh:[15,7],sot:[3,1],cor:[3,8],fls:[14,10],off:[0,1],pas:[317,420],acc:[81.7,84.0],yc:[0,3],rc:[0,1]} },
+  { no:80, date:"júl. 1.", t:"19:00", utc:"2026-07-01T16:00:00Z", city:"Atlanta", att:68239, ref:"Adham Makhadmeh (jordán)",
+    h:"gb-eng", a:"cd", s:[2,1],
+    goals:[[1,"Brian Cipenga","7’",""],[0,"Harry Kane","75’",""],[0,"Harry Kane","86’",""]],
+    stats:{pos:[53.5,37.9],xg:[1.75,0.64],sh:[16,7],sot:[7,2],cor:[5,3],fls:[12,10],off:[0,4],pas:[523,392],acc:[92.2,83.2],yc:[1,1],rc:[0,0]} },
+  { no:86, date:"júl. 4.", t:"01:00", utc:"2026-07-03T22:00:00Z", city:"Miami",              h:"ar", a:"cv", s:null },
+  { no:88, date:"júl. 3.", t:"21:00", utc:"2026-07-03T18:00:00Z", city:"Dallas (Arlington)", h:"au", a:"eg", s:null },
+  { no:85, date:"júl. 3.", t:"06:00", utc:"2026-07-03T03:00:00Z", city:"Vancouver",          h:"ch", a:"dz", s:null },
+  { no:87, date:"júl. 4.", t:"04:30", utc:"2026-07-04T01:30:00Z", city:"Kansas City",        h:"co", a:"gh", s:null },
+  /* ---- JOBB szárny ---- */
+  { no:82, date:"júl. 1.", t:"23:00", utc:"2026-07-01T20:00:00Z", city:"Seattle", att:66925, ref:"Saíd Martínez (hondurasi)",
+    h:"be", a:"sn", s:[3,2], aet:true,
+    goals:[[1,"Habib Diarra","24’",""],[1,"Ismaïla Sarr","51’",""],[0,"Romelu Lukaku","86’",""],[0,"Youri Tielemans","89’",""],[0,"Youri Tielemans","120+5’","p"]],
+    stats:{pos:[48.3,42.9],xg:[1.74,2.09],sh:[19,19],sot:[5,5],cor:[4,2],fls:[12,20],off:[2,2],pas:[695,638],acc:[87.3,87.0],yc:[1,1],rc:[0,0]} },
+  { no:81, date:"júl. 2.", t:"03:00", utc:"2026-07-02T00:00:00Z", city:"San Francisco", att:68827, ref:"Raphael Claus (brazil)",
+    h:"us", a:"ba", s:[2,0],
+    goals:[[0,"Folarin Balogun","45’",""],[0,"Folarin Balogun","64’","r"],[0,"Malik Tillman","82’",""]],
+    stats:{pos:[44.0,47.7],xg:[0.80,0.21],sh:[8,10],sot:[2,3],cor:[4,3],fls:[13,6],off:[3,0],pas:[425,459],acc:[85.2,83.0],yc:[0,1],rc:[1,0]} },
+  { no:84, date:"júl. 2.", t:"22:00", utc:"2026-07-02T19:00:00Z", city:"Los Angeles", h:"es", a:"at", s:null },
+  { no:83, date:"júl. 3.", t:"02:00", utc:"2026-07-02T23:00:00Z", city:"Toronto",     h:"pt", a:"hr", s:null },
+  { no:75, date:"jún. 30.", t:"04:00", utc:"2026-06-30T01:00:00Z", city:"Monterrey", att:51243, ref:"Wilton Sampaio (brazil)",
+    h:"nl", a:"ma", s:[1,1], aet:true, pens:[2,3],
+    goals:[[0,"Cody Gakpo","72’",""],[1,"Issa Diop","90+1’",""]],
+    stats:{pos:[31.1,61.4],xg:[0.33,1.30],sh:[6,11],sot:[2,5],cor:[5,8],fls:[15,13],off:[3,0],pas:[395,891],acc:[77.7,91.2],yc:[0,1],rc:[0,0]} },
+  { no:73, date:"jún. 28.", t:"22:00", utc:"2026-06-28T19:00:00Z", city:"Los Angeles (Inglewood)", att:69237, ref:"João Pinheiro (portugál)",
+    h:"za", a:"ca", s:[0,1],
+    goals:[[1,"Stephen Eustáquio","90+2’",""]],
+    stats:{pos:[55.8,35.6],xg:[0.16,1.33],sh:[6,12],sot:[1,7],cor:[1,4],fls:[16,9],off:[1,0],pas:[575,390],acc:[84.5,80.5],yc:[0,2],rc:[0,0]} },
+  { no:77, date:"júl. 1.", t:"00:00", utc:"2026-06-30T21:00:00Z", city:"New York / New Jersey", att:80663, ref:"Danny Makkelie (holland)",
+    h:"fr", a:"se", s:[3,0],
+    goals:[[0,"Kylian Mbappé","45’",""],[0,"Bradley Barcola","53’",""],[0,"Kylian Mbappé","74’",""]],
+    stats:{pos:[53.5,38.0],xg:[2.90,0.71],sh:[25,8],sot:[12,3],cor:[9,1],fls:[9,13],off:[3,1],pas:[548,365],acc:[90.9,81.1],yc:[0,0],rc:[0,0]} },
+  { no:74, date:"jún. 29.", t:"23:30", utc:"2026-06-29T20:30:00Z", city:"Boston (Foxborough)", att:63945, ref:"Jalal Jayed (marokkói)",
+    h:"de", a:"py", s:[1,1], aet:true, pens:[3,4],
+    goals:[[1,"Julio Enciso","42’",""],[0,"Kai Havertz","54’",""]],
+    stats:{pos:[65.5,23.7],xg:[1.25,0.61],sh:[21,7],sot:[6,3],cor:[16,6],fls:[12,17],off:[4,1],pas:[834,264],acc:[90.2,62.9],yc:[2,2],rc:[0,0]} },
+];
+
+/* Nyolcaddöntők — sorrend az ágrajz szerint: 0–3 bal, 4–7 jobb (FIFA M89–M96) */
+const META16 = [
+  {no:91, date:"júl. 5.", t:"23:00", utc:"2026-07-05T20:00:00Z", city:"New York / New Jersey"},
+  {no:92, date:"júl. 6.", t:"03:00", utc:"2026-07-06T00:00:00Z", city:"Mexikóváros"},
+  {no:95, date:"júl. 7.", t:"19:00", utc:"2026-07-07T16:00:00Z", city:"Atlanta"},
+  {no:96, date:"júl. 7.", t:"23:00", utc:"2026-07-07T20:00:00Z", city:"Vancouver"},
+  {no:94, date:"júl. 7.", t:"03:00", utc:"2026-07-07T00:00:00Z", city:"Seattle"},
+  {no:93, date:"júl. 6.", t:"22:00", utc:"2026-07-06T19:00:00Z", city:"Dallas (Arlington)"},
+  {no:90, date:"júl. 4.", t:"20:00", utc:"2026-07-04T17:00:00Z", city:"Houston"},
+  {no:89, date:"júl. 5.", t:"00:00", utc:"2026-07-04T21:00:00Z", city:"Philadelphia"},
+];
+const METAQF = [
+  {no:99,  date:"júl. 12.", t:"00:00", utc:"2026-07-11T21:00:00Z", city:"Miami"},
+  {no:100, date:"júl. 12.", t:"04:00", utc:"2026-07-12T01:00:00Z", city:"Kansas City"},
+  {no:98,  date:"júl. 10.", t:"22:00", utc:"2026-07-10T19:00:00Z", city:"Los Angeles"},
+  {no:97,  date:"júl. 9.",  t:"23:00", utc:"2026-07-09T20:00:00Z", city:"Boston"},
+];
+const METASF = [
+  {no:102, date:"júl. 15.", t:"22:00", utc:"2026-07-15T19:00:00Z", city:"Atlanta"},
+  {no:101, date:"júl. 14.", t:"22:00", utc:"2026-07-14T19:00:00Z", city:"Dallas (Arlington)"},
+];
+const METAF = {no:104, date:"júl. 19.", t:"22:00", utc:"2026-07-19T19:00:00Z", city:"New York / New Jersey"};
+
+const ROUNDNAME = ["Legjobb 32","Nyolcaddöntő","Negyeddöntő","Elődöntő","Döntő"];
+const ROUNDDATE = ["jún. 28. – júl. 4.","júl. 4–7.","júl. 9–12.","júl. 14–15.","júl. 19. · 22:00"];
+
+R32.forEach((m,i)=>{ m.key="r"+i; });
+
+/* ---------- élő eredménytár (FIFA-szinkron tölti) ---------- */
+const RES = {};   /* meccsszám → {hAb,aAb,s,pens,aet,live,min} */
+const RAW = {};   /* meccsszám → {idm, stg, ifes} a részletlekéréshez */
+
+/* ---------- tippek (localStorage) ---------- */
+let tips = loadTips();
+function loadTips(){
+  try{ const j=JSON.parse(localStorage.getItem("vb2026_tips_v1")||"{}");
+       return (j && typeof j==="object" && !Array.isArray(j)) ? j : {}; }
+  catch(e){ return {}; }
+}
+function saveTips(){ try{ localStorage.setItem("vb2026_tips_v1", JSON.stringify(tips)); }catch(e){} }
+
+/* ---------- segédek ---------- */
+const nameOf = c => TEAMS[c] || "—";
+const flagUrl = (c,w) => `https://flagcdn.com/w${w||80}/${c}.png`;
+const nfat = n => n.toLocaleString("hu-HU");
+const nf1  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:1,maximumFractionDigits:1});
+const nf2  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
+const shortCity = c => !c ? "" : c.replace(/\s*\(.*\)/,"").replace("New York / New Jersey","New York");
+const isMobileLayout = () => window.matchMedia("(max-width: 760px)").matches;
+
+function tipScore(t){ return t && t.aet ? t.aet : (t && t.s ? t.s : null); }
+function tipMethodText(m,t){
+  if(!t || !t.s) return "";
+  const win=nameOf(t.w===0?m.h:m.a);
+  if(t.aet){
+    const aet=t.aet[0]+"–"+t.aet[1];
+    if(t.aet[0]!==t.aet[1]) return "Tipp: h. u. "+aet+" → "+win;
+    return "Tipp: h. u. "+aet+", 11-esekkel → "+win;
+  }
+  if(t.s[0]===t.s[1]) return "Tipp: 11-esekkel jut tovább — "+win;
+  return "";
+}
+function trophySvg(){
+  return '<img class="worldcup-trophy" src="2026_FIFA_World_Cup_emblem.svg" alt="FIFA World Cup 2026 embléma" width="72" height="112">';
+}
+
+function winnerOf(m){
+  if(!m || m.live || !m.s) return null;
+  if(m.s[0]!==m.s[1]) return m.s[0]>m.s[1] ? 0 : 1;
+  if(m.pens) return m.pens[0]>m.pens[1] ? 0 : 1;
+  return null;
+}
+function tipFor(m){ return (m && !m.s && !m.live && m.h && m.a && tips[m.key]) ? tips[m.key] : null; }
+function effInfo(m){
+  const w=winnerOf(m);
+  if(w!==null) return {code: w===0?m.h:m.a, tip:false};
+  const t=tipFor(m);
+  if(t) return {code: t.w===0?m.h:m.a, tip:true};
+  return {code:null, tip:false};
+}
+
+/* élő eredmény rávetítése egy ágrajz-meccsre (orientáció a zászlókód alapján) */
+function applyRes(m){
+  const r=RES[m.no]; if(!r || !m.h || !m.a) return;
+  const hc=ABBR[r.hAb], ac=ABBR[r.aAb];
+  let flip;
+  if(hc===m.h && ac===m.a) flip=false;
+  else if(hc===m.a && ac===m.h) flip=true;
+  else return;
+  const F=v=>v==null?null:(flip?[v[1],v[0]]:v.slice());
+  if(r.s)   m.s=F(r.s);
+  if(r.pens) m.pens=F(r.pens);
+  if(r.aet) m.aet=true;
+  m.live=r.live; m.min=r.min;
+}
+
+/* Későbbi körök felépítése az eredményekből + tippekből */
+function buildRounds(){
+  const mk=(meta,key,f1,f2)=>{
+    const i1=effInfo(f1), i2=effInfo(f2);
+    const m={...meta, key, feeders:[f1,f2], h:i1.code, a:i2.code, hTip:i1.tip, aTip:i2.tip, s:null};
+    applyRes(m);
+    return m;
+  };
+  const r16 = META16.map((meta,i)=>mk(meta,"s"+i,R32[i*2],R32[i*2+1]));
+  const qf  = METAQF.map((meta,i)=>mk(meta,"q"+i,r16[i*2],r16[i*2+1]));
+  const sf  = METASF.map((meta,i)=>mk(meta,"f"+i,qf[i*2],qf[i*2+1]));
+  const fin = mk(METAF,"F",sf[0],sf[1]);
+  return {r16, qf, sf, fin};
+}
+
+/* ---------- kártyák ---------- */
+const bracket=document.getElementById("bracket");
+const bracketFit=document.getElementById("bracketFit");
+const stageEl=document.getElementById("stage");
+const scrollHint=document.getElementById("scrollhint");
+
+function resetBracketFit(){
+  bracketFit.style.transform="scale(1)";
+  bracketFit.style.transformOrigin="";
+  bracketFit.style.width="";
+  bracketFit.style.marginLeft="";
+  bracketFit.style.marginRight="";
+  stageEl.style.height="";
+}
+function fitBracketToScreen(){
+  if(isMobileLayout()){
+    resetBracketFit();
+    stageEl.classList.add("mobile-stage");
+    scrollHint.style.display="none";
+    return;
+  }
+  stageEl.classList.remove("mobile-stage");
+  const available=Math.max(320, stageEl.clientWidth-36);
+  const natural=Math.max(bracket.scrollWidth, bracket.offsetWidth, bracketFit.scrollWidth, available);
+  const scale=Math.min(1, available/natural);
+  bracketFit.style.width=natural+"px";
+  bracketFit.style.marginLeft=Math.max(0,(stageEl.clientWidth-natural*scale)/2)+"px";
+  bracketFit.style.marginRight="0";
+  bracketFit.style.transformOrigin="top left";
+  bracketFit.style.transform="scale("+scale+")";
+  stageEl.style.height=Math.ceil(bracket.offsetHeight*scale+28)+"px";
+  scrollHint.style.display="none";
+  scrollHint.textContent="";
+}
+
+function teamRow(code, match, side, feeder, viaTip){
+  const row=document.createElement("div"); row.className="trow";
+  if(code){
+    const img=document.createElement("img");
+    img.className="fl"; img.src=flagUrl(code,80); img.alt=""; img.width=27; img.height=20; img.loading="lazy";
+    row.appendChild(img);
+    const nm=document.createElement("span"); nm.className="nm"+(viaTip?" tipteam":"");
+    nm.textContent=nameOf(code); row.appendChild(nm);
+  }else{
+    const ph=document.createElement("span"); ph.className="fl ph"; ph.textContent="?"; row.appendChild(ph);
+    const nm=document.createElement("span"); nm.className="nm cand";
+    nm.textContent = feeder && feeder.h && feeder.a ? nameOf(feeder.h)+" / "+nameOf(feeder.a) : "később dől el";
+    row.appendChild(nm);
+  }
+  const t=tipFor(match);
+  const ts=tipScore(t);
+  const sc=document.createElement("span");
+  if(match.s){ sc.className="sc"+(match.live?" livesc":""); sc.textContent=match.s[side]; }
+  else if(ts){ sc.className="sc tipsc"; sc.textContent=ts[side]; }
+  else{ sc.className="sc none"; sc.textContent="–"; }
+  row.appendChild(sc);
+  if(match.s && !match.live){
+    const w=winnerOf(match);
+    if(w!==null) row.classList.add(w===side ? "winner" : "loser");
+  }else if(t){
+    row.classList.add(t.w===side ? "winner" : "loser");
+  }
+  return row;
+}
+
+function makeCard(match, roundIdx, col, rowStart, rowSpan){
+  const t=tipFor(match);
+  const pickable=!match.s && !match.live && match.h && match.a;
+  const el=document.createElement("button");
+  el.type="button";
+  el.className="match"+(match.stats?" has-stats":"")+(!match.s?" tbd":"")
+    +(pickable?" pickable":"")+(t?" tipped":"")+(match.live?" islive":"");
+  if(col!=null) el.style.gridColumn=col;
+  if(rowStart!=null && rowSpan!=null) el.style.gridRow=(rowStart+1)+" / span "+rowSpan;
+  if(col>5) el.classList.add("right-pull");
+
+  const meta=document.createElement("div"); meta.className="mmeta";
+  const when=document.createElement("span"); when.className="when";
+  when.textContent=match.date+" "+(match.t||"")+(match.city?" · "+shortCity(match.city):"");
+  meta.appendChild(when);
+  if(match.live){
+    const lc=document.createElement("span"); lc.className="livechip"; lc.textContent="ÉLŐ "+(match.min||"");
+    meta.appendChild(lc);
+  }else if(t){
+    const tag=document.createElement("span"); tag.className="tag"; tag.textContent="TIPP"; meta.appendChild(tag);
+  }else{
+    const ico=document.createElement("span"); ico.className="ico";
+    ico.textContent = match.stats ? "📊" : (match.s ? "📊" : (pickable ? "✏️" : "🕓"));
+    meta.appendChild(ico);
+  }
+  el.appendChild(meta);
+
+  el.appendChild(teamRow(match.h, match, 0, match.feeders&&match.feeders[0], !!match.hTip));
+  el.appendChild(teamRow(match.a, match, 1, match.feeders&&match.feeders[1], !!match.aTip));
+
+  if(match.pens && !match.live){
+    const p=document.createElement("div"); p.className="pens";
+    const w=winnerOf(match);
+    p.innerHTML="Tizenegyesekkel: <b>"+match.pens[0]+"–"+match.pens[1]+"</b> → "+nameOf(w===0?match.h:match.a);
+    el.appendChild(p);
+  }else if(match.aet && match.s && !match.live){
+    const p=document.createElement("div"); p.className="pens";
+    p.textContent="Hosszabbítás után";
+    el.appendChild(p);
+  }else if(!match.live && tipMethodText(match,t)){
+    const p=document.createElement("div"); p.className="pens tipline";
+    p.textContent=tipMethodText(match,t);
+    el.appendChild(p);
+  }
+
+  el.addEventListener("click",()=>openModal(match, roundIdx));
+  el.setAttribute("aria-haspopup","dialog");
+  el.title = match.live ? "Élő meccs — kattints az élő statisztikákért"
+           : match.s ? "Kattints a statisztikákért"
+           : (pickable ? "Kattints a tippeléshez / naptárhoz adáshoz" : "Meccsinformáció");
+  bracket.appendChild(el);
+  return el;
+}
+
+function colHead(col, roundIdx){
+  const d=document.createElement("div"); d.className="colhead"; d.style.gridColumn=col;
+  if(col>5) d.classList.add("right-pull");
+  d.innerHTML='<div class="t">'+ROUNDNAME[roundIdx]+'</div><div class="d">'+ROUNDDATE[roundIdx]+'</div>';
+  bracket.appendChild(d);
+}
+
+function updateHeaderState(fin){
+  const champWho=document.getElementById("champWho");
+  const fi=effInfo(fin);
+  if(fi.code){ champWho.textContent=nameOf(fi.code)+(fi.tip?" (tipp)":""); champWho.classList.add("set"); }
+  else{ champWho.textContent="— még nem dőlt el —"; champWho.classList.remove("set"); }
+  document.getElementById("btnClearTips").hidden = Object.keys(tips).length===0;
+  const played=R32.filter(m=>winnerOf(m)!==null).length;
+  document.getElementById("playedCount").textContent=played+" / 16";
+}
+
+function renderMobile(rounds){
+  resetBracketFit();
+  stageEl.classList.add("mobile-stage");
+  bracket.classList.add("mobile");
+  bracket.innerHTML='<svg class="wires" id="wires" aria-hidden="true"></svg>';
+  const sections=[
+    {idx:0,title:ROUNDNAME[0],sub:ROUNDDATE[0],matches:R32},
+    {idx:1,title:ROUNDNAME[1],sub:ROUNDDATE[1],matches:rounds.r16},
+    {idx:2,title:ROUNDNAME[2],sub:ROUNDDATE[2],matches:rounds.qf},
+    {idx:3,title:ROUNDNAME[3],sub:ROUNDDATE[3],matches:rounds.sf},
+    {idx:4,title:ROUNDNAME[4],sub:ROUNDDATE[4],matches:[rounds.fin],final:true}
+  ];
+  sections.forEach(secInfo=>{
+    const sec=document.createElement("section");
+    sec.className="mobile-round";
+    sec.innerHTML='<h2 class="mobile-round-title">'+secInfo.title+' · '+secInfo.sub+'</h2>'
+      +(secInfo.final?'<div class="mobile-trophy"><div class="trophywrap"><div class="glow"></div>'+trophySvg()+'<div class="flbl">Döntő</div></div></div>':"");
+    bracket.appendChild(sec);
+    secInfo.matches.forEach(m=>{
+      const card=makeCard(m, secInfo.idx, null, null, null);
+      sec.appendChild(card);
+    });
+  });
+  updateHeaderState(rounds.fin);
+  window.__redrawWires=()=>fitBracketToScreen();
+  fitBracketToScreen();
+}
+
+function render(){
+  R32.forEach(applyRes);
+  resetBracketFit();
+  const rounds=buildRounds();
+  if(isMobileLayout()){
+    renderMobile(rounds);
+    return;
+  }
+  stageEl.classList.remove("mobile-stage");
+  bracket.classList.remove("mobile");
+  bracket.innerHTML='<svg class="wires" id="wires" aria-hidden="true"></svg>';
+  const {r16, qf, sf, fin}=rounds;
+  [0,1,2,3,4,3,2,1,0].forEach((ri,i)=>colHead(i+1,ri));
+
+  const cards32=[], cards16=[], cardsQF=[], cardsSF=[];
+  for(let i=0;i<8;i++)  cards32.push(makeCard(R32[i],   0, 1, 1+i*2, 2));
+  for(let i=0;i<4;i++)  cards16.push(makeCard(r16[i],   1, 2, 1+i*4, 4));
+  for(let i=0;i<2;i++)  cardsQF.push(makeCard(qf[i],    2, 3, 1+i*8, 8));
+  cardsSF.push(makeCard(sf[0], 3, 4, 1, 16));
+  for(let i=8;i<16;i++) cards32.push(makeCard(R32[i],   0, 9, 1+(i-8)*2, 2));
+  for(let i=4;i<8;i++)  cards16.push(makeCard(r16[i],   1, 8, 1+(i-4)*4, 4));
+  for(let i=2;i<4;i++)  cardsQF.push(makeCard(qf[i],    2, 7, 1+(i-2)*8, 8));
+  cardsSF.push(makeCard(sf[1], 3, 6, 1, 16));
+
+  /* döntő oszlop */
+  const fc=document.createElement("div"); fc.className="finalcol";
+  fc.innerHTML='<div class="trophywrap"><div class="glow"></div>'+trophySvg()+'<div class="flbl">Döntő</div></div>';
+  bracket.appendChild(fc);
+  const finCard=makeCard(fin, 4, 5, 1, 1);
+  fc.appendChild(finCard);
+  finCard.style.gridColumn=""; finCard.style.gridRow="";
+
+  updateHeaderState(fin);
+
+  const redraw=()=>{ resetBracketFit(); drawWires(cards32, cards16, cardsQF, cardsSF, finCard); fitBracketToScreen(); };
+  window.__redrawWires=redraw;
+  redraw();
+}
+
+/* ---------- összekötő vonalak ---------- */
+function drawWires(c32, c16, cQF, cSF, cF){
+  const svg=document.getElementById("wires");
+  svg.setAttribute("viewBox","0 0 "+bracket.offsetWidth+" "+bracket.offsetHeight);
+  let s="";
+  const br=bracket.getBoundingClientRect();
+  const edge=(el,side)=>{ const r=el.getBoundingClientRect();
+    return {x:(side==="r" ? r.right : r.left)-br.left, y: r.top+r.height/2-br.top}; };
+  const cls=m=>{ if(winnerOf(m)!==null) return " live"; if(tipFor(m)) return " tip"; return ""; };
+  function link(fromEl, toEl, leftHalf, klass){
+    const p1=edge(fromEl, leftHalf?"r":"l"), p2=edge(toEl, leftHalf?"l":"r");
+    const xm=(p1.x+p2.x)/2;
+    s+='<path class="wire'+klass+'" d="M '+p1.x+' '+p1.y+' H '+xm+' V '+p2.y+' H '+p2.x+'"/>';
+  }
+  const {r16, qf, sf}=buildRounds();
+  for(let i=0;i<8;i++)  link(c32[i],       c16[i>>1],        true,  cls(R32[i]));
+  for(let i=8;i<16;i++) link(c32[i],       c16[4+((i-8)>>1)],false, cls(R32[i]));
+  for(let i=0;i<4;i++)  link(c16[i],       cQF[i>>1],        true,  cls(r16[i]));
+  for(let i=4;i<8;i++)  link(c16[i],       cQF[2+((i-4)>>1)],false, cls(r16[i]));
+  for(let i=0;i<2;i++)  link(cQF[i],       cSF[0],           true,  cls(qf[i]));
+  for(let i=2;i<4;i++)  link(cQF[i],       cSF[1],           false, cls(qf[i]));
+  link(cSF[0], cF, true,  cls(sf[0]));
+  link(cSF[1], cF, false, cls(sf[1]));
+  svg.innerHTML=s;
+}
+let resizeT=null;
+window.addEventListener("resize",()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>render(),90);
+});
+
+/* ---------- ÉLŐ FIFA-SZINKRON ---------- */
+const API="https://api.fifa.com/api/v3", FDH="https://fdh-api.fifa.com/v1";
+const IDC=17, IDSN=285023;
+const liveChip=document.getElementById("liveChip"), liveChipTxt=document.getElementById("liveChipTxt");
+let anyLive=false;
+
+async function liveSync(){
+  try{
+    const u=API+"/calendar/matches?from=2026-06-28T00:00:00Z&to=2026-07-20T23:59:59Z&idCompetition="+IDC+"&language=en&count=64";
+    const r=await fetch(u,{cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const j=await r.json();
+    let changed=false; anyLive=false;
+    (j.Results||[]).forEach(it=>{
+      const no=it.MatchNumber; if(no==null) return;
+      RAW[no]={idm:it.IdMatch, stg:it.IdStage, ifes:it.Properties&&it.Properties.IdIFES};
+      const st=it.MatchStatus;
+      const live = st!==0 && st!==1;
+      if(st===1 && !live) return;                       /* még nem kezdődött el */
+      if(!it.Home || !it.Away || !it.Home.Abbreviation) return;
+      const hs=it.HomeTeamScore, as=it.AwayTeamScore;
+      if(hs==null || as==null) return;
+      const entry={
+        hAb:it.Home.Abbreviation, aAb:it.Away.Abbreviation,
+        s:[hs,as],
+        pens:(it.ResultType===2 && it.HomeTeamPenaltyScore!=null)?[it.HomeTeamPenaltyScore,it.AwayTeamPenaltyScore]:null,
+        aet:(it.ResultType===2||it.ResultType===3),
+        live:live, min:it.MatchTime||""
+      };
+      if(live) anyLive=true;
+      const old=RES[no];
+      if(!old || JSON.stringify(old)!==JSON.stringify(entry)){ RES[no]=entry; changed=true; }
+    });
+    const now=new Date();
+    liveChip.classList.remove("err");
+    liveChipTxt.textContent="Élő frissítés · "+now.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"})
+      +(anyLive?" · most élő meccs megy!":"");
+    if(changed) render();
+  }catch(e){
+    liveChip.classList.add("err");
+    liveChipTxt.textContent="Élő frissítés nem elérhető — beépített adatok";
+  }
+}
+setInterval(liveSync, 60000);
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden) liveSync(); });
+
+/* ---------- statisztikasorok (közös builder) ---------- */
+const STATROWS=[
+  ["pos","Labdabirtoklás", v=>nf1(v)+"%", 100],
+  ["xg","Várható gólok (xG)", v=>nf2(v), null],
+  ["sh","Lövések", v=>String(v), null],
+  ["sot","Kapura lövések", v=>String(v), null],
+  ["cor","Szögletek", v=>String(v), null],
+  ["fls","Szabálytalanságok", v=>String(v), null],
+  ["off","Lesek", v=>String(v), null],
+  ["pas","Passzok", v=>String(v), null],
+  ["acc","Passzpontosság", v=>nf1(v)+"%", 100],
+  ["yc","Sárga lapok", v=>String(v), null],
+  ["rc","Piros lapok", v=>String(v), null],
+];
+function statRowsHtml(stats){
+  let html='<div class="mo-sec">Mérkőzésstatisztika</div>';
+  STATROWS.forEach(([key,label,fmtv,fix])=>{
+    if(!stats[key]) return;
+    const va=stats[key][0], vb=stats[key][1];
+    const max = fix || Math.max(va,vb) || 1;
+    const wa=Math.max(va/max*100, va>0?2.5:0), wb=Math.max(vb/max*100, vb>0?2.5:0);
+    html+='<div class="stat">'
+      +'<div class="vals"><span class="v">'+fmtv(va)+'</span><span class="lab">'+label+'</span><span class="v r">'+fmtv(vb)+'</span></div>'
+      +'<div class="bars">'
+      +'<div class="half l"><div class="bar" style="width:'+wa.toFixed(1)+'%"></div></div>'
+      +'<div class="axis"></div>'
+      +'<div class="half r"><div class="bar" style="width:'+wb.toFixed(1)+'%"></div></div>'
+      +'</div></div>';
+  });
+  return html;
+}
+function goalsHtml(goals){
+  if(!goals || !goals.length) return "";
+  let html='<div class="mo-goals">';
+  goals.forEach(g=>{
+    const ic = g[3]==="r" ? "🟥" : "⚽";
+    const pen = g[3]==="p" ? " (11-esből)" : "";
+    html+='<div class="mo-goal'+(g[0]===1?" away":"")+'">'
+      +(g[0]===0 ? ic+'<span class="min">'+g[2]+'</span>'+g[1]+pen
+                 : g[1]+pen+'<span class="min">'+g[2]+'</span>'+ic)
+      +'</div>';
+  });
+  return html+'</div>';
+}
+function scoreHeadHtml(m, extraNote){
+  const w=winnerOf(m);
+  return '<div class="mo-score">'
+    +'<div class="mo-team"><img src="'+flagUrl(m.h,160)+'" alt="" width="46" height="34">'
+    +'<span class="n">'+nameOf(m.h)+'</span><span class="tag" style="background:var(--gold-bar)"></span></div>'
+    +'<div><div class="mo-num">'+m.s[0]+' – '+m.s[1]+'</div>'
+    +(m.pens?'<div class="mo-note">hosszabbítás után · tizenegyesekkel <b>'+m.pens[0]+'–'+m.pens[1]+'</b></div>'
+      :(m.aet&&!m.live?'<div class="mo-note">hosszabbítás után</div>':""))
+    +(m.live?'<div class="mo-note" style="margin-top:4px"><span class="mo-live">ÉLŐ '+(m.min||"")+'</span></div>'
+      :(w!==null?'<div class="mo-note">Továbbjutó: <b>'+nameOf(w===0?m.h:m.a)+'</b></div>':""))
+    +(extraNote||"")
+    +'</div>'
+    +'<div class="mo-team"><img src="'+flagUrl(m.a,160)+'" alt="" width="46" height="34">'
+    +'<span class="n">'+nameOf(m.a)+'</span><span class="tag" style="background:var(--blue-bar)"></span></div>'
+    +'</div>';
+}
+
+/* ---------- naptár (.ics + Google) ---------- */
+function calTitle(m, roundIdx){
+  const t1=m.h?nameOf(m.h):(m.feeders&&m.feeders[0]&&m.feeders[0].h?nameOf(m.feeders[0].h)+"/"+nameOf(m.feeders[0].a):"?");
+  const t2=m.a?nameOf(m.a):(m.feeders&&m.feeders[1]&&m.feeders[1].h?nameOf(m.feeders[1].h)+"/"+nameOf(m.feeders[1].a):"?");
+  return "⚽ VB 2026 · "+ROUNDNAME[roundIdx]+": "+t1+" – "+t2;
+}
+function icsDate(iso, plusMin){
+  const d=new Date(iso); if(plusMin) d.setMinutes(d.getMinutes()+plusMin);
+  return d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+}
+function icsEscape(s){ return s.replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,"); }
+function eventDuration(m){ return (!m.s || m.aet || m.pens) ? 180 : 150; }
+function icsEventLines(m, roundIdx){
+  const title=calTitle(m, roundIdx);
+  const desc="FIFA World Cup 2026, "+ROUNDNAME[roundIdx]+" ("+m.no+". mérkőzés). Kezdés romániai idő szerint: "+m.date+" "+m.t+".";
+  return [
+    "BEGIN:VEVENT",
+    "UID:vb2026-m"+m.no+"@vb2026-agrajz",
+    "DTSTAMP:"+icsDate(new Date().toISOString()),
+    "DTSTART:"+icsDate(m.utc),
+    "DTEND:"+icsDate(m.utc,eventDuration(m)),
+    "SUMMARY:"+icsEscape(title),
+    "LOCATION:"+icsEscape(m.city||""),
+    "DESCRIPTION:"+icsEscape(desc),
+    "END:VEVENT"
+  ];
+}
+function downloadIcs(m, roundIdx){
+  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//vb2026-agrajz//HU","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    ...icsEventLines(m, roundIdx),"END:VCALENDAR"];
+  const blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="vb2026-meccs-"+m.no+".ics";
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
+function allCalendarMatches(){
+  R32.forEach(applyRes);
+  const {r16,qf,sf,fin}=buildRounds();
+  return [
+    ...R32.map(m=>({m,roundIdx:0})),
+    ...r16.map(m=>({m,roundIdx:1})),
+    ...qf.map(m=>({m,roundIdx:2})),
+    ...sf.map(m=>({m,roundIdx:3})),
+    {m:fin,roundIdx:4}
+  ].filter(x=>x.m && x.m.utc).sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc));
+}
+function downloadAllIcs(){
+  const events=allCalendarMatches();
+  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//vb2026-agrajz//HU","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  events.forEach(({m,roundIdx})=>lines.push(...icsEventLines(m, roundIdx)));
+  lines.push("END:VCALENDAR");
+  const blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="vb2026-kieseses-szakasz-osszes-meccs.ics";
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
+function openGoogleCalendarImport(){
+  downloadAllIcs();
+  window.open("https://calendar.google.com/calendar/u/0/r/settings/export", "_blank", "noopener");
+}
+function googleCalUrl(m, roundIdx){
+  const p=new URLSearchParams({
+    action:"TEMPLATE",
+    text:calTitle(m, roundIdx),
+    dates:icsDate(m.utc)+"/"+icsDate(m.utc,eventDuration(m)),
+    location:m.city||"",
+    details:"FIFA World Cup 2026 · "+ROUNDNAME[roundIdx]+" · "+m.no+". mérkőzés · kezdés romániai idő szerint "+m.date+" "+m.t
+  });
+  return "https://calendar.google.com/calendar/render?"+p.toString();
+}
+function calButtonsHtml(){
+  return '<button class="btn" id="calIcs" type="button">📅 Naptárba (.ics)</button>'
+    +'<a class="btn" id="calG" target="_blank" rel="noopener">🗓 Google Naptár</a>';
+}
+function wireCalButtons(m, roundIdx){
+  const b=document.getElementById("calIcs"), g=document.getElementById("calG");
+  if(b) b.addEventListener("click",()=>downloadIcs(m, roundIdx));
+  if(g) g.href=googleCalUrl(m, roundIdx);
+}
+
+/* ---------- modális ablak ---------- */
+const overlay=document.getElementById("overlay");
+const modal=document.getElementById("modal");
+let lastFocus=null, moTimer=null, moToken=0;
+
+function moHeader(m, roundIdx){
+  return '<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
+    +'<div class="mo-round" id="moTitle">'+ROUNDNAME[roundIdx]+(m.no?" · "+m.no+". mérkőzés":"")+'</div>'
+    +'<div class="mo-place">'+m.date+" "+(m.t||"")+' (romániai idő)'+(m.city?" · "+m.city:"")+'</div>';
+}
+function attachClose(){
+  const cbtn=document.getElementById("moClose");
+  if(cbtn){ cbtn.addEventListener("click",closeModal); cbtn.focus(); }
+}
+
+function openAllCalendarModal(){
+  lastFocus=document.activeElement;
+  clearInterval(moTimer); moTimer=null; moToken++;
+  modal.classList.remove("privacy-modal");
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+  modal.innerHTML='<div class="mo-top">'
+    +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
+    +'<div class="mo-round" id="moTitle">Összes meccs naptárba</div>'
+    +'<div class="mo-place">FIFA World Cup 2026 · kieséses szakasz</div>'
+    +'</div><div class="mo-body">'
+    +'<div class="mo-sec">Válassz naptárt</div>'
+    +'<div class="mo-actions" style="margin-top:0">'
+    +'<button class="btn primary" id="allCalGoogle" type="button">🗓 Google Naptár</button>'
+    +'<button class="btn" id="allCalIcs" type="button">📅 .ics letöltés</button>'
+    +'</div>'
+    +'<div class="mo-src" style="margin-top:14px">Az export az ágrajz összes meccsét tartalmazza.</div>'
+    +'</div>';
+  attachClose();
+  const g=document.getElementById("allCalGoogle"), i=document.getElementById("allCalIcs");
+  if(g) g.addEventListener("click",()=>{ openGoogleCalendarImport(); closeModal(); });
+  if(i) i.addEventListener("click",()=>{ downloadAllIcs(); closeModal(); });
+}
+
+function openPrivacyModal(){
+  lastFocus=document.activeElement;
+  clearInterval(moTimer); moTimer=null; moToken++;
+  modal.classList.add("privacy-modal");
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+  modal.innerHTML='<div class="mo-top">'
+    +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
+    +'<div class="mo-round" id="moTitle">Adatkezelési tájékoztató</div>'
+    +'<div class="mo-place">FIFA World Cup 2026 ágrajz</div>'
+    +'</div><div class="mo-body privacy-copy">'
+    +'<p>Ez az oldal személyes adatot nem gyűjt, nem továbbít és nem tárol szerveren.</p>'
+    +'<p>A felhasználó által megadott tippek kizárólag a saját böngészőjében, helyi tárhelyen (localStorage) kerülnek mentésre, hogy az oldal újranyitásakor megmaradjanak.</p>'
+    +'<p>A tippekhez az oldal üzemeltetője nem fér hozzá. A mentett tippek törölhetők a <b>Tippek törlése</b> gombbal, illetve a böngésző webhelyadatainak törlésével.</p>'
+    +'<p>A naptárba helyezés funkció .ics fájlt hoz létre, illetve Google Naptár választása esetén a felhasználót a Google Naptár felületére irányítja. A Google szolgáltatásaira a Google saját adatkezelési feltételei vonatkoznak.</p>'
+    +'<p>Kapcsolat adatvédelmi kérdésekben: <b>botland93@gmail.com</b></p>'
+    +'<div class="mo-actions"><button class="btn primary" id="privacyOk" type="button">Rendben</button></div>'
+    +'</div>';
+  attachClose();
+  const ok=document.getElementById("privacyOk");
+  if(ok) ok.addEventListener("click",closeModal);
+}
+
+function openModal(m, roundIdx){
+  lastFocus=document.activeElement;
+  clearInterval(moTimer); moTimer=null; moToken++;
+  modal.classList.remove("privacy-modal");
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+
+  if(m.s && m.stats && !m.live){
+    /* beépített, végleges FIFA-statisztika */
+    modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+scoreHeadHtml(m)+'</div>'
+      +'<div class="mo-body">'+goalsHtml(m.goals)
+      +statRowsHtml(m.stats)
+      +(m.aet?'<div class="mo-note" style="margin-top:8px">A statisztika a hosszabbítást is tartalmazza.</div>':"")
+      +'<div class="mo-extra">'
+      +(m.att?'Nézőszám: <b>'+nfat(m.att)+'</b>':"")
+      +(m.ref?' · Játékvezető: <b>'+m.ref+'</b>':"")
+      +'</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com</div></div>';
+    attachClose();
+  }else if(m.s || m.live){
+    /* élő vagy utólag befejezett meccs → statisztika letöltése a FIFA-tól */
+    renderDynamic(m, roundIdx, moToken);
+    if(m.live){ const tk=moToken; moTimer=setInterval(()=>{ liveSync(); renderDynamic(m, roundIdx, tk); },30000); }
+  }else if(m.h && m.a){
+    /* tippelhető meccs */
+    const t=tips[m.key] || null;
+    modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+'</div><div class="mo-body">'
+      +'<div class="mo-sec">Tippelj: ki jut tovább?</div>'
+      +'<div class="mo-score">'
+      +'<button class="pickteam" id="pickA" aria-pressed="false"><img src="'+flagUrl(m.h,160)+'" alt="" width="46" height="34">'
+      +'<span class="n">'+nameOf(m.h)+'</span><span class="adv">továbbjutó</span></button>'
+      +'<div class="scoreblock"><div class="scorelabel">90 perc</div><div class="scorewrap">'
+      +'<input class="scorein" id="scA" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.h)+' góljai">'
+      +'<span class="scoredash">–</span>'
+      +'<input class="scorein" id="scB" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.a)+' góljai">'
+      +'</div></div>'
+      +'<button class="pickteam" id="pickB" aria-pressed="false"><img src="'+flagUrl(m.a,160)+'" alt="" width="46" height="34">'
+      +'<span class="n">'+nameOf(m.a)+'</span><span class="adv">továbbjutó</span></button>'
+      +'</div>'
+      +'<div class="extra-panel" id="extraPanel" hidden>'
+      +'<div class="mo-sec">Döntetlen esetén</div>'
+      +'<div class="scoreblock"><div class="scorelabel">Hosszabbítás után</div><div class="scorewrap">'
+      +'<input class="scorein" id="etA" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.h)+' góljai hosszabbítás után">'
+      +'<span class="scoredash">–</span>'
+      +'<input class="scorein" id="etB" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.a)+' góljai hosszabbítás után">'
+      +'</div></div>'
+      +'<div class="penpick" id="penPick" hidden>'
+      +'<button type="button" id="penA">'+nameOf(m.h)+' tiz.</button>'
+      +'<button type="button" id="penB">'+nameOf(m.a)+' tiz.</button>'
+      +'</div></div>'
+      +'<div class="mo-help" id="tipHelp">Kattints a továbbjutó csapatra — az eredmény megadása nem kötelező.<br>'
+      +'Döntetlen 90 perc után: add meg a hosszabbítás utáni állást; ha ott is döntetlen, válaszd ki a tizenegyes továbbjutót.</div>'
+      +'<div class="mo-actions">'
+      +'<button class="btn primary" id="tipSave">Tipp mentése</button>'
+      +(t?'<button class="btn danger" id="tipDel">Tipp törlése</button>':'')
+      +'<button class="btn" id="tipCancel">Mégse</button>'
+      +'</div>'
+      +'<div class="mo-sec" style="margin-top:18px">Emlékeztető</div>'
+      +'<div class="mo-actions" style="margin-top:0">'+calButtonsHtml()+'</div>'
+      +'<div class="mo-src" style="margin-top:14px">A tippek csak ebben a böngészőben, helyben tárolódnak.</div></div>';
+    attachClose();
+    wireTipEditor(m);
+    wireCalButtons(m, roundIdx);
+  }else{
+    /* még ismeretlen párosítás */
+    modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+'</div><div class="mo-pend">'
+      +'<div class="big">'+(m.h?nameOf(m.h):"?")+' – '+(m.a?nameOf(m.a):"?")+'</div>'
+      +'Ezt a párosítást még nem ismerjük.<br>Kezdés: <b style="color:var(--ink)">'+m.date+" "+(m.t||"")+'</b>'
+      +(m.city?' · '+m.city:"")
+      +'<div class="mo-actions" style="margin-top:18px">'+calButtonsHtml()+'</div>'
+      +'<div class="mo-src" style="margin-top:14px">Tippeld meg előbb az idáig vezető meccseket, és itt is tippelhetsz majd.</div></div>';
+    attachClose();
+    wireCalButtons(m, roundIdx);
+  }
+}
+
+/* élő / utólag lejátszott meccs statisztikái közvetlenül a FIFA API-ból */
+async function renderDynamic(m, roundIdx, token){
+  if(token!==moToken || !overlay.classList.contains("open")) return;
+  if(!modal.querySelector(".mo-body")){
+    modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+(m.s?scoreHeadHtml(m):"")+'</div>'
+      +'<div class="mo-loading">Statisztika letöltése a FIFA-tól…</div>';
+    attachClose();
+  }
+  const info=RAW[m.no];
+  let goals=null, stats=null, att=null, min=m.min;
+  if(info && info.idm){
+    try{
+      const live=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+info.stg+"/"+info.idm+"?language=en",{cache:"no-store"})).json();
+      const flip = ABBR[(live.HomeTeam&&live.HomeTeam.Abbreviation)||""]===m.a;
+      att=live.Attendance||null; min=live.MatchTime||min;
+      /* játékosnév-térkép */
+      const pmap={};
+      [live.HomeTeam,live.AwayTeam].forEach(tm=>{
+        (tm&&tm.Players||[]).forEach(p=>{
+          let sn=p.ShortName; if(Array.isArray(sn)) sn=sn[0];
+          if(sn&&sn.Description) pmap[p.IdPlayer]=sn.Description.toLowerCase()
+            .replace(/(^|[\s\-'’])\S/g,ch=>ch.toUpperCase());
+        });
+      });
+      goals=[];
+      [[live.HomeTeam,flip?1:0],[live.AwayTeam,flip?0:1]].forEach(([tm,side])=>{
+        (tm&&tm.Goals||[]).forEach(g=>{
+          goals.push([side, pmap[g.IdPlayer]||"?", g.Minute||"", g.Type===3?"p":""]);
+        });
+      });
+      goals.sort((x,y)=>parseInt(x[2])-parseInt(y[2]));
+      const ifes=(live.Properties&&live.Properties.IdIFES)||info.ifes;
+      if(ifes){
+        const tj=await (await fetch(FDH+"/stats/match/"+ifes+"/teams.json",{cache:"no-store"})).json();
+        const grab=id=>{ const arr=tj[String(id)]; if(!arr) return null;
+          const o={}; arr.forEach(kv=>{o[kv[0]]=kv[1];}); return o; };
+        let H=grab(live.HomeTeam.IdTeam), A=grab(live.AwayTeam.IdTeam);
+        if(H&&A){
+          if(flip){ const tmp=H; H=A; A=tmp; }
+          const g=(o,k)=>o[k]==null?0:o[k];
+          const acc=o=>o.Passes?(g(o,"PassesCompleted")/o.Passes*100):0;
+          stats={pos:[g(H,"Possession")*100,g(A,"Possession")*100], xg:[g(H,"XG"),g(A,"XG")],
+            sh:[g(H,"AttemptAtGoal"),g(A,"AttemptAtGoal")], sot:[g(H,"AttemptAtGoalOnTarget"),g(A,"AttemptAtGoalOnTarget")],
+            cor:[g(H,"Corners"),g(A,"Corners")], fls:[g(H,"FoulsFor"),g(A,"FoulsFor")],
+            off:[g(H,"Offsides"),g(A,"Offsides")], pas:[g(H,"Passes"),g(A,"Passes")],
+            acc:[acc(H),acc(A)], yc:[g(H,"YellowCards"),g(A,"YellowCards")], rc:[g(H,"RedCards"),g(A,"RedCards")]};
+        }
+      }
+    }catch(e){}
+  }
+  if(token!==moToken || !overlay.classList.contains("open")) return;
+  m.min=min;
+  modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
+    +(m.s?scoreHeadHtml(m):'<div class="mo-note" style="margin-top:10px">Az eredmény betöltése…</div>')+'</div>'
+    +'<div class="mo-body">'
+    +(goals?goalsHtml(goals):"")
+    +(stats?statRowsHtml(stats):'<div class="mo-loading">A részletes statisztika még nem érhető el.</div>')
+    +'<div class="mo-extra">'+(att?'Nézőszám: <b>'+nfat(att)+'</b> · ':"")
+    +(m.live?'A statisztika 30 másodpercenként automatikusan frissül.':'Végeredmény.')
+    +'</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com (élő)</div></div>';
+  attachClose();
+}
+
+function wireTipEditor(m){
+  const t=tips[m.key] || null;
+  const A=document.getElementById("pickA"), B=document.getElementById("pickB");
+  const sA=document.getElementById("scA"), sB=document.getElementById("scB");
+  const etA=document.getElementById("etA"), etB=document.getElementById("etB");
+  const extraPanel=document.getElementById("extraPanel"), penPick=document.getElementById("penPick");
+  const penA=document.getElementById("penA"), penB=document.getElementById("penB");
+  const help=document.getElementById("tipHelp");
+  let sel = t ? t.w : null;
+  let penSel = t && t.method==="pens" ? t.w : null;
+  if(t && t.s){ sA.value=t.s[0]; sB.value=t.s[1]; }
+  if(t && t.aet){ etA.value=t.aet[0]; etB.value=t.aet[1]; }
+  const paint=()=>{
+    A.classList.toggle("sel",sel===0); A.setAttribute("aria-pressed",sel===0?"true":"false");
+    B.classList.toggle("sel",sel===1); B.setAttribute("aria-pressed",sel===1?"true":"false");
+    penA.classList.toggle("sel",penSel===0);
+    penB.classList.toggle("sel",penSel===1);
+  };
+  paint();
+  const val=inp=>{ const v=inp.value.trim(); if(v==="") return null;
+    const n=parseInt(v,10); return isNaN(n)?null:Math.max(0,Math.min(30,n)); };
+  const showError=msg=>{ help.textContent=msg; help.classList.add("err"); };
+  const clearError=()=>{ help.classList.remove("err"); };
+  const updateExtra=()=>{
+    const a=val(sA), b=val(sB);
+    const tied90 = a!==null && b!==null && a===b;
+    extraPanel.hidden = !tied90;
+    if(!tied90){
+      penPick.hidden=true;
+      penSel=null;
+      if(a!==null && b!==null && a!==b) sel = a>b?0:1;
+      clearError(); paint(); return;
+    }
+    const ea=val(etA), eb=val(etB);
+    const tiedAet = ea!==null && eb!==null && ea===eb;
+    penPick.hidden = !tiedAet;
+    if(ea!==null && eb!==null && ea!==eb){
+      sel = ea>eb?0:1;
+      penSel=null;
+    }else if(tiedAet){
+      if(penSel===null && sel!==null) penSel=sel;
+      if(penSel!==null) sel=penSel;
+    }
+    clearError(); paint();
+  };
+  const choose=side=>{ sel=side; if(!penPick.hidden) penSel=side; paint(); clearError(); };
+  A.addEventListener("click",()=>choose(0));
+  B.addEventListener("click",()=>choose(1));
+  penA.addEventListener("click",()=>{ penSel=0; sel=0; paint(); clearError(); });
+  penB.addEventListener("click",()=>{ penSel=1; sel=1; paint(); clearError(); });
+  [sA,sB,etA,etB].forEach(inp=>inp.addEventListener("input",updateExtra));
+  updateExtra();
+  document.getElementById("tipCancel").addEventListener("click",closeModal);
+  const del=document.getElementById("tipDel");
+  if(del) del.addEventListener("click",()=>{ delete tips[m.key]; saveTips(); closeModal(); render(); });
+  document.getElementById("tipSave").addEventListener("click",()=>{
+    const a=val(sA), b=val(sB);
+    if((a===null)!==(b===null)){ showError("Mindkét 90 perces eredménymezőt töltsd ki — vagy hagyd üresen mindkettőt."); return; }
+    let w=sel;
+    let aet=null, method=null;
+    if(a!==null && b!==null){
+      if(a!==b){
+        w = a>b?0:1;
+      }else{
+        const ea=val(etA), eb=val(etB);
+        if((ea===null)!==(eb===null)){ showError("Hosszabbításnál is mindkét eredménymezőt töltsd ki."); return; }
+        if(ea===null || eb===null){ showError("Döntetlennél add meg a hosszabbítás utáni végeredményt."); return; }
+        if(ea<a || eb<b){ showError("A hosszabbítás utáni végeredmény nem lehet kevesebb a 90 perces állásnál."); return; }
+        aet=[ea,eb];
+        if(ea!==eb){
+          w = ea>eb?0:1;
+          method="aet";
+        }else{
+          w = penSel!==null ? penSel : sel;
+          method="pens";
+          if(w===null){ showError("Ha hosszabbítás után is döntetlen, válaszd ki a tizenegyes továbbjutót."); return; }
+        }
+      }
+    }
+    if(w===null){ showError("Válaszd ki, melyik csapat jut tovább!"); return; }
+    tips[m.key]={w:w, s:(a!==null&&b!==null)?[a,b]:null};
+    if(aet) tips[m.key].aet=aet;
+    if(method) tips[m.key].method=method;
+    saveTips(); closeModal(); render();
+  });
+}
+
+function closeModal(){
+  overlay.classList.remove("open");
+  document.body.style.overflow="";
+  clearInterval(moTimer); moTimer=null; moToken++;
+  modal.classList.remove("privacy-modal");
+  if(lastFocus && document.contains(lastFocus)) lastFocus.focus();
+}
+overlay.addEventListener("click",e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeModal(); });
+
+document.getElementById("btnClearTips").addEventListener("click",()=>{
+  if(confirm("Biztosan törlöd az összes tippet?")){ tips={}; saveTips(); render(); }
+});
+document.getElementById("btnAllCalendar").addEventListener("click",openAllCalendarModal);
+document.getElementById("btnPrivacy").addEventListener("click",openPrivacyModal);
+
+/* ---------- indítás ---------- */
+render();
+liveSync();
+fitBracketToScreen();
+</script>
 </body>
 </html>
