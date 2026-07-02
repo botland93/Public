@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VB 2026 — Kieséses ágrajz · eredmények élőben</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0b0c0f;--bg2:#14161c;--card:#151821;--card2:#11141b;--ink:#f3f1ea;--ink-soft:#c9c6bc;
@@ -14,16 +14,16 @@
     --live:#e05656;--live-soft:#f0908f;
   }
   *{box-sizing:border-box}
-  html,body{margin:0}
+  html,body{margin:0;overflow-x:hidden}
   body{background:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
-    color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    color:var(--ink);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     min-height:100vh;padding:clamp(14px,2.5vw,28px) 0 40px}
 
   /* ---------- fejléc ---------- */
   header{max-width:920px;margin:0 auto;text-align:center;padding:0 16px}
-  .eyebrow{font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.4em;text-transform:uppercase;
+  .eyebrow{font-family:inherit;font-weight:500;letter-spacing:.4em;text-transform:uppercase;
     color:var(--gold);font-size:clamp(9px,1.4vw,12px);margin:0 0 8px}
-  h1{font-family:'Oswald','Arial Narrow',sans-serif;font-weight:700;font-size:clamp(26px,5.5vw,46px);
+  h1{font-family:inherit;font-weight:700;font-size:clamp(26px,5.5vw,46px);
     line-height:.95;margin:0;letter-spacing:.01em;text-transform:uppercase}
   h1 .yr{color:var(--gold-bright)}
   .sub{color:var(--muted);font-size:clamp(11px,1.6vw,13.5px);margin:9px auto 0;max-width:680px;line-height:1.55}
@@ -42,29 +42,39 @@
   button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .champ{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;
     border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#181a20,#0f1115)}
-  .champ .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
+  .champ .lbl{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
   .champ .who{font-weight:600;font-size:14px;color:var(--muted)}
   .champ .who.set{color:var(--gold-bright)}
 
   /* ---------- színpad / görgetés ---------- */
-  .stage{margin-top:clamp(16px,2.5vw,30px);overflow-x:auto;overscroll-behavior-x:contain;
+  .stage{margin-top:clamp(16px,2.5vw,30px);overflow:hidden;overscroll-behavior-x:contain;
     -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
+  .stage.mobile-stage{overflow:visible;height:auto!important;padding-inline:12px}
   .stage::-webkit-scrollbar{height:10px}
   .stage::-webkit-scrollbar-track{background:#101218;border-radius:6px}
   .stage::-webkit-scrollbar-thumb{background:#3a3d45;border-radius:6px}
   .scrollhint{text-align:center;color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.08em}
 
+  .bracketfit{width:max-content;margin:0 auto;transform-origin:top center}
   .bracket{position:relative;margin:0 auto;width:max-content;
     display:grid;column-gap:24px;row-gap:8px;
     grid-template-columns:repeat(4,188px) 214px repeat(4,188px);
     grid-template-rows:auto repeat(16,52px)}
+  .bracket.mobile{display:block;width:min(100%,460px);max-width:100%;margin-inline:auto}
+  .bracket.mobile .wires{display:none}
+  .mobile-round{margin:0 0 18px}
+  .mobile-round-title{font-family:inherit;font-weight:600;text-transform:uppercase;
+    letter-spacing:.16em;font-size:12px;color:var(--gold);margin:0 0 9px;padding-top:5px}
+  .mobile-round .match{width:100%;margin:0 0 8px}
+  .mobile-trophy{display:flex;justify-content:center;margin:4px 0 12px}
   svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
   .wire{fill:none;stroke:var(--line);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
   .wire.live{stroke:var(--gold);opacity:.9}
   .wire.tip{stroke:var(--gold);stroke-dasharray:5 4;opacity:.6}
 
   .colhead{grid-row:1;align-self:end;text-align:center;padding-bottom:10px}
-  .colhead .t{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  .right-pull{transform:translateX(-34px)}
+  .colhead .t{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
     font-size:12px;color:var(--gold)}
   .colhead .d{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
 
@@ -80,12 +90,12 @@
   .match.tipped{border-color:#5c4d22}
   .match.islive{border-color:#7c3b3b;box-shadow:0 0 0 1px rgba(224,86,86,.35),0 3px 12px rgba(0,0,0,.5)}
   .mmeta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:5px}
-  .mmeta .when{font-family:'Oswald',sans-serif;font-size:9.5px;font-weight:500;letter-spacing:.11em;
+  .mmeta .when{font-family:inherit;font-size:9.5px;font-weight:500;letter-spacing:.11em;
     text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mmeta .ico{font-size:10.5px;color:var(--gold);opacity:.9;flex:0 0 auto}
-  .mmeta .tag{flex:0 0 auto;font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:.18em;
+  .mmeta .tag{flex:0 0 auto;font-family:inherit;font-size:8.5px;letter-spacing:.18em;
     color:var(--tip);border:1px dashed #6a5820;border-radius:4px;padding:1px 5px 1px 6px}
-  .mmeta .livechip{flex:0 0 auto;font-family:'Oswald',sans-serif;font-size:8.5px;letter-spacing:.14em;
+  .mmeta .livechip{flex:0 0 auto;font-family:inherit;font-size:8.5px;letter-spacing:.14em;
     color:#ffd9d9;background:#57201f;border:1px solid #8a3a38;border-radius:4px;padding:1px 6px;
     display:inline-flex;align-items:center;gap:4px}
   .mmeta .livechip::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--live-soft);
@@ -121,15 +131,21 @@
   .trophywrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
   .trophywrap .glow{position:absolute;inset:-34px;border-radius:50%;
     background:radial-gradient(circle,rgba(227,175,58,.33),rgba(227,175,58,0) 65%);filter:blur(3px);pointer-events:none}
-  .trophywrap .cup{font-size:52px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,210,120,.55));position:relative}
-  .trophywrap .flbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.3em;
+  .worldcup-trophy{position:relative;width:72px;height:112px;object-fit:contain;
+    filter:drop-shadow(0 0 10px rgba(255,210,120,.44))}
+  .worldcup-trophy .gold-main{fill:url(#wcGold)}
+  .worldcup-trophy .gold-dark{fill:#9b6b19}
+  .worldcup-trophy .green-ring{fill:#315c3a}
+  .worldcup-trophy .shadow-line{stroke:#6d4910;stroke-width:1.25;stroke-linecap:round;opacity:.7}
+  .worldcup-trophy .highlight{fill:#ffe79a;opacity:.74}
+  .trophywrap .flbl{font-family:inherit;text-transform:uppercase;letter-spacing:.3em;
     font-size:11px;color:var(--gold);position:relative}
   .finalcol .match{width:100%}
   .champmini{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;max-width:200px}
 
   /* ---------- góllövőlista ---------- */
   .scorers{max-width:980px;margin:34px auto 0;padding:0 16px;text-align:center}
-  .sec-title{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
+  .sec-title{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
     font-size:15px;color:var(--gold);margin:0 0 4px;display:flex;align-items:center;gap:14px;justify-content:center}
   .sec-title::before,.sec-title::after{content:"";flex:0 1 120px;height:1px;background:var(--line)}
   .sec-sub{color:var(--muted);font-size:11.5px;margin:0 0 18px}
@@ -137,7 +153,7 @@
   .scorer{width:148px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
     border-radius:12px;padding:14px 10px 12px;position:relative}
   .scorer.top{border-color:#584417;box-shadow:0 0 14px rgba(227,175,58,.12)}
-  .scorer .rank{position:absolute;top:8px;left:10px;font-family:'Oswald',sans-serif;font-size:11px;color:var(--muted)}
+  .scorer .rank{position:absolute;top:8px;left:10px;font-family:inherit;font-size:11px;color:var(--muted)}
   .scorer img.face{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;
     background:#262932;box-shadow:0 0 0 1px #000,0 0 0 3px #3a3e49}
   .scorer.top img.face{box-shadow:0 0 0 1px #000,0 0 0 3px var(--gold-bar)}
@@ -145,7 +161,7 @@
   .scorer .pteam{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:4px;
     color:var(--muted);font-size:10.5px}
   .scorer .pteam img{width:16px;height:12px;border-radius:2px;object-fit:cover}
-  .scorer .goals{font-family:'Oswald',sans-serif;font-weight:700;font-size:24px;color:var(--gold-bright);
+  .scorer .goals{font-family:inherit;font-weight:700;font-size:24px;color:var(--gold-bright);
     margin-top:6px;line-height:1}
   .scorer .goals small{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.1em;display:block;margin-top:2px}
   .scorer-more{margin-top:16px;color:var(--muted);font-size:11.5px;line-height:2}
@@ -167,10 +183,10 @@
     border:1px solid #3a3e49;border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.65);overflow:hidden}
   .mo-top{position:relative;padding:16px 18px 14px;border-bottom:1px solid var(--line-soft);
     background:linear-gradient(180deg,rgba(227,175,58,.07),rgba(227,175,58,0))}
-  .mo-round{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.24em;font-size:10.5px;
+  .mo-round{font-family:inherit;text-transform:uppercase;letter-spacing:.24em;font-size:10.5px;
     color:var(--gold);text-align:center}
   .mo-place{text-align:center;color:var(--muted);font-size:11.5px;margin-top:5px}
-  .mo-live{display:inline-flex;align-items:center;gap:6px;font-family:'Oswald',sans-serif;font-size:10px;
+  .mo-live{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:10px;
     letter-spacing:.16em;color:#ffd9d9;background:#57201f;border:1px solid #8a3a38;border-radius:5px;padding:2px 8px}
   .mo-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--live-soft);animation:pulse 1.4s infinite}
   .mo-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);
@@ -183,7 +199,7 @@
     box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
   .mo-team .n{font-weight:600;font-size:13px;text-align:center;color:var(--ink)}
   .mo-team .tag{width:16px;height:5px;border-radius:3px}
-  .mo-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:40px;letter-spacing:.04em;
+  .mo-num{font-family:inherit;font-weight:700;font-size:40px;letter-spacing:.04em;
     font-variant-numeric:tabular-nums;text-align:center;line-height:1}
   .mo-note{text-align:center;font-size:11px;color:var(--muted);margin-top:2px}
   .mo-note b{color:var(--ink-soft)}
@@ -192,7 +208,7 @@
   .mo-goal{display:flex;font-size:12px;color:var(--ink-soft)}
   .mo-goal.away{justify-content:flex-end}
   .mo-goal .min{color:var(--muted);margin:0 5px;font-variant-numeric:tabular-nums}
-  .mo-sec{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
+  .mo-sec{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
     color:var(--gold);text-align:center;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
   .mo-sec::before,.mo-sec::after{content:"";flex:1;height:1px;background:var(--line-soft)}
   .stat{margin-bottom:9px}
@@ -225,11 +241,13 @@
   .pickteam img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
     box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
   .pickteam .n{font-weight:600;font-size:13px;text-align:center}
-  .pickteam .adv{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  .pickteam .adv{font-family:inherit;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
     color:#565a66}
   .pickteam.sel .adv{color:var(--gold-bright)}
   .scorewrap{display:flex;align-items:center;gap:7px;justify-content:center}
-  .scorein{width:52px;height:46px;text-align:center;font-family:'Oswald',sans-serif;font-weight:600;font-size:22px;
+  .scoreblock{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .scorelabel{font-family:inherit;text-transform:uppercase;letter-spacing:.16em;font-size:9.5px;color:var(--muted)}
+  .scorein{width:52px;height:46px;text-align:center;font-family:inherit;font-weight:600;font-size:22px;
     background:#0d0f14;border:1px solid var(--line);border-radius:9px;color:var(--ink);
     font-variant-numeric:tabular-nums;-moz-appearance:textfield;appearance:textfield}
   .scorein::-webkit-outer-spin-button,.scorein::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
@@ -237,8 +255,17 @@
   .scoredash{color:var(--muted);font-size:18px;font-weight:600}
   .mo-help{margin-top:12px;color:var(--muted);font-size:11.5px;text-align:center;line-height:1.6;min-height:18px}
   .mo-help.err{color:#e8a1a1}
+  .extra-panel{margin:14px 0 0;padding:12px;border:1px solid var(--line-soft);border-radius:12px;
+    background:rgba(13,15,20,.42)}
+  .extra-panel[hidden]{display:none}
+  .extra-panel .mo-sec{margin-top:0}
+  .penpick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+  .penpick button{min-height:38px;border-radius:9px;border:1px solid var(--line);background:#141720;color:var(--ink-soft);
+    cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.09em;font-size:10.5px}
+  .penpick button.sel{border-color:var(--gold);background:#1b1710;color:var(--gold-bright)}
+  .penpick button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .mo-actions{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
-  .btn{font-family:'Oswald',sans-serif;letter-spacing:.09em;text-transform:uppercase;font-size:11.5px;font-weight:500;
+  .btn{font-family:inherit;letter-spacing:.09em;text-transform:uppercase;font-size:11.5px;font-weight:500;
     border-radius:8px;padding:10px 18px;cursor:pointer;border:1px solid var(--line);background:#161922;color:var(--ink);
     text-decoration:none;display:inline-flex;align-items:center;gap:6px}
   .btn:hover{border-color:#4d5160}
@@ -248,9 +275,41 @@
   .btn.danger{color:#e8a1a1}
 
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-  @media (max-width:640px){
+  @media (max-width:760px){
+    body{padding-top:12px}
+    header{padding-inline:12px}
+    h1{font-size:24px;line-height:1.05}
+    .eyebrow{letter-spacing:.22em}
+    .sub{font-size:12px;line-height:1.5;max-width:100%;overflow-wrap:anywhere}
+    .statusline{display:grid;grid-template-columns:1fr;gap:6px;max-width:100%;padding-inline:4px}
+    .chip{font-size:11px;padding:6px 10px;justify-content:center;max-width:100%;min-width:0}
+    button.chip{width:100%}
+    .stage{max-width:100vw;padding-inline:10px}
+    .bracketfit{width:100%;transform:none!important}
+    .bracket.mobile{width:100%;max-width:100%}
+    .mobile-round{max-width:100%}
+    .mobile-round .match{width:100%;max-width:100%}
+    .match{border-radius:9px;padding:8px 9px}
+    .mmeta .when{min-width:0}
+    .trow img.fl,.trow .fl.ph{width:31px;height:23px}
+    .trow .nm{font-size:13px;flex:0 1 auto;max-width:calc(100vw - 124px)}
+    .trow .sc{min-width:20px;font-size:14px;margin-left:7px}
+    .scrollhint{display:none!important}
+    .scorers{margin-top:24px}
+    .scorer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .scorer{width:auto}
+    .overlay{padding:10px}
+    .modal{border-radius:12px}
+    .mo-score{grid-template-columns:1fr;gap:12px}
+    .mo-team{gap:5px}
     .mo-num{font-size:32px}
     .mo-team img{width:40px;height:30px}
+    .pickteam{min-height:82px}
+    .scorein{width:58px;height:44px}
+    .penpick{grid-template-columns:1fr}
+  }
+  @media (max-width:420px){
+    .scorer-grid{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -267,14 +326,17 @@
       <span class="chip"><span class="dotp"></span>Legjobb 32: <b id="playedCount">10 / 16</b>&nbsp;lejátszva</span>
       <span class="chip" id="liveChip"><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></span>
       <button class="chip" id="btnClearTips" type="button" hidden>↺ Tippek törlése</button>
+      <button class="chip" id="btnAllCalendar" type="button">📅 Összes meccs naptárba</button>
     </div>
     <div class="champ"><span class="lbl">Bajnok</span><span class="who" id="champWho">— még nem dőlt el —</span></div>
   </header>
 
   <div class="stage" id="stage">
-    <div class="bracket" id="bracket"></div>
+    <div class="bracketfit" id="bracketFit">
+      <div class="bracket" id="bracket"></div>
+    </div>
   </div>
-  <p class="scrollhint" id="scrollhint">⟵ az ágrajz vízszintesen görgethető ⟶</p>
+  <p class="scrollhint" id="scrollhint"></p>
 
   <!-- ================= GÓLLÖVŐLISTA ================= -->
   <section class="scorers" aria-label="Góllövőlista">
@@ -484,6 +546,23 @@ const nfat = n => n.toLocaleString("hu-HU");
 const nf1  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:1,maximumFractionDigits:1});
 const nf2  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
 const shortCity = c => !c ? "" : c.replace(/\s*\(.*\)/,"").replace("New York / New Jersey","New York");
+const isMobileLayout = () => window.matchMedia("(max-width: 760px)").matches;
+
+function tipScore(t){ return t && t.aet ? t.aet : (t && t.s ? t.s : null); }
+function tipMethodText(m,t){
+  if(!t || !t.s) return "";
+  const win=nameOf(t.w===0?m.h:m.a);
+  if(t.aet){
+    const aet=t.aet[0]+"–"+t.aet[1];
+    if(t.aet[0]!==t.aet[1]) return "Tipp: h. u. "+aet+" → "+win;
+    return "Tipp: h. u. "+aet+", 11-esekkel → "+win;
+  }
+  if(t.s[0]===t.s[1]) return "Tipp: 11-esekkel jut tovább — "+win;
+  return "";
+}
+function trophySvg(){
+  return '<img class="worldcup-trophy" src="2026_FIFA_World_Cup_emblem.svg" alt="FIFA World Cup 2026 embléma" width="72" height="112">';
+}
 
 function winnerOf(m){
   if(!m || m.live || !m.s) return null;
@@ -532,6 +611,38 @@ function buildRounds(){
 
 /* ---------- kártyák ---------- */
 const bracket=document.getElementById("bracket");
+const bracketFit=document.getElementById("bracketFit");
+const stageEl=document.getElementById("stage");
+const scrollHint=document.getElementById("scrollhint");
+
+function resetBracketFit(){
+  bracketFit.style.transform="scale(1)";
+  bracketFit.style.transformOrigin="";
+  bracketFit.style.width="";
+  bracketFit.style.marginLeft="";
+  bracketFit.style.marginRight="";
+  stageEl.style.height="";
+}
+function fitBracketToScreen(){
+  if(isMobileLayout()){
+    resetBracketFit();
+    stageEl.classList.add("mobile-stage");
+    scrollHint.style.display="none";
+    return;
+  }
+  stageEl.classList.remove("mobile-stage");
+  const available=Math.max(320, stageEl.clientWidth-36);
+  const natural=Math.max(bracket.scrollWidth, bracket.offsetWidth, bracketFit.scrollWidth, available);
+  const scale=Math.min(1, available/natural);
+  bracketFit.style.width=natural+"px";
+  bracketFit.style.marginLeft=Math.max(0,(stageEl.clientWidth-natural*scale)/2)+"px";
+  bracketFit.style.marginRight="0";
+  bracketFit.style.transformOrigin="top left";
+  bracketFit.style.transform="scale("+scale+")";
+  stageEl.style.height=Math.ceil(bracket.offsetHeight*scale+28)+"px";
+  scrollHint.style.display="none";
+  scrollHint.textContent="";
+}
 
 function teamRow(code, match, side, feeder, viaTip){
   const row=document.createElement("div"); row.className="trow";
@@ -548,9 +659,10 @@ function teamRow(code, match, side, feeder, viaTip){
     row.appendChild(nm);
   }
   const t=tipFor(match);
+  const ts=tipScore(t);
   const sc=document.createElement("span");
   if(match.s){ sc.className="sc"+(match.live?" livesc":""); sc.textContent=match.s[side]; }
-  else if(t && t.s){ sc.className="sc tipsc"; sc.textContent=t.s[side]; }
+  else if(ts){ sc.className="sc tipsc"; sc.textContent=ts[side]; }
   else{ sc.className="sc none"; sc.textContent="–"; }
   row.appendChild(sc);
   if(match.s && !match.live){
@@ -569,8 +681,9 @@ function makeCard(match, roundIdx, col, rowStart, rowSpan){
   el.type="button";
   el.className="match"+(match.stats?" has-stats":"")+(!match.s?" tbd":"")
     +(pickable?" pickable":"")+(t?" tipped":"")+(match.live?" islive":"");
-  el.style.gridColumn=col;
-  el.style.gridRow=(rowStart+1)+" / span "+rowSpan;
+  if(col!=null) el.style.gridColumn=col;
+  if(rowStart!=null && rowSpan!=null) el.style.gridRow=(rowStart+1)+" / span "+rowSpan;
+  if(col>5) el.classList.add("right-pull");
 
   const meta=document.createElement("div"); meta.className="mmeta";
   const when=document.createElement("span"); when.className="when";
@@ -600,9 +713,9 @@ function makeCard(match, roundIdx, col, rowStart, rowSpan){
     const p=document.createElement("div"); p.className="pens";
     p.textContent="Hosszabbítás után";
     el.appendChild(p);
-  }else if(!match.live && t && t.s && t.s[0]===t.s[1]){
+  }else if(!match.live && tipMethodText(match,t)){
     const p=document.createElement("div"); p.className="pens tipline";
-    p.textContent="Tipp: 11-esekkel jut tovább — "+nameOf(t.w===0?match.h:match.a);
+    p.textContent=tipMethodText(match,t);
     el.appendChild(p);
   }
 
@@ -617,14 +730,61 @@ function makeCard(match, roundIdx, col, rowStart, rowSpan){
 
 function colHead(col, roundIdx){
   const d=document.createElement("div"); d.className="colhead"; d.style.gridColumn=col;
+  if(col>5) d.classList.add("right-pull");
   d.innerHTML='<div class="t">'+ROUNDNAME[roundIdx]+'</div><div class="d">'+ROUNDDATE[roundIdx]+'</div>';
   bracket.appendChild(d);
 }
 
+function updateHeaderState(fin){
+  const champWho=document.getElementById("champWho");
+  const fi=effInfo(fin);
+  if(fi.code){ champWho.textContent=nameOf(fi.code)+(fi.tip?" (tipp)":""); champWho.classList.add("set"); }
+  else{ champWho.textContent="— még nem dőlt el —"; champWho.classList.remove("set"); }
+  document.getElementById("btnClearTips").hidden = Object.keys(tips).length===0;
+  const played=R32.filter(m=>winnerOf(m)!==null).length;
+  document.getElementById("playedCount").textContent=played+" / 16";
+}
+
+function renderMobile(rounds){
+  resetBracketFit();
+  stageEl.classList.add("mobile-stage");
+  bracket.classList.add("mobile");
+  bracket.innerHTML='<svg class="wires" id="wires" aria-hidden="true"></svg>';
+  const sections=[
+    {idx:0,title:ROUNDNAME[0],sub:ROUNDDATE[0],matches:R32},
+    {idx:1,title:ROUNDNAME[1],sub:ROUNDDATE[1],matches:rounds.r16},
+    {idx:2,title:ROUNDNAME[2],sub:ROUNDDATE[2],matches:rounds.qf},
+    {idx:3,title:ROUNDNAME[3],sub:ROUNDDATE[3],matches:rounds.sf},
+    {idx:4,title:ROUNDNAME[4],sub:ROUNDDATE[4],matches:[rounds.fin],final:true}
+  ];
+  sections.forEach(secInfo=>{
+    const sec=document.createElement("section");
+    sec.className="mobile-round";
+    sec.innerHTML='<h2 class="mobile-round-title">'+secInfo.title+' · '+secInfo.sub+'</h2>'
+      +(secInfo.final?'<div class="mobile-trophy"><div class="trophywrap"><div class="glow"></div>'+trophySvg()+'<div class="flbl">Döntő</div></div></div>':"");
+    bracket.appendChild(sec);
+    secInfo.matches.forEach(m=>{
+      const card=makeCard(m, secInfo.idx, null, null, null);
+      sec.appendChild(card);
+    });
+  });
+  updateHeaderState(rounds.fin);
+  window.__redrawWires=()=>fitBracketToScreen();
+  fitBracketToScreen();
+}
+
 function render(){
   R32.forEach(applyRes);
+  resetBracketFit();
+  const rounds=buildRounds();
+  if(isMobileLayout()){
+    renderMobile(rounds);
+    return;
+  }
+  stageEl.classList.remove("mobile-stage");
+  bracket.classList.remove("mobile");
   bracket.innerHTML='<svg class="wires" id="wires" aria-hidden="true"></svg>';
-  const {r16, qf, sf, fin}=buildRounds();
+  const {r16, qf, sf, fin}=rounds;
   [0,1,2,3,4,3,2,1,0].forEach((ri,i)=>colHead(i+1,ri));
 
   const cards32=[], cards16=[], cardsQF=[], cardsSF=[];
@@ -639,25 +799,15 @@ function render(){
 
   /* döntő oszlop */
   const fc=document.createElement("div"); fc.className="finalcol";
-  fc.innerHTML='<div class="trophywrap"><div class="glow"></div><div class="cup">🏆</div><div class="flbl">Döntő</div></div>';
+  fc.innerHTML='<div class="trophywrap"><div class="glow"></div>'+trophySvg()+'<div class="flbl">Döntő</div></div>';
   bracket.appendChild(fc);
   const finCard=makeCard(fin, 4, 5, 1, 1);
   fc.appendChild(finCard);
   finCard.style.gridColumn=""; finCard.style.gridRow="";
-  const cm=document.createElement("div"); cm.className="champmini";
-  cm.textContent="A hivatalos győztes útja folyamatos, a tipp szerinti út szaggatott arany vonallal rajzolódik ki.";
-  fc.appendChild(cm);
 
-  /* fejléc-állapotok */
-  const champWho=document.getElementById("champWho");
-  const fi=effInfo(fin);
-  if(fi.code){ champWho.textContent=nameOf(fi.code)+(fi.tip?" (tipp)":""); champWho.classList.add("set"); }
-  else{ champWho.textContent="— még nem dőlt el —"; champWho.classList.remove("set"); }
-  document.getElementById("btnClearTips").hidden = Object.keys(tips).length===0;
-  const played=R32.filter(m=>winnerOf(m)!==null).length;
-  document.getElementById("playedCount").textContent=played+" / 16";
+  updateHeaderState(fin);
 
-  const redraw=()=>drawWires(cards32, cards16, cardsQF, cardsSF, finCard);
+  const redraw=()=>{ resetBracketFit(); drawWires(cards32, cards16, cardsQF, cardsSF, finCard); fitBracketToScreen(); };
   window.__redrawWires=redraw;
   redraw();
 }
@@ -687,7 +837,11 @@ function drawWires(c32, c16, cQF, cSF, cF){
   link(cSF[1], cF, false, cls(sf[1]));
   svg.innerHTML=s;
 }
-window.addEventListener("resize",()=>{ if(window.__redrawWires) window.__redrawWires(); });
+let resizeT=null;
+window.addEventListener("resize",()=>{
+  clearTimeout(resizeT);
+  resizeT=setTimeout(()=>render(),90);
+});
 
 /* ---------- ÉLŐ FIFA-SZINKRON ---------- */
 const API="https://api.fifa.com/api/v3", FDH="https://fdh-api.fifa.com/v1";
@@ -807,30 +961,62 @@ function icsDate(iso, plusMin){
   return d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
 }
 function icsEscape(s){ return s.replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,"); }
-function downloadIcs(m, roundIdx){
+function eventDuration(m){ return (!m.s || m.aet || m.pens) ? 180 : 150; }
+function icsEventLines(m, roundIdx){
   const title=calTitle(m, roundIdx);
   const desc="FIFA World Cup 2026, "+ROUNDNAME[roundIdx]+" ("+m.no+". mérkőzés). Kezdés romániai idő szerint: "+m.date+" "+m.t+".";
-  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//vb2026-agrajz//HU","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+  return [
     "BEGIN:VEVENT",
     "UID:vb2026-m"+m.no+"@vb2026-agrajz",
     "DTSTAMP:"+icsDate(new Date().toISOString()),
     "DTSTART:"+icsDate(m.utc),
-    "DTEND:"+icsDate(m.utc,150),
+    "DTEND:"+icsDate(m.utc,eventDuration(m)),
     "SUMMARY:"+icsEscape(title),
     "LOCATION:"+icsEscape(m.city||""),
     "DESCRIPTION:"+icsEscape(desc),
-    "END:VEVENT","END:VCALENDAR"];
+    "END:VEVENT"
+  ];
+}
+function downloadIcs(m, roundIdx){
+  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//vb2026-agrajz//HU","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    ...icsEventLines(m, roundIdx),"END:VCALENDAR"];
   const blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download="vb2026-meccs-"+m.no+".ics";
   document.body.appendChild(a); a.click();
   setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },400);
 }
+function allCalendarMatches(){
+  R32.forEach(applyRes);
+  const {r16,qf,sf,fin}=buildRounds();
+  return [
+    ...R32.map(m=>({m,roundIdx:0})),
+    ...r16.map(m=>({m,roundIdx:1})),
+    ...qf.map(m=>({m,roundIdx:2})),
+    ...sf.map(m=>({m,roundIdx:3})),
+    {m:fin,roundIdx:4}
+  ].filter(x=>x.m && x.m.utc).sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc));
+}
+function downloadAllIcs(){
+  const events=allCalendarMatches();
+  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//vb2026-agrajz//HU","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  events.forEach(({m,roundIdx})=>lines.push(...icsEventLines(m, roundIdx)));
+  lines.push("END:VCALENDAR");
+  const blob=new Blob([lines.join("\r\n")+"\r\n"],{type:"text/calendar;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="vb2026-kieseses-szakasz-osszes-meccs.ics";
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },400);
+}
+function openGoogleCalendarImport(){
+  downloadAllIcs();
+  window.open("https://calendar.google.com/calendar/u/0/r/settings/export", "_blank", "noopener");
+}
 function googleCalUrl(m, roundIdx){
   const p=new URLSearchParams({
     action:"TEMPLATE",
     text:calTitle(m, roundIdx),
-    dates:icsDate(m.utc)+"/"+icsDate(m.utc,150),
+    dates:icsDate(m.utc)+"/"+icsDate(m.utc,eventDuration(m)),
     location:m.city||"",
     details:"FIFA World Cup 2026 · "+ROUNDNAME[roundIdx]+" · "+m.no+". mérkőzés · kezdés romániai idő szerint "+m.date+" "+m.t
   });
@@ -859,6 +1045,29 @@ function moHeader(m, roundIdx){
 function attachClose(){
   const cbtn=document.getElementById("moClose");
   if(cbtn){ cbtn.addEventListener("click",closeModal); cbtn.focus(); }
+}
+
+function openAllCalendarModal(){
+  lastFocus=document.activeElement;
+  clearInterval(moTimer); moTimer=null; moToken++;
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+  modal.innerHTML='<div class="mo-top">'
+    +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
+    +'<div class="mo-round" id="moTitle">Összes meccs naptárba</div>'
+    +'<div class="mo-place">FIFA World Cup 2026 · kieséses szakasz</div>'
+    +'</div><div class="mo-body">'
+    +'<div class="mo-sec">Válassz naptárt</div>'
+    +'<div class="mo-actions" style="margin-top:0">'
+    +'<button class="btn primary" id="allCalGoogle" type="button">🗓 Google Naptár</button>'
+    +'<button class="btn" id="allCalIcs" type="button">📅 .ics letöltés</button>'
+    +'</div>'
+    +'<div class="mo-src" style="margin-top:14px">Az export az ágrajz összes meccsét tartalmazza.</div>'
+    +'</div>';
+  attachClose();
+  const g=document.getElementById("allCalGoogle"), i=document.getElementById("allCalIcs");
+  if(g) g.addEventListener("click",()=>{ openGoogleCalendarImport(); closeModal(); });
+  if(i) i.addEventListener("click",()=>{ downloadAllIcs(); closeModal(); });
 }
 
 function openModal(m, roundIdx){
@@ -890,7 +1099,7 @@ function openModal(m, roundIdx){
       +'<div class="mo-score">'
       +'<button class="pickteam" id="pickA" aria-pressed="false"><img src="'+flagUrl(m.h,160)+'" alt="" width="46" height="34">'
       +'<span class="n">'+nameOf(m.h)+'</span><span class="adv">továbbjutó</span></button>'
-      +'<div><div class="scorewrap">'
+      +'<div class="scoreblock"><div class="scorelabel">90 perc</div><div class="scorewrap">'
       +'<input class="scorein" id="scA" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.h)+' góljai">'
       +'<span class="scoredash">–</span>'
       +'<input class="scorein" id="scB" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.a)+' góljai">'
@@ -898,8 +1107,19 @@ function openModal(m, roundIdx){
       +'<button class="pickteam" id="pickB" aria-pressed="false"><img src="'+flagUrl(m.a,160)+'" alt="" width="46" height="34">'
       +'<span class="n">'+nameOf(m.a)+'</span><span class="adv">továbbjutó</span></button>'
       +'</div>'
+      +'<div class="extra-panel" id="extraPanel" hidden>'
+      +'<div class="mo-sec">Döntetlen esetén</div>'
+      +'<div class="scoreblock"><div class="scorelabel">Hosszabbítás után</div><div class="scorewrap">'
+      +'<input class="scorein" id="etA" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.h)+' góljai hosszabbítás után">'
+      +'<span class="scoredash">–</span>'
+      +'<input class="scorein" id="etB" type="number" min="0" max="30" inputmode="numeric" placeholder="–" aria-label="'+nameOf(m.a)+' góljai hosszabbítás után">'
+      +'</div></div>'
+      +'<div class="penpick" id="penPick" hidden>'
+      +'<button type="button" id="penA">'+nameOf(m.h)+' tiz.</button>'
+      +'<button type="button" id="penB">'+nameOf(m.a)+' tiz.</button>'
+      +'</div></div>'
       +'<div class="mo-help" id="tipHelp">Kattints a továbbjutó csapatra — az eredmény megadása nem kötelező.<br>'
-      +'Döntetlen tippnél is jelöld ki, ki megy tovább (hosszabbítás / tizenegyesek).</div>'
+      +'Döntetlen 90 perc után: add meg a hosszabbítás utáni állást; ha ott is döntetlen, válaszd ki a tizenegyes továbbjutót.</div>'
       +'<div class="mo-actions">'
       +'<button class="btn primary" id="tipSave">Tipp mentése</button>'
       +(t?'<button class="btn danger" id="tipDel">Tipp törlése</button>':'')
@@ -991,34 +1211,85 @@ function wireTipEditor(m){
   const t=tips[m.key] || null;
   const A=document.getElementById("pickA"), B=document.getElementById("pickB");
   const sA=document.getElementById("scA"), sB=document.getElementById("scB");
+  const etA=document.getElementById("etA"), etB=document.getElementById("etB");
+  const extraPanel=document.getElementById("extraPanel"), penPick=document.getElementById("penPick");
+  const penA=document.getElementById("penA"), penB=document.getElementById("penB");
   const help=document.getElementById("tipHelp");
   let sel = t ? t.w : null;
+  let penSel = t && t.method==="pens" ? t.w : null;
   if(t && t.s){ sA.value=t.s[0]; sB.value=t.s[1]; }
+  if(t && t.aet){ etA.value=t.aet[0]; etB.value=t.aet[1]; }
   const paint=()=>{
     A.classList.toggle("sel",sel===0); A.setAttribute("aria-pressed",sel===0?"true":"false");
     B.classList.toggle("sel",sel===1); B.setAttribute("aria-pressed",sel===1?"true":"false");
+    penA.classList.toggle("sel",penSel===0);
+    penB.classList.toggle("sel",penSel===1);
   };
   paint();
   const val=inp=>{ const v=inp.value.trim(); if(v==="") return null;
     const n=parseInt(v,10); return isNaN(n)?null:Math.max(0,Math.min(30,n)); };
-  const auto=()=>{
+  const showError=msg=>{ help.textContent=msg; help.classList.add("err"); };
+  const clearError=()=>{ help.classList.remove("err"); };
+  const updateExtra=()=>{
     const a=val(sA), b=val(sB);
-    if(a!==null && b!==null && a!==b){ sel = a>b?0:1; paint(); }
-    help.classList.remove("err");
+    const tied90 = a!==null && b!==null && a===b;
+    extraPanel.hidden = !tied90;
+    if(!tied90){
+      penPick.hidden=true;
+      penSel=null;
+      if(a!==null && b!==null && a!==b) sel = a>b?0:1;
+      clearError(); paint(); return;
+    }
+    const ea=val(etA), eb=val(etB);
+    const tiedAet = ea!==null && eb!==null && ea===eb;
+    penPick.hidden = !tiedAet;
+    if(ea!==null && eb!==null && ea!==eb){
+      sel = ea>eb?0:1;
+      penSel=null;
+    }else if(tiedAet){
+      if(penSel===null && sel!==null) penSel=sel;
+      if(penSel!==null) sel=penSel;
+    }
+    clearError(); paint();
   };
-  A.addEventListener("click",()=>{ sel=0; paint(); help.classList.remove("err"); });
-  B.addEventListener("click",()=>{ sel=1; paint(); help.classList.remove("err"); });
-  sA.addEventListener("input",auto); sB.addEventListener("input",auto);
+  const choose=side=>{ sel=side; if(!penPick.hidden) penSel=side; paint(); clearError(); };
+  A.addEventListener("click",()=>choose(0));
+  B.addEventListener("click",()=>choose(1));
+  penA.addEventListener("click",()=>{ penSel=0; sel=0; paint(); clearError(); });
+  penB.addEventListener("click",()=>{ penSel=1; sel=1; paint(); clearError(); });
+  [sA,sB,etA,etB].forEach(inp=>inp.addEventListener("input",updateExtra));
+  updateExtra();
   document.getElementById("tipCancel").addEventListener("click",closeModal);
   const del=document.getElementById("tipDel");
   if(del) del.addEventListener("click",()=>{ delete tips[m.key]; saveTips(); closeModal(); render(); });
   document.getElementById("tipSave").addEventListener("click",()=>{
     const a=val(sA), b=val(sB);
-    if((a===null)!==(b===null)){ help.textContent="Mindkét eredménymezőt töltsd ki — vagy hagyd üresen mindkettőt."; help.classList.add("err"); return; }
+    if((a===null)!==(b===null)){ showError("Mindkét 90 perces eredménymezőt töltsd ki — vagy hagyd üresen mindkettőt."); return; }
     let w=sel;
-    if(a!==null && b!==null && a!==b) w = a>b?0:1;
-    if(w===null){ help.textContent="Válaszd ki, melyik csapat jut tovább!"; help.classList.add("err"); return; }
+    let aet=null, method=null;
+    if(a!==null && b!==null){
+      if(a!==b){
+        w = a>b?0:1;
+      }else{
+        const ea=val(etA), eb=val(etB);
+        if((ea===null)!==(eb===null)){ showError("Hosszabbításnál is mindkét eredménymezőt töltsd ki."); return; }
+        if(ea===null || eb===null){ showError("Döntetlennél add meg a hosszabbítás utáni végeredményt."); return; }
+        if(ea<a || eb<b){ showError("A hosszabbítás utáni végeredmény nem lehet kevesebb a 90 perces állásnál."); return; }
+        aet=[ea,eb];
+        if(ea!==eb){
+          w = ea>eb?0:1;
+          method="aet";
+        }else{
+          w = penSel!==null ? penSel : sel;
+          method="pens";
+          if(w===null){ showError("Ha hosszabbítás után is döntetlen, válaszd ki a tizenegyes továbbjutót."); return; }
+        }
+      }
+    }
+    if(w===null){ showError("Válaszd ki, melyik csapat jut tovább!"); return; }
     tips[m.key]={w:w, s:(a!==null&&b!==null)?[a,b]:null};
+    if(aet) tips[m.key].aet=aet;
+    if(method) tips[m.key].method=method;
     saveTips(); closeModal(); render();
   });
 }
@@ -1035,14 +1306,12 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape" && overlay.classLis
 document.getElementById("btnClearTips").addEventListener("click",()=>{
   if(confirm("Biztosan törlöd az összes tippet?")){ tips={}; saveTips(); render(); }
 });
+document.getElementById("btnAllCalendar").addEventListener("click",openAllCalendarModal);
 
 /* ---------- indítás ---------- */
 render();
 liveSync();
-(function(){ const st=document.getElementById("stage");
-  st.scrollLeft=(st.scrollWidth-st.clientWidth)/2;
-  if(st.scrollWidth<=st.clientWidth+4) document.getElementById("scrollhint").style.display="none";
-})();
+fitBracketToScreen();
 </script>
 </body>
 </html>
