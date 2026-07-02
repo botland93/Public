@@ -40,6 +40,15 @@
   button.chip{cursor:pointer;font-family:inherit}
   button.chip:hover{border-color:#4d5160}
   button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .rotate-note{display:none;position:relative;margin:12px auto 0;
+    max-width:430px;border:1px solid rgba(227,175,58,.34);background:rgba(227,175,58,.08);
+    border-radius:10px;padding:10px 12px 10px 58px;color:var(--ink-soft);font-size:12px;line-height:1.45;text-align:left}
+  .rotate-icon{position:absolute;left:13px;top:50%;width:38px;height:34px;transform:translateY(-50%)}
+  .rotate-icon::before{content:"";position:absolute;left:7px;top:5px;width:16px;height:26px;border:2px solid var(--gold);
+    border-radius:5px;transform:rotate(-16deg);box-shadow:inset 0 -3px 0 rgba(227,175,58,.25)}
+  .rotate-icon::after{content:"↻";position:absolute;right:1px;top:-3px;color:var(--gold-bright);
+    font-size:27px;font-weight:700;line-height:1}
+  .rotate-note span:last-child{display:block;min-width:0;white-space:normal;overflow-wrap:anywhere}
   .champ{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;
     border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#181a20,#0f1115)}
   .champ .lbl{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
@@ -47,7 +56,7 @@
   .champ .who.set{color:var(--gold-bright)}
 
   /* ---------- színpad / görgetés ---------- */
-  .stage{margin-top:clamp(16px,2.5vw,30px);overflow:hidden;overscroll-behavior-x:contain;
+  .stage{margin-top:clamp(16px,2.5vw,30px);overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
     -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
   .stage.mobile-stage{overflow:visible;height:auto!important;padding-inline:12px}
   .stage::-webkit-scrollbar{height:10px}
@@ -57,9 +66,9 @@
 
   .bracketfit{width:max-content;margin:0 auto;transform-origin:top center}
   .bracket{position:relative;margin:0 auto;width:max-content;
-    display:grid;column-gap:24px;row-gap:8px;
-    grid-template-columns:repeat(4,188px) 214px repeat(4,188px);
-    grid-template-rows:auto repeat(16,52px)}
+    display:grid;column-gap:18px;row-gap:10px;
+    grid-template-columns:repeat(4,176px) 190px repeat(4,176px);
+    grid-template-rows:auto repeat(16,58px)}
   .bracket.mobile{display:block;width:min(100%,460px);max-width:100%;margin-inline:auto}
   .bracket.mobile .wires{display:none}
   .mobile-round{margin:0 0 18px}
@@ -73,15 +82,15 @@
   .wire.tip{stroke:var(--gold);stroke-dasharray:5 4;opacity:.6}
 
   .colhead{grid-row:1;align-self:end;text-align:center;padding-bottom:10px}
-  .right-pull{transform:translateX(-34px)}
+  .right-pull{transform:translateX(-30px)}
   .colhead .t{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
-    font-size:12px;color:var(--gold)}
-  .colhead .d{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
+    font-size:12.5px;color:var(--gold)}
+  .colhead .d{font-size:10.5px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
 
   /* ---------- meccskártya ---------- */
   .match{position:relative;z-index:1;align-self:center;width:100%;text-align:left;
     font-family:inherit;color:inherit;background:linear-gradient(180deg,var(--card),var(--card2));
-    border:1px solid var(--line);border-radius:10px;padding:7px 9px 8px;cursor:pointer;
+    border:1px solid var(--line);border-radius:10px;padding:8px 10px 9px;cursor:pointer;
     box-shadow:0 3px 10px rgba(0,0,0,.35);transition:border-color .15s, box-shadow .15s}
   .match:hover{border-color:#4d5160;box-shadow:0 4px 14px rgba(0,0,0,.5)}
   .match.has-stats:hover,.match.pickable:hover{border-color:var(--gold)}
@@ -90,7 +99,7 @@
   .match.tipped{border-color:#5c4d22}
   .match.islive{border-color:#7c3b3b;box-shadow:0 0 0 1px rgba(224,86,86,.35),0 3px 12px rgba(0,0,0,.5)}
   .mmeta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:5px}
-  .mmeta .when{font-family:inherit;font-size:9.5px;font-weight:500;letter-spacing:.11em;
+  .mmeta .when{font-family:inherit;font-size:10px;font-weight:500;letter-spacing:.1em;
     text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mmeta .ico{font-size:10.5px;color:var(--gold);opacity:.9;flex:0 0 auto}
   .mmeta .tag{flex:0 0 auto;font-family:inherit;font-size:8.5px;letter-spacing:.18em;
@@ -100,17 +109,17 @@
     display:inline-flex;align-items:center;gap:4px}
   .mmeta .livechip::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--live-soft);
     animation:pulse 1.4s infinite}
-  .trow{display:flex;align-items:center;gap:8px;min-height:26px}
+  .trow{display:flex;align-items:center;gap:8px;min-height:28px}
   .trow + .trow{margin-top:3px}
-  .trow img.fl{width:27px;height:20px;border-radius:3px;object-fit:cover;flex:0 0 auto;
+  .trow img.fl{width:30px;height:22px;border-radius:3px;object-fit:cover;flex:0 0 auto;
     background:#262932;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #363a44}
-  .trow .fl.ph{width:27px;height:20px;border-radius:3px;flex:0 0 auto;background:#20232c;
+  .trow .fl.ph{width:30px;height:22px;border-radius:3px;flex:0 0 auto;background:#20232c;
     box-shadow:inset 0 0 0 1px #30333d;display:flex;align-items:center;justify-content:center;
     color:#565a66;font-size:11px;font-weight:600}
-  .trow .nm{flex:1;font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .trow .nm.cand{font-weight:500;font-size:11px;color:#6b6f79;font-style:italic}
+  .trow .nm{flex:1;font-size:13.2px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow .nm.cand{font-weight:500;font-size:11.5px;color:#6b6f79;font-style:italic}
   .trow .nm.tipteam{font-style:italic;color:#b7a878}
-  .trow .sc{flex:0 0 auto;min-width:22px;text-align:center;font-weight:700;font-size:13.5px;
+  .trow .sc{flex:0 0 auto;min-width:24px;text-align:center;font-weight:700;font-size:14.5px;
     font-variant-numeric:tabular-nums;color:var(--ink);background:#0d0f14;border:1px solid var(--line-soft);
     border-radius:6px;padding:2px 5px}
   .trow .sc.none{color:#4a4e59;border-style:dashed}
@@ -121,7 +130,7 @@
   .trow.winner .sc.tipsc{color:var(--tip);background:#15110a}
   .trow.loser .nm,.trow.loser img.fl{opacity:.5}
   .trow.loser .sc{opacity:.75}
-  .pens{margin-top:5px;font-size:10.5px;color:var(--muted);border-top:1px dashed var(--line-soft);padding-top:4px}
+  .pens{margin-top:5px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line-soft);padding-top:4px}
   .pens b{color:var(--ink-soft);font-weight:600}
   .pens.tipline{color:#8a7c56}
 
@@ -131,13 +140,12 @@
   .trophywrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
   .trophywrap .glow{position:absolute;inset:-34px;border-radius:50%;
     background:radial-gradient(circle,rgba(227,175,58,.33),rgba(227,175,58,0) 65%);filter:blur(3px);pointer-events:none}
-  .worldcup-trophy{position:relative;width:72px;height:112px;object-fit:contain;
-    filter:drop-shadow(0 0 10px rgba(255,210,120,.44))}
-  .worldcup-trophy .gold-main{fill:url(#wcGold)}
-  .worldcup-trophy .gold-dark{fill:#9b6b19}
-  .worldcup-trophy .green-ring{fill:#315c3a}
-  .worldcup-trophy .shadow-line{stroke:#6d4910;stroke-width:1.25;stroke-linecap:round;opacity:.7}
-  .worldcup-trophy .highlight{fill:#ffe79a;opacity:.74}
+  .worldcup-title{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    width:150px;min-height:94px;text-align:center;text-transform:uppercase;line-height:1.08;
+    text-shadow:0 0 16px rgba(255,210,120,.28)}
+  .worldcup-title .brand{font-weight:700;font-size:13px;letter-spacing:.18em;color:var(--gold-bright)}
+  .worldcup-title .name{font-weight:700;font-size:16px;letter-spacing:.08em;color:var(--ink)}
+  .worldcup-title .year{font-weight:700;font-size:30px;letter-spacing:.04em;color:#fff}
   .trophywrap .flbl{font-family:inherit;text-transform:uppercase;letter-spacing:.3em;
     font-size:11px;color:var(--gold);position:relative}
   .finalcol .match{width:100%}
@@ -292,6 +300,7 @@
     .statusline{display:grid;grid-template-columns:1fr;gap:6px;max-width:100%;padding-inline:4px}
     .chip{font-size:11px;padding:6px 10px;justify-content:center;max-width:100%;min-width:0}
     button.chip{width:100%}
+    .rotate-note{display:block;width:calc(100vw - 24px);max-width:calc(100vw - 24px)}
     .stage{max-width:100vw;padding-inline:10px}
     .bracketfit{width:100%;transform:none!important}
     .bracket.mobile{width:100%;max-width:100%}
@@ -306,15 +315,30 @@
     .scorers{margin-top:24px}
     .scorer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .scorer{width:auto}
-    .overlay{padding:10px}
-    .modal{border-radius:12px}
+    .overlay{padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom));align-items:flex-start}
+    .modal{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:12px;overflow:auto}
+    .mo-top{padding:14px 42px 12px 14px}
+    .mo-body{padding:12px}
+    .mo-round{font-size:10px;letter-spacing:.2em}
+    .mo-place{font-size:11px}
     .mo-score{grid-template-columns:1fr;gap:12px}
     .mo-team{gap:5px}
-    .mo-num{font-size:32px}
+    .mo-team .n{max-width:100%;font-size:clamp(11px,3.5vw,13px);overflow-wrap:anywhere}
+    .mo-num{font-size:clamp(28px,9vw,34px)}
     .mo-team img{width:40px;height:30px}
-    .pickteam{min-height:82px}
+    .pickteam{min-height:76px;padding:9px 8px}
+    .pickteam .n{font-size:clamp(12px,3.7vw,13px);overflow-wrap:anywhere}
+    .pickteam img{width:42px;height:31px}
     .scorein{width:58px;height:44px}
     .penpick{grid-template-columns:1fr}
+    .mo-actions{gap:8px}
+    .btn{justify-content:center;min-height:40px}
+  }
+  @media (max-height:520px) and (pointer:coarse){
+    .overlay{padding:8px;align-items:flex-start}
+    .modal{width:min(560px,calc(100vw - 16px));max-height:calc(100dvh - 16px);overflow:auto;border-radius:12px}
+    .mo-top{padding:12px 42px 10px 14px}
+    .mo-body{padding:12px}
   }
   @media (max-width:420px){
     .scorer-grid{grid-template-columns:1fr}
@@ -335,6 +359,10 @@
       <span class="chip" id="liveChip"><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></span>
       <button class="chip" id="btnClearTips" type="button" hidden>↺ Tippek törlése</button>
       <button class="chip" id="btnAllCalendar" type="button">📅 Összes meccs naptárba</button>
+    </div>
+    <div class="rotate-note" aria-label="Mobilnézeti tipp">
+      <span class="rotate-icon" aria-hidden="true"></span>
+      <span>Fordítsd el a telefont:<br>fekvő nézetben látszik a teljes ágrajz.</span>
     </div>
     <div class="champ"><span class="lbl">Bajnok</span><span class="who" id="champWho">— még nem dőlt el —</span></div>
   </header>
@@ -570,7 +598,7 @@ function tipMethodText(m,t){
   return "";
 }
 function trophySvg(){
-  return '<img class="worldcup-trophy" src="2026_FIFA_World_Cup_emblem.svg" alt="FIFA World Cup 2026 embléma" width="72" height="112">';
+  return '<div class="worldcup-title" aria-label="FIFA World Cup 2026"><span class="brand">FIFA</span><span class="name">World Cup</span><span class="year">2026</span></div>';
 }
 
 function winnerOf(m){
@@ -631,6 +659,33 @@ function resetBracketFit(){
   bracketFit.style.marginLeft="";
   bracketFit.style.marginRight="";
   stageEl.style.height="";
+}
+function snapshotBracketFit(){
+  return {
+    transform: bracketFit.style.transform,
+    transformOrigin: bracketFit.style.transformOrigin,
+    width: bracketFit.style.width,
+    marginLeft: bracketFit.style.marginLeft,
+    marginRight: bracketFit.style.marginRight,
+    stageHeight: stageEl.style.height
+  };
+}
+function fitScaleFromState(state){
+  const m=(state.transform||"").match(/scale\(([\d.]+)\)/);
+  return m ? Number(m[1]) || 1 : 1;
+}
+function restoreBracketFit(state){
+  bracketFit.style.transform=state.transform;
+  bracketFit.style.transformOrigin=state.transformOrigin;
+  bracketFit.style.width=state.width;
+  bracketFit.style.marginLeft=state.marginLeft;
+  bracketFit.style.marginRight=state.marginRight;
+  if(state.stageHeight){
+    const scale=fitScaleFromState(state);
+    stageEl.style.height=Math.ceil(bracket.offsetHeight*scale+28)+"px";
+  }else{
+    stageEl.style.height="";
+  }
 }
 function fitBracketToScreen(){
   if(isMobileLayout()){
@@ -782,11 +837,15 @@ function renderMobile(rounds){
   fitBracketToScreen();
 }
 
-function render(){
+function render(opts={}){
   R32.forEach(applyRes);
-  resetBracketFit();
+  const mobileNow=isMobileLayout();
+  const refit = opts.refit===true || render.lastMobile==null || mobileNow!==render.lastMobile;
+  const fitState=snapshotBracketFit();
+  render.lastMobile=mobileNow;
+  if(refit) resetBracketFit();
   const rounds=buildRounds();
-  if(isMobileLayout()){
+  if(mobileNow){
     renderMobile(rounds);
     return;
   }
@@ -816,10 +875,17 @@ function render(){
 
   updateHeaderState(fin);
 
-  const redraw=()=>{ resetBracketFit(); drawWires(cards32, cards16, cardsQF, cardsSF, finCard); fitBracketToScreen(); };
+  const redraw=(forceFit=refit)=>{
+    const saved=forceFit ? null : snapshotBracketFit();
+    resetBracketFit();
+    drawWires(cards32, cards16, cardsQF, cardsSF, finCard);
+    if(forceFit) fitBracketToScreen();
+    else restoreBracketFit(saved || fitState);
+  };
   window.__redrawWires=redraw;
   redraw();
 }
+render.lastMobile=null;
 
 /* ---------- összekötő vonalak ---------- */
 function drawWires(c32, c16, cQF, cSF, cF){
@@ -849,7 +915,11 @@ function drawWires(c32, c16, cQF, cSF, cF){
 let resizeT=null;
 window.addEventListener("resize",()=>{
   clearTimeout(resizeT);
-  resizeT=setTimeout(()=>render(),90);
+  resizeT=setTimeout(()=>{
+    const mobileNow=isMobileLayout();
+    if(render.lastMobile==null || mobileNow!==render.lastMobile) render({refit:true});
+    else if(window.__redrawWires) window.__redrawWires(false);
+  },90);
 });
 
 /* ---------- ÉLŐ FIFA-SZINKRON ---------- */
@@ -1347,7 +1417,6 @@ document.getElementById("btnPrivacy").addEventListener("click",openPrivacyModal)
 /* ---------- indítás ---------- */
 render();
 liveSync();
-fitBracketToScreen();
 </script>
 </body>
 </html>
