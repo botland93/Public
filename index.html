@@ -1380,6 +1380,13 @@ function collectArraysByKey(obj, re, out=[], seen=new Set(), depth=0){
 function liveEventName(pmap, id, fallback){
   return pmap[id] || cleanPersonName(fallback) || "";
 }
+/* félidőben (Period 4) vagy a hosszabbítás szünetében (Period 8) tett csere perce üresen jön a FIFA-tól — pótoljuk, hogy kronológiai sorrendbe kerüljön és látszódjon a perc */
+function subMinute(s){
+  if(s.Minute) return s.Minute;
+  if(s.Period===4) return "46'";
+  if(s.Period===8) return "106'";
+  return "";
+}
 function addLiveEvent(events, seen, ev){
   if(!ev || !ev.type) return;
   const key=[ev.type,ev.side,ev.minute,ev.player,ev.playerOn,ev.playerOff,ev.detail].join("|");
@@ -1406,7 +1413,7 @@ function liveEventsFromFifa(live,m,flip,pmap){
       });
     });
     (tm&&tm.Substitutions||[]).forEach(s=>addLiveEvent(events,seen,{
-      type:"sub", side, minute:s.Minute||"",
+      type:"sub", side, minute:subMinute(s),
       playerOn:liveEventName(pmap,s.IdPlayerOn,s.PlayerOnName),
       playerOff:liveEventName(pmap,s.IdPlayerOff,s.PlayerOffName),
       detail:playerText(s.Reason)||""
