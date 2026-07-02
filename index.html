@@ -12,7 +12,7 @@
     --bg:#f5f7fb;--bg2:#ffffff;--card:#ffffff;--card2:#f8fafc;--ink:#172033;--ink-soft:#344054;
     --muted:#667085;--line:#d5dbe7;--line-soft:#e7ebf2;--gold:#b98012;--gold-bright:#8a5b05;
     --gold-bar:#c99524;--blue-bar:#4f7fd6;--surface-modal:#ffffff;--win:#7a4f05;--tip:#80651f;
-    --live:#d92d20;--live-soft:#f04438;
+    --live:#d92d20;--live-soft:#f04438;--live-score:#b42318;
     --page-bg:radial-gradient(120% 90% at 50% 0%, #ffffff 0%, #f5f7fb 54%, #eaf0f7 100%);
     --chip-bg:linear-gradient(180deg,#ffffff,#f6f8fc);
     --card-tbd:linear-gradient(180deg,#fbfcff,#f3f6fb);--modal-bg:linear-gradient(180deg,#ffffff,var(--surface-modal));
@@ -26,7 +26,7 @@
     --bg:#0b0c0f;--bg2:#14161c;--card:#151821;--card2:#11141b;--ink:#f3f1ea;--ink-soft:#c9c6bc;
     --muted:#82868f;--line:#33363f;--line-soft:#23252c;--gold:#e3af3a;--gold-bright:#ffd277;
     --gold-bar:#b9891c;--blue-bar:#5e8fe8;--surface-modal:#171a21;--win:#ffe3a1;--tip:#d9b96a;
-    --live:#e05656;--live-soft:#f0908f;
+    --live:#e05656;--live-soft:#f0908f;--live-score:#ffd9d9;
     --page-bg:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
     --chip-bg:linear-gradient(180deg,#181a20,#10121a);
     --card-tbd:linear-gradient(180deg,#12141b,#0e1016);--modal-bg:linear-gradient(180deg,#1a1d26,var(--surface-modal));
@@ -42,7 +42,7 @@
     min-height:100vh;padding:clamp(14px,2.5vw,28px) 0 40px}
 
   /* ---------- fejléc ---------- */
-  header{max-width:920px;margin:0 auto;text-align:center;padding:0 16px}
+  header{max-width:1080px;margin:0 auto;text-align:center;padding:0 16px}
   .eyebrow{font-family:inherit;font-weight:500;letter-spacing:.4em;text-transform:uppercase;
     color:var(--gold);font-size:clamp(9px,1.4vw,12px);margin:0 0 8px}
   h1{font-family:inherit;font-weight:700;font-size:clamp(26px,5.5vw,46px);
@@ -50,20 +50,28 @@
   h1 .yr{color:var(--gold-bright)}
   .sub{color:var(--muted);font-size:clamp(11px,1.6vw,13.5px);margin:9px auto 0;max-width:680px;line-height:1.55}
   .sub strong{color:var(--ink-soft)}
-  .statusline{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .statusline{display:flex;gap:7px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:14px}
   .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;
     background:var(--chip-bg);padding:6px 13px;font-size:11.5px;color:var(--ink-soft)}
+  .chip[hidden]{display:none}
   .chip b{color:var(--gold-bright);font-weight:600}
   .chip .dotp{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(227,175,58,.8)}
   .chip .dotl{width:7px;height:7px;border-radius:50%;background:#4caf7d;box-shadow:0 0 6px rgba(76,175,125,.8);
     animation:pulse 2s infinite}
   .chip.err .dotl{background:#888;box-shadow:none;animation:none}
+  .chip.live-active{border-color:var(--live-soft);box-shadow:0 0 0 1px rgba(217,45,32,.22),0 0 14px rgba(217,45,32,.14)}
+  .chip.live-active .dotl{background:var(--live-soft);box-shadow:0 0 8px rgba(217,45,32,.8)}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   button.chip{cursor:pointer;font-family:inherit}
   button.chip:hover{border-color:var(--hover-line)}
   button.chip:disabled{cursor:default;opacity:.82}
   button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .iconchip{width:34px;justify-content:center;font-size:14px;padding-inline:0}
+  .iconchip{flex:0 0 auto;width:34px;min-width:34px;justify-content:center;font-size:14px;padding-inline:0}
+  @media (min-width:761px) and (max-width:1050px){
+    .statusline{gap:6px}
+    .chip{padding-inline:10px;font-size:11px}
+    .iconchip{width:32px;min-width:32px;padding-inline:0}
+  }
   .rotate-note{display:none;position:relative;margin:12px auto 0;
     max-width:430px;border:1px solid rgba(227,175,58,.34);background:rgba(227,175,58,.08);
     border-radius:10px;padding:10px 12px 10px 58px;color:var(--ink-soft);font-size:12px;line-height:1.45;text-align:left}
@@ -75,11 +83,13 @@
   .rotate-note span:last-child{display:block;min-width:0;white-space:normal;overflow-wrap:anywhere}
   /* ---------- színpad / görgetés ---------- */
   .stage{margin-top:clamp(16px,2.5vw,30px);overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
-    -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
+    -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-width:none;scrollbar-color:transparent transparent}
   .stage.mobile-stage{overflow:visible;height:auto!important;padding-inline:12px}
-  .stage::-webkit-scrollbar{height:10px}
-  .stage::-webkit-scrollbar-track{background:#101218;border-radius:6px}
-  .stage::-webkit-scrollbar-thumb{background:#3a3d45;border-radius:6px}
+  .stage:hover,.stage:focus-within{scrollbar-width:thin;scrollbar-color:var(--hover-line) transparent}
+  .stage::-webkit-scrollbar{height:0}
+  .stage:hover::-webkit-scrollbar,.stage:focus-within::-webkit-scrollbar{height:10px}
+  .stage::-webkit-scrollbar-track{background:transparent;border-radius:6px}
+  .stage::-webkit-scrollbar-thumb{background:var(--hover-line);border-radius:6px}
   .scrollhint{text-align:center;color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.08em}
 
   .bracketfit{width:max-content;margin:0 auto;transform-origin:top center}
@@ -143,7 +153,7 @@
     border-radius:6px;padding:2px 5px}
   .trow .sc.none{color:var(--score-none);border-style:dashed}
   .trow .sc.tipsc{border-style:dashed;border-color:#5c4d22;color:var(--tip);font-style:italic}
-  .trow .sc.livesc{border-color:#8a3a38;color:#ffd9d9}
+  .trow .sc.livesc{border-color:#8a3a38;color:var(--live-score);background:rgba(217,45,32,.10);font-weight:800}
   .trow.winner .nm{color:var(--win)}
   .trow.winner .sc{color:var(--gold-bright);border-color:var(--winner-border);background:var(--winner-bg)}
   .trow.winner .sc.tipsc{color:var(--tip);background:var(--winner-bg)}
@@ -189,6 +199,9 @@
   .scorer .goals{font-family:inherit;font-weight:700;font-size:24px;color:var(--gold-bright);
     margin-top:6px;line-height:1}
   .scorer .goals small{font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.1em;display:block;margin-top:2px}
+  .scorer .mins{margin-top:5px;color:var(--muted);font-size:10.5px;font-variant-numeric:tabular-nums}
+  .scorer .faceph{display:inline-flex;align-items:center;justify-content:center;color:var(--muted);
+    font-weight:700;font-size:22px}
   .scorer-more{margin-top:16px;color:var(--muted);font-size:11.5px;line-height:2}
   .scorer-more .mchip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line-soft);
     border-radius:999px;padding:2px 9px;margin:0 3px;color:var(--ink-soft);font-size:11px;white-space:nowrap}
@@ -241,6 +254,14 @@
   .mo-goal{display:flex;font-size:12px;color:var(--ink-soft)}
   .mo-goal.away{justify-content:flex-end}
   .mo-goal .min{color:var(--muted);margin:0 5px;font-variant-numeric:tabular-nums}
+  .mo-events{display:flex;flex-direction:column;gap:6px;margin:2px 0 8px}
+  .mo-event{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--ink-soft)}
+  .mo-event.away{justify-content:flex-end;text-align:right}
+  .mo-event .evmin{min-width:34px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .mo-event .evico{width:24px;height:22px;border:1px solid var(--line-soft);border-radius:6px;
+    display:inline-flex;align-items:center;justify-content:center;background:var(--soft-panel);font-size:12px;font-weight:700}
+  .mo-event .evtxt{min-width:0}
+  .mo-event .evlab{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-left:4px}
   .mo-sec{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
     color:var(--gold);text-align:center;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
   .mo-sec::before,.mo-sec::after{content:"";flex:1;height:1px;background:var(--line-soft)}
@@ -378,8 +399,8 @@
   <header>
     <p class="eyebrow"></p>
     <h1>Világbajnokság <span class="yr">2026</span></h1>
-    <p class="sub">Az ágrajz <strong>élőben frissül</strong> a FIFA adataival: gól után percenként frissülnek az állások,
-      élő meccs statisztikáját a pop-up 30 másodpercenként újratölti.
+    <p class="sub">Az ágrajz <strong>élőben frissül</strong> a FIFA adataival: az állások 15 másodpercenként frissülnek,
+      élő meccs statisztikáját a pop-up szintén 15 másodpercenként újratölti.
       <strong>Lejátszott meccsre kattintva</strong> a hivatalos statisztikák,
       <strong>hátralévő meccsre kattintva</strong> tippelés (továbbjutó + eredmény) és naptárhoz adás érhető el.
       Minden időpont <strong>romániai idő (EEST)</strong> szerint.</p>
@@ -406,7 +427,7 @@
   <!-- ================= GÓLLÖVŐLISTA ================= -->
   <section class="scorers" aria-label="Góllövőlista">
     <h2 class="sec-title">Góllövőlista</h2>
-    <p class="sec-sub">adidas Aranycipő-verseny · állás: 2026. július 2.</p>
+    <p class="sec-sub" id="scorerSub">adidas Aranycipő-verseny · FIFA hivatalos játékosstatisztika</p>
     <div class="scorer-grid" id="scorerGrid">
       <div class="scorer top"><span class="rank">1.</span>
         <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Lionel Messi"
@@ -634,50 +655,122 @@ const shortCity = c => !c ? "" : c.replace(/\s*\(.*\)/,"").replace("New York / N
 const isMobileLayout = () => window.matchMedia("(max-width: 760px)").matches;
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
 
-const SCORERS = [
-  {name:"Lionel Messi", team:"Argentína", code:"ar", goals:6, assists:3, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg/330px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg"},
-  {name:"Kylian Mbappé", team:"Franciaország", code:"fr", goals:6, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg/330px-Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg"},
-  {name:"Erling Haaland", team:"Norvégia", code:"no", goals:5, assists:2, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg/330px-Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg"},
-  {name:"Harry Kane", team:"Anglia", code:"gb-eng", goals:5, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg/330px-Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg"},
-  {name:"Vinícius Júnior", team:"Brazília", code:"br", goals:4, assists:3, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg/330px-Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg"},
-  {name:"Ousmane Dembélé", team:"Franciaország", code:"fr", goals:4, assists:2, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg/330px-Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg"},
-  {name:"Ismaïla Sarr", team:"Szenegál", code:"sn", goals:4, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg/330px-Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg"},
-  {name:"Jonathan David", team:"Kanada", code:"ca", goals:3, assists:2},
-  {name:"Deniz Undav", team:"Németország", code:"de", goals:3, assists:1},
-  {name:"Kai Havertz", team:"Németország", code:"de", goals:3, assists:1},
-  {name:"Johan Manzambi", team:"Svájc", code:"ch", goals:3, assists:0},
-  {name:"Matheus Cunha", team:"Brazília", code:"br", goals:3, assists:0},
-  {name:"Ismael Saibari", team:"Marokkó", code:"ma", goals:3, assists:0},
-  {name:"Brian Brobbey", team:"Hollandia", code:"nl", goals:3, assists:0},
-  {name:"Cody Gakpo", team:"Hollandia", code:"nl", goals:3, assists:0},
-  {name:"Elijah Just", team:"Új-Zéland", code:"nz", goals:3, assists:0},
-  {name:"Julián Quiñones", team:"Mexikó", code:"mx", goals:3, assists:0},
-  {name:"Folarin Balogun", team:"USA", code:"us", goals:3, assists:0}
+const FIFA_STATS_PAGE="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/statistics/player-statistics";
+const FIFA_GAMEDAY_API="https://gameday-prod.fifa.mangodev.co.uk/1-0";
+const FIFA_GAMEDAY_TOKEN="https://cxm-api.fifa.com/fifaplusweb/api/external/gameDay/token";
+const FIFA_GAMEDAY_COMPETITION=285023;
+const SCORERS_FALLBACK = [
+  {rank:1, name:"Kylian Mbappe", code:"fr", abbr:"FRA", goals:6, assists:2, minutes:378, pos:"FW", img:"https://digitalhub.fifa.com/transform/66f6087d-9563-4644-8f10-5614ef6e1e51/MBAPPE-Kylian_389867"},
+  {rank:2, name:"Lionel Messi", code:"ar", abbr:"ARG", goals:6, assists:0, minutes:223, pos:"FW", img:"https://digitalhub.fifa.com/transform/19823774-fac0-485a-8a8f-572e7324c6c2/MESSI-Lionel_229397"},
+  {rank:3, name:"Erling Haaland", code:"no", abbr:"NOR", goals:5, assists:0, minutes:309, pos:"FW", img:"https://digitalhub.fifa.com/transform/ee269811-9f84-401f-99b8-e953a2704ebb/HAALAND-Erling_419652"},
+  {rank:4, name:"Harry Kane", code:"gb-eng", abbr:"ENG", goals:5, assists:0, minutes:394, pos:"FW", img:"https://digitalhub.fifa.com/transform/5ad83fe6-1139-4f92-a97c-669052eb1755/KANE-Harry_369419"},
+  {rank:5, name:"Ousmane Dembele", code:"fr", abbr:"FRA", goals:4, assists:2, minutes:304, pos:"FW", img:"https://digitalhub.fifa.com/transform/e6eee717-fd8c-4f8f-a7e0-c4f978fe327f/DEMBELE-Ousmane_398680"},
+  {rank:6, name:"Vinicius Junior", code:"br", abbr:"BRA", goals:4, assists:1, minutes:398, pos:"FW", img:"https://digitalhub.fifa.com/transform/1c2722c3-a70b-49d8-bdb4-77109161f533/VINICIUS-JUNIOR_405742"},
+  {rank:7, name:"Ismaila Sarr", code:"sn", abbr:"SEN", goals:4, assists:1, minutes:419, pos:"FW", img:"https://digitalhub.fifa.com/transform/695226c6-92b8-4aa6-995e-dcdd2d08eb96/SARR-Ismaila_401889"},
+  {rank:8, name:"Deniz Undav", code:"de", abbr:"GER", goals:3, assists:2, minutes:174, pos:"FW", img:"https://digitalhub.fifa.com/transform/3ec30e08-a7eb-4781-aea8-0e9ff86ebef1/UNDAV-Deniz_484851"},
+  {rank:9, name:"Johan Manzambi", code:"ch", abbr:"SUI", goals:3, assists:1, minutes:146, pos:"MF", img:"https://digitalhub.fifa.com/transform/a0cb9413-32ea-4b8f-9801-55474cb12b77/MANZAMBI-Johan_502727"},
+  {rank:10, name:"Julian Quinones", code:"mx", abbr:"MEX", goals:3, assists:1, minutes:354, pos:"FW", img:"https://digitalhub.fifa.com/transform/ea06becb-97b2-4f89-8464-5e0854cb7f81/QUINONES-Julian_429157"},
+  {rank:11, name:"Cody Gakpo", code:"nl", abbr:"NED", goals:3, assists:1, minutes:394, pos:"FW", img:"https://digitalhub.fifa.com/transform/bbb5637f-0587-4ddd-8a82-604c0d921bb3/GAKPO-Cody_448152"},
+  {rank:12, name:"Brian Brobbey", code:"nl", abbr:"NED", goals:3, assists:0, minutes:245, pos:"FW", img:"https://digitalhub.fifa.com/transform/15246275-ff97-404c-bac3-ce793d98c744/BROBBEY-Brian_424051"}
 ];
+let activeScorers=[...SCORERS_FALLBACK], gameDayTokenPromise=null, scorerLiveEnabled=true;
 
-function sortedScorers(){
-  return [...SCORERS].sort((a,b)=>b.goals-a.goals || b.assists-a.assists || a.name.localeCompare(b.name,"hu"));
+function sortedScorers(list=activeScorers){
+  return [...list].sort((a,b)=>
+    b.goals-a.goals || b.assists-a.assists || (a.rank||999)-(b.rank||999) || a.name.localeCompare(b.name,"hu")
+  );
 }
-function renderScorers(){
-  const grid=document.getElementById("scorerGrid"), more=document.getElementById("scorerMore");
+function scorerTeam(p){ return TEAMS[p.code] || p.team || p.abbr || ""; }
+function scorerFaceHtml(p){
+  if(p.img) return '<img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="'+esc(p.name)+'" src="'+esc(p.img)+'">';
+  return '<span class="face faceph" aria-hidden="true">'+esc((p.name||"?").trim()[0]||"?")+'</span>';
+}
+function renderScorers(list=activeScorers, statusText){
+  const grid=document.getElementById("scorerGrid"), more=document.getElementById("scorerMore"), sub=document.getElementById("scorerSub");
   if(!grid || !more) return;
-  const list=sortedScorers();
-  const top=list.slice(0,7);
+  if(statusText && sub) sub.textContent=statusText;
+  const sorted=sortedScorers(list);
+  const top=sorted.slice(0,9);
   let rank=0, prev=null;
   grid.innerHTML=top.map((p,i)=>{
     if(!prev || p.goals!==prev.goals || p.assists!==prev.assists) rank=i+1;
     prev=p;
-    return '<div class="scorer'+(i<2?' top':'')+'"><span class="rank">'+rank+'.</span>'
-      +(p.img?'<img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="'+esc(p.name)+'" src="'+esc(p.img)+'">':'')
+    const team=scorerTeam(p);
+    const displayRank=Number.isFinite(Number(p.rank)) && Number(p.rank)>0 ? Number(p.rank) : rank;
+    return '<div class="scorer'+(i<2?' top':'')+'"><span class="rank">'+displayRank+'.</span>'
+      +scorerFaceHtml(p)
       +'<div class="pname">'+esc(p.name)+'</div>'
-      +'<div class="pteam"><img src="'+flagUrl(p.code,40)+'" alt="" width="16" height="12">'+esc(p.team)+'</div>'
+      +'<div class="pteam"><img src="'+flagUrl(p.code,40)+'" alt="" width="16" height="12">'+esc(team)+' '+esc(p.pos||"")+'</div>'
       +'<div class="goals">'+p.goals+'<small>GÓL · '+p.assists+' GP</small></div>'
+      +(p.minutes?'<div class="mins">'+nfat(p.minutes)+' perc</div>':"")
       +'</div>';
   }).join("");
-  const rest=list.filter(p=>p.goals===3);
-  more.innerHTML='3 gólnál, gólpassz szerint: '+rest.map(p=>
-    '<span class="mchip"><img src="'+flagUrl(p.code,40)+'" alt="'+esc(p.team)+'">'+esc(p.name)+' · '+p.assists+' GP</span>'
-  ).join("");
+  const boundaryGoals=top.length ? top[top.length-1].goals : 0;
+  const rest=sorted.slice(top.length).filter(p=>p.goals===boundaryGoals && boundaryGoals>0);
+  more.innerHTML=(rest.length ? boundaryGoals+' gólnál, gólpassz szerint: '+rest.map(p=>
+    '<span class="mchip"><img src="'+flagUrl(p.code,40)+'" alt="'+esc(scorerTeam(p))+'">'+esc(p.name)+' · '+p.goals+' G · '+p.assists+' GP</span>'
+  ).join("")+' · ' : "")+'Forrás: <a class="footlink" href="'+FIFA_STATS_PAGE+'" target="_blank" rel="noopener">FIFA player statistics</a>';
+}
+function gdTag(tags, suffix){
+  const hit=(tags||[]).find(t=>t.name===suffix || t.name.endsWith(suffix));
+  return hit ? hit.value : "";
+}
+function gdNumber(v){ const n=Number(v); return Number.isFinite(n) ? n : 0; }
+function fifaScorerStoryUrl(page=1){
+  const q="(and resourceStatus==`urn:gd:resourceStatus:active` _externalId~`urn:gd:story:classification:gcp_top_scorer:competitionId:"+FIFA_GAMEDAY_COMPETITION+":goals:rank_asc:page:"+page+"$`)";
+  return FIFA_GAMEDAY_API+"/stories?query="+encodeURIComponent(q)+"&skip=0&limit=1&sort=tags.name==urn:gd:tag:story:fifa:column_number:asc";
+}
+async function fifaGameDayToken(){
+  if(!gameDayTokenPromise){
+    gameDayTokenPromise=fetch(FIFA_GAMEDAY_TOKEN,{cache:"no-store"})
+      .then(r=>{ if(!r.ok) throw new Error("FIFA GameDay token HTTP "+r.status); return r.json(); })
+      .then(j=>{ if(!j.token) throw new Error("Hiányzó FIFA GameDay token"); return j.token; })
+      .catch(e=>{ gameDayTokenPromise=null; throw e; });
+  }
+  return gameDayTokenPromise;
+}
+function parseFifaScorers(actors){
+  const out=[];
+  (actors||[]).forEach(a=>{
+    const tags=a.tags||[];
+    const abbr=gdTag(tags,"story:team:abbreviation");
+    const code=ABBR[abbr] || String(abbr||"").toLowerCase();
+    const name=gdTag(tags,"story:staff:display_name:eng") || (a.name&&a.name.eng) || "";
+    const goals=gdNumber(gdTag(tags,"football:stats:goals"));
+    if(!name || !code || goals<=0) return;
+    out.push({
+      name, code, abbr, goals,
+      assists:gdNumber(gdTag(tags,"football:stats:assists")),
+      minutes:gdNumber(gdTag(tags,"football:stats:total_competition_minutes_played")),
+      rank:gdNumber(gdTag(tags,"football:stats:fdcp_top_scorer_rank")) || Number(a.number) || 999,
+      pos:gdTag(tags,"story:staff:position"),
+      img:gdTag(tags,"story:staff:image")
+    });
+  });
+  return out;
+}
+async function loadFifaScorers(){
+  const token=await fifaGameDayToken();
+  const r=await fetch(fifaScorerStoryUrl(1),{
+    cache:"no-store",
+    headers:{Accept:"application/json",Authorization:"Bearer "+token}
+  });
+  if(!r.ok) throw new Error("FIFA GameDay scorers HTTP "+r.status);
+  const j=await r.json();
+  const list=parseFifaScorers(j.items && j.items[0] && j.items[0].actors);
+  if(!list.length) throw new Error("Üres FIFA góllövőlista");
+  return list;
+}
+async function refreshScorers(silent=false){
+  if(!scorerLiveEnabled) return;
+  if(!silent) renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos játékosstatisztika frissítése…");
+  try{
+    activeScorers=await loadFifaScorers();
+    renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos játékosstatisztika");
+  }catch(e){
+    scorerLiveEnabled=false;
+    renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos snapshot");
+  }
 }
 
 function tipScore(t){ return t && t.aet ? t.aet : (t && t.s ? t.s : null); }
@@ -1073,7 +1166,7 @@ window.addEventListener("resize",()=>{
   resizeT=setTimeout(()=>{
     const mobileNow=isMobileLayout();
     if(render.lastMobile==null || mobileNow!==render.lastMobile) render({refit:true});
-    else if(window.__redrawWires) window.__redrawWires(false);
+    else if(window.__redrawWires) window.__redrawWires(true);  /* ablakszélesség-változáskor mindig újraigazítunk, különben üres sáv marad az egyik szélen */
   },90);
 });
 
@@ -1088,11 +1181,23 @@ function liveLabel(no){
   if(!r) return no+". mérkőzés";
   return nameOf(ABBR[r.hAb])+" – "+nameOf(ABBR[r.aAb])+(r.min?" · "+r.min:"");
 }
+/* FIFA élő „Period” → megjelenített fázis (félidő / hosszabbítás / tizenegyesek) */
+function phaseLabel(period, mt){
+  switch(period){
+    case 4:  return "Félidő";
+    case 8:  return "Hosszabbítás – szünet";
+    case 7:
+    case 9:  return "Hosszabbítás"+(mt?" "+mt:"");
+    case 11: return "Tizenegyesek";
+    default: return mt||"";
+  }
+}
 function updateLiveChip(now){
-  liveChip.classList.remove("err");
+  liveChip.classList.remove("err","live-active");
   if(liveMatches.length){
+    liveChip.classList.add("live-active");
     liveChip.disabled=false;
-    liveChipTxt.textContent="ÉLŐ: "+liveLabel(liveMatches[0])+(liveMatches.length>1?" +"+(liveMatches.length-1):"")+" · statisztika";
+    liveChipTxt.textContent="ÉLŐ: "+liveLabel(liveMatches[0])+(liveMatches.length>1?" +"+(liveMatches.length-1):"");
   }else{
     liveChip.disabled=true;
     liveChipTxt.textContent="Élő frissítés · "+now.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"});
@@ -1129,6 +1234,7 @@ async function liveSync(){
     if(!r.ok) throw new Error("HTTP "+r.status);
     const j=await r.json();
     let changed=false; anyLive=false; liveMatches=[];
+    const pending=[];
     (j.Results||[]).forEach(it=>{
       const no=it.MatchNumber; if(no==null) return;
       RAW[no]={idm:it.IdMatch, stg:it.IdStage, ifes:it.Properties&&it.Properties.IdIFES};
@@ -1145,21 +1251,35 @@ async function liveSync(){
         aet:(it.ResultType===2||it.ResultType===3),
         live:live, min:it.MatchTime||""
       };
-      if(live){ anyLive=true; liveMatches.push(no); }
-      const old=RES[no];
-      if(!old || JSON.stringify(old)!==JSON.stringify(entry)){ RES[no]=entry; changed=true; }
+      if(live){ anyLive=true; liveMatches.push(no); pending.push({no,entry,it}); }
+      else{
+        const old=RES[no];
+        if(!old || JSON.stringify(old)!==JSON.stringify(entry)){ RES[no]=entry; changed=true; }
+      }
+    });
+    /* élő meccsek fázisa: a naptár nem ad „Period”-ot, az élő végpont igen */
+    await Promise.all(pending.map(async p=>{
+      try{
+        const lv=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+p.it.IdStage+"/"+p.it.IdMatch+"?language=en",{cache:"no-store"})).json();
+        p.entry.min=phaseLabel(lv.Period, lv.MatchTime||p.entry.min);
+      }catch(e){/* marad a naptár MatchTime értéke */}
+    }));
+    pending.forEach(p=>{
+      const old=RES[p.no];
+      if(!old || JSON.stringify(old)!==JSON.stringify(p.entry)){ RES[p.no]=p.entry; changed=true; }
     });
     const now=new Date();
     updateLiveChip(now);
     refreshNextMatchLineup();
     if(changed) render();
   }catch(e){
+    liveChip.classList.remove("live-active");
     liveChip.classList.add("err");
     liveChip.disabled=true;
     liveChipTxt.textContent="Élő frissítés nem elérhető — beépített adatok";
   }
 }
-setInterval(liveSync, 60000);
+setInterval(liveSync, 15000);
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden) liveSync(); });
 
 /* ---------- statisztikasorok (közös builder) ---------- */
@@ -1196,7 +1316,7 @@ function statRowsHtml(stats){
 function liveStatsWaitingHtml(isLive){
   return '<div class="mo-loading">'
     +(isLive
-      ? 'A FIFA részletes statisztikái még nem érhetők el. Nyitva hagyva 30 másodpercenként újrapróbáljuk.'
+      ? 'A FIFA részletes statisztikái még nem érhetők el. Nyitva hagyva 15 másodpercenként újrapróbáljuk.'
       : 'A részletes statisztika még nem érhető el.')
     +'</div>';
 }
@@ -1212,6 +1332,102 @@ function goalsHtml(goals){
       +'</div>';
   });
   return html+'</div>';
+}
+function cleanPersonName(s){
+  s=playerText(s)||s||"";
+  return String(s).trim().toLowerCase().replace(/(^|[\s\-'’])\S/g,ch=>ch.toUpperCase());
+}
+function minuteValue(min){
+  const nums=String(min||"").match(/\d+/g);
+  if(!nums) return 9999;
+  return Number(nums[0])+(Number(nums[1]||0)/100);
+}
+function eventIcon(type){
+  return type==="yellow" ? "Y" : type==="red" ? "R" : type==="sub" ? "⇄" : type==="var" ? "VAR" : "⚽";
+}
+function eventLabel(type){
+  return type==="yellow" ? "Sárga lap" : type==="red" ? "Piros lap" : type==="sub" ? "Csere"
+    : type==="var" ? "VAR döntés" : "Gól";
+}
+function eventText(ev){
+  if(ev.type==="sub") return esc(ev.playerOn||"?")+" be, "+esc(ev.playerOff||"?")+" le";
+  const assist=ev.assist ? " · gólpassz: "+ev.assist : "";
+  const detail=ev.detail ? " · "+ev.detail : "";
+  return esc(ev.player||ev.detail||"?")+esc(assist+detail);
+}
+function matchEventsHtml(events){
+  if(!events || !events.length) return "";
+  const sorted=[...events].sort((a,b)=>minuteValue(a.minute)-minuteValue(b.minute) || (a.order||0)-(b.order||0));
+  let html='<div class="mo-sec">Mérkőzésesemények</div><div class="mo-events">';
+  sorted.forEach(ev=>{
+    html+='<div class="mo-event'+(ev.side===1?" away":"")+'">'
+      +(ev.side===1?'<span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span><span class="evico">'+eventIcon(ev.type)+'</span><span class="evmin">'+esc(ev.minute||"")+'</span>'
+        :'<span class="evmin">'+esc(ev.minute||"")+'</span><span class="evico">'+eventIcon(ev.type)+'</span><span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span>')
+      +'</div>';
+  });
+  return html+'</div>';
+}
+function collectArraysByKey(obj, re, out=[], seen=new Set(), depth=0){
+  if(!obj || typeof obj!=="object" || depth>4 || seen.has(obj)) return out;
+  seen.add(obj);
+  Object.keys(obj).forEach(k=>{
+    const v=obj[k];
+    if(Array.isArray(v) && re.test(k)) out.push(v);
+    else if(v && typeof v==="object" && !Array.isArray(v)) collectArraysByKey(v,re,out,seen,depth+1);
+  });
+  return out;
+}
+function liveEventName(pmap, id, fallback){
+  return pmap[id] || cleanPersonName(fallback) || "";
+}
+function addLiveEvent(events, seen, ev){
+  if(!ev || !ev.type) return;
+  const key=[ev.type,ev.side,ev.minute,ev.player,ev.playerOn,ev.playerOff,ev.detail].join("|");
+  if(seen.has(key)) return;
+  seen.add(key);
+  ev.order=events.length;
+  events.push(ev);
+}
+function liveEventsFromFifa(live,m,flip,pmap){
+  const events=[], seen=new Set();
+  const teams=[[live.HomeTeam,flip?1:0],[live.AwayTeam,flip?0:1]];
+  teams.forEach(([tm,side])=>{
+    (tm&&tm.Goals||[]).forEach(g=>addLiveEvent(events,seen,{
+      type:"goal", side, minute:g.Minute||"", player:liveEventName(pmap,g.IdPlayer,g.PlayerName),
+      assist:liveEventName(pmap,g.IdAssistPlayer,g.AssistPlayerName),
+      detail:g.Type===3 ? "11-esből" : (g.Type===1 ? "öngól" : "")
+    }));
+    (tm&&tm.Bookings||[]).forEach(b=>{
+      const card=Number(b.Card);
+      addLiveEvent(events,seen,{
+        type:(card===2 || card===3) ? "red" : "yellow", side, minute:b.Minute||"",
+        player:liveEventName(pmap,b.IdPlayer||b.IdCoach||b.IdStaff,b.PlayerName||b.CoachName||b.StaffName),
+        detail:playerText(b.Reason)||""
+      });
+    });
+    (tm&&tm.Substitutions||[]).forEach(s=>addLiveEvent(events,seen,{
+      type:"sub", side, minute:s.Minute||"",
+      playerOn:liveEventName(pmap,s.IdPlayerOn,s.PlayerOnName),
+      playerOff:liveEventName(pmap,s.IdPlayerOff,s.PlayerOffName),
+      detail:playerText(s.Reason)||""
+    }));
+    collectArraysByKey(tm,/var|video|review/i).flat().forEach(v=>addLiveEvent(events,seen,{
+      type:"var", side, minute:v.Minute||v.MatchMinute||"",
+      player:liveEventName(pmap,v.IdPlayer,v.PlayerName),
+      detail:playerText(v.Decision)||playerText(v.Result)||playerText(v.Type)||playerText(v.Description)||"VAR"
+    }));
+  });
+  collectArraysByKey(live,/var|video|review/i).flat().forEach(v=>{
+    const idTeam=String(v.IdTeam||"");
+    const homeSide=String(live.HomeTeam&&live.HomeTeam.IdTeam)===idTeam ? (flip?1:0) : null;
+    const awaySide=String(live.AwayTeam&&live.AwayTeam.IdTeam)===idTeam ? (flip?0:1) : null;
+    addLiveEvent(events,seen,{
+      type:"var", side:homeSide!=null?homeSide:(awaySide!=null?awaySide:0), minute:v.Minute||v.MatchMinute||"",
+      player:liveEventName(pmap,v.IdPlayer,v.PlayerName),
+      detail:playerText(v.Decision)||playerText(v.Result)||playerText(v.Type)||playerText(v.Description)||"VAR"
+    });
+  });
+  return events;
 }
 function scoreHeadHtml(m, extraNote){
   const w=winnerOf(m);
@@ -1402,12 +1618,22 @@ function attachClose(){
   if(cbtn){ cbtn.addEventListener("click",closeModal); cbtn.focus(); }
 }
 
+/* modal-nyitáskor a görgetősáv eltűnése ne tolja el (középről jobbra) az ágrajzot */
+function lockScroll(){
+  const sb=window.innerWidth-document.documentElement.clientWidth;
+  if(sb>0) document.body.style.paddingRight=sb+"px";
+  document.body.style.overflow="hidden";
+}
+function unlockScroll(){
+  document.body.style.overflow="";
+  document.body.style.paddingRight="";
+}
 function openAllCalendarModal(){
   lastFocus=document.activeElement;
   clearInterval(moTimer); moTimer=null; moToken++;
   modal.classList.remove("privacy-modal");
   overlay.classList.add("open");
-  document.body.style.overflow="hidden";
+  lockScroll();
   modal.innerHTML='<div class="mo-top">'
     +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
     +'<div class="mo-round" id="moTitle">Összes meccs naptárba</div>'
@@ -1431,7 +1657,7 @@ function openPrivacyModal(){
   clearInterval(moTimer); moTimer=null; moToken++;
   modal.classList.add("privacy-modal");
   overlay.classList.add("open");
-  document.body.style.overflow="hidden";
+  lockScroll();
   modal.innerHTML='<div class="mo-top">'
     +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
     +'<div class="mo-round" id="moTitle">Adatkezelési tájékoztató</div>'
@@ -1455,7 +1681,7 @@ async function openLineupModal(m, roundIdx){
   const token=++moToken;
   modal.classList.remove("privacy-modal");
   overlay.classList.add("open");
-  document.body.style.overflow="hidden";
+  lockScroll();
   modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
     +(m.s?scoreHeadHtml(m):"")+'</div><div class="mo-loading">Kezdőcsapatok letöltése a FIFA-tól…</div>';
   attachClose();
@@ -1471,8 +1697,12 @@ async function openLineupModal(m, roundIdx){
   modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
     +(m.s?scoreHeadHtml(m):"")+'</div><div class="mo-body">'
     +'<div class="mo-sec">Kezdőcsapatok</div>'+html
+    +'<div class="mo-actions"><button class="btn primary" id="btnBackStats" type="button">'
+    +(m.s||m.live?'Statisztikák':'Vissza a meccshez')+'</button></div>'
     +'<div class="mo-src" style="margin-top:14px">Forrás: FIFA — api.fifa.com</div></div>';
   attachClose();
+  const back=document.getElementById("btnBackStats");
+  if(back) back.addEventListener("click",()=>openModal(m, roundIdx));
 }
 
 function openModal(m, roundIdx){
@@ -1480,7 +1710,7 @@ function openModal(m, roundIdx){
   clearInterval(moTimer); moTimer=null; moToken++;
   modal.classList.remove("privacy-modal");
   overlay.classList.add("open");
-  document.body.style.overflow="hidden";
+  lockScroll();
 
   if(m.s && m.stats && !m.live){
     /* beépített, végleges FIFA-statisztika */
@@ -1503,7 +1733,7 @@ function openModal(m, roundIdx){
       moTimer=setInterval(async()=>{
         await liveSync();
         renderDynamic(m, roundIdx, tk);
-      },30000);
+      },15000);
     }
   }else if(m.h && m.a){
     /* tippelhető meccs */
@@ -1570,7 +1800,7 @@ async function renderDynamic(m, roundIdx, token){
     attachClose();
   }
   const info=RAW[m.no];
-  let goals=null, stats=null, att=null, min=m.min;
+  let goals=null, events=null, stats=null, att=null, min=m.min;
   if(info && info.idm){
     try{
       const live=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+info.stg+"/"+info.idm+"?language=en",{cache:"no-store"})).json();
@@ -1580,18 +1810,20 @@ async function renderDynamic(m, roundIdx, token){
       const pmap={};
       [live.HomeTeam,live.AwayTeam].forEach(tm=>{
         (tm&&tm.Players||[]).forEach(p=>{
-          let sn=p.ShortName; if(Array.isArray(sn)) sn=sn[0];
-          if(sn&&sn.Description) pmap[p.IdPlayer]=sn.Description.toLowerCase()
-            .replace(/(^|[\s\-'’])\S/g,ch=>ch.toUpperCase());
+          const nm=cleanPersonName(playerName(p));
+          if(p.IdPlayer && nm) pmap[p.IdPlayer]=nm;
+        });
+        (tm&&tm.Coaches||[]).forEach(p=>{
+          const nm=cleanPersonName(playerText(p.Name)||playerText(p.Alias));
+          if(p.IdCoach && nm) pmap[p.IdCoach]=nm;
+        });
+        (tm&&tm.Staffs||[]).forEach(p=>{
+          const nm=cleanPersonName(playerText(p.Name)||playerText(p.Alias));
+          if(p.IdStaff && nm) pmap[p.IdStaff]=nm;
         });
       });
-      goals=[];
-      [[live.HomeTeam,flip?1:0],[live.AwayTeam,flip?0:1]].forEach(([tm,side])=>{
-        (tm&&tm.Goals||[]).forEach(g=>{
-          goals.push([side, pmap[g.IdPlayer]||"?", g.Minute||"", g.Type===3?"p":""]);
-        });
-      });
-      goals.sort((x,y)=>parseInt(x[2])-parseInt(y[2]));
+      events=liveEventsFromFifa(live,m,flip,pmap);
+      goals=events.filter(ev=>ev.type==="goal").map(ev=>[ev.side,ev.player||"?",ev.minute||"",ev.detail==="11-esből"?"p":""]);
       const ifes=(live.Properties&&live.Properties.IdIFES)||info.ifes;
       if(ifes){
         const tj=await (await fetch(FDH+"/stats/match/"+ifes+"/teams.json",{cache:"no-store"})).json();
@@ -1616,11 +1848,11 @@ async function renderDynamic(m, roundIdx, token){
   modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
     +(m.s?scoreHeadHtml(m):'<div class="mo-note" style="margin-top:10px">Az eredmény betöltése…</div>')+'</div>'
     +'<div class="mo-body">'
-    +(goals?goalsHtml(goals):"")
+    +(events&&events.length?matchEventsHtml(events):(goals?goalsHtml(goals):""))
     +(stats?statRowsHtml(stats):liveStatsWaitingHtml(m.live))
     +lineupButtonHtml(m)
     +'<div class="mo-extra">'+(att?'Nézőszám: <b>'+nfat(att)+'</b> · ':"")
-    +(m.live?'A statisztika 30 másodpercenként automatikusan frissül.':'Végeredmény.')
+    +(m.live?'A statisztika 15 másodpercenként automatikusan frissül.':'Végeredmény.')
     +'</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com (élő)</div></div>';
   attachClose();
   wireLineupButton(m, roundIdx);
@@ -1715,7 +1947,7 @@ function wireTipEditor(m){
 
 function closeModal(){
   overlay.classList.remove("open");
-  document.body.style.overflow="";
+  unlockScroll();
   clearInterval(moTimer); moTimer=null; moToken++;
   modal.classList.remove("privacy-modal");
   if(lastFocus && document.contains(lastFocus)) lastFocus.focus();
@@ -1735,8 +1967,10 @@ document.getElementById("btnTheme").addEventListener("click",()=>applyTheme(curr
 /* ---------- indítás ---------- */
 applyTheme(loadTheme());
 renderScorers();
+refreshScorers();
 render();
 liveSync();
+setInterval(()=>refreshScorers(true), 300000);
 </script>
 </body>
 </html>
