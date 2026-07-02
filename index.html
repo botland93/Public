@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="hu">
 <head>
@@ -169,8 +168,6 @@
   .trophywrap .flbl{font-family:inherit;text-transform:uppercase;letter-spacing:.3em;
     font-size:11px;color:var(--gold);position:relative}
   .finalcol .match{width:100%}
-  .champmini{font-size:11px;color:var(--muted);text-align:center;line-height:1.5;max-width:200px}
-
   /* ---------- góllövőlista ---------- */
   .scorers{max-width:980px;margin:34px auto 0;padding:0 16px;text-align:center}
   .sec-title{font-family:inherit;font-weight:600;text-transform:uppercase;letter-spacing:.24em;
@@ -387,8 +384,8 @@
       <strong>hátralévő meccsre kattintva</strong> tippelés (továbbjutó + eredmény) és naptárhoz adás érhető el.
       Minden időpont <strong>romániai idő (EEST)</strong> szerint.</p>
     <div class="statusline">
-      <span class="chip"><span class="dotp"></span>Legjobb 32: <b id="playedCount">10 / 16</b>&nbsp;lejátszva</span>
       <button class="chip" id="liveChip" type="button" disabled><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></button>
+      <button class="chip" id="nextMatch" type="button" disabled>Következő meccs: —</button>
       <button class="chip" id="btnClearTips" type="button" hidden>↺ Tippek törlése</button>
       <button class="chip" id="btnAllCalendar" type="button">📅 Összes meccs naptárba</button>
       <button class="chip iconchip" id="btnTheme" type="button" aria-label="Sötét mód">☾</button>
@@ -515,6 +512,7 @@ const ABBR = {BRA:"br",JPN:"jp",CIV:"ci",NOR:"no",MEX:"mx",ECU:"ec",ENG:"gb-eng"
   ARG:"ar",CPV:"cv",AUS:"au",EGY:"eg",SUI:"ch",ALG:"dz",COL:"co",GHA:"gh",SEN:"sn",BEL:"be",
   BIH:"ba",USA:"us",AUT:"at",ESP:"es",CRO:"hr",POR:"pt",MAR:"ma",NED:"nl",CAN:"ca",RSA:"za",
   SWE:"se",FRA:"fr",PAR:"py",GER:"de"};
+const CODE3 = Object.fromEntries(Object.entries(ABBR).map(([abbr,code])=>[code,abbr]));
 
 const R32 = [
   /* ---- BAL szárny ---- */
@@ -897,10 +895,73 @@ function colHead(col, roundIdx){
   bracket.appendChild(d);
 }
 
-function updateHeaderState(){
+let nextMatchRef=null, nextLineupToken=0;
+const nextLineupCache={};
+function shortTeam(code){ return CODE3[code] || String(code||"?").toUpperCase(); }
+function nextMatchItems(rounds){
+  return [
+    ...R32.map(m=>({m,roundIdx:0})),
+    ...(rounds ? rounds.r16.map(m=>({m,roundIdx:1})) : []),
+    ...(rounds ? rounds.qf.map(m=>({m,roundIdx:2})) : []),
+    ...(rounds ? rounds.sf.map(m=>({m,roundIdx:3})) : []),
+    ...(rounds ? [{m:rounds.fin,roundIdx:4}] : [])
+  ];
+}
+function nextLineupSummary(lineups){
+  if(!lineups || !lineups.some(t=>t.players.length)) return "";
+  return "Kezdők: "+lineups.map(t=>shortTeam(t.code)+" "+t.players.map(p=>playerName(p)).join(", ")).join(" · ");
+}
+function setNextMatchText(){
+  const el=document.getElementById("nextMatch");
+  if(!el) return;
+  if(!nextMatchRef){
+    el.textContent="Következő meccs: —";
+    el.title="";
+    el.disabled=true;
+    return;
+  }
+  const m=nextMatchRef.m;
+  const cache=nextLineupCache[m.no];
+  const base="Következő meccs: "+shortTeam(m.h)+"-"+shortTeam(m.a)+", "+(m.t||"");
+  const lineupText=cache && cache.available ? " · kezdőcsapat elérhető" : "";
+  el.textContent=base+lineupText;
+  el.title=(cache && cache.summary) ? base+"\n"+cache.summary : "Kattints a meccs popup megnyitásához";
+  el.disabled=false;
+}
+async function refreshNextMatchLineup(force=false){
+  if(!nextMatchRef) return;
+  const m=nextMatchRef.m, info=RAW[m.no];
+  const cached=nextLineupCache[m.no];
+  if(cached?.available && !force){ setNextMatchText(); return; }
+  if(!force && cached?.checkedAt && Date.now()-cached.checkedAt<60000) return;
+  if(!info || !info.idm) return;
+  const token=++nextLineupToken;
+  try{
+    const live=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+info.stg+"/"+info.idm+"?language=en",{cache:"no-store"})).json();
+    const lineups=lineupsFromLive(live,m);
+    const summary=nextLineupSummary(lineups);
+    nextLineupCache[m.no]={checkedAt:Date.now(),available:!!summary,summary,lineups};
+  }catch(e){
+    nextLineupCache[m.no]={checkedAt:Date.now(),available:false,summary:"",lineups:null};
+  }
+  if(token===nextLineupToken) setNextMatchText();
+}
+function updateNextMatch(rounds){
+  const now=Date.now();
+  nextMatchRef=nextMatchItems(rounds)
+    .filter(x=>x.m && x.m.utc && x.m.h && x.m.a && !x.m.s && !x.m.live && new Date(x.m.utc).getTime()>now)
+    .sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc))[0] || null;
+  setNextMatchText();
+  refreshNextMatchLineup();
+}
+async function openNextMatchModal(){
+  if(!nextMatchRef) return;
+  await refreshNextMatchLineup(true);
+  openModal(nextMatchRef.m, nextMatchRef.roundIdx);
+}
+function updateHeaderState(rounds){
   document.getElementById("btnClearTips").hidden = Object.keys(tips).length===0;
-  const played=R32.filter(m=>winnerOf(m)!==null).length;
-  document.getElementById("playedCount").textContent=played+" / 16";
+  updateNextMatch(rounds);
 }
 
 function renderMobile(rounds){
@@ -926,7 +987,7 @@ function renderMobile(rounds){
       sec.appendChild(card);
     });
   });
-  updateHeaderState(rounds.fin);
+  updateHeaderState(rounds);
   window.__redrawWires=()=>fitBracketToScreen();
   fitBracketToScreen();
 }
@@ -967,7 +1028,7 @@ function render(opts={}){
   fc.appendChild(finCard);
   finCard.style.gridColumn=""; finCard.style.gridRow="";
 
-  updateHeaderState(fin);
+  updateHeaderState(rounds);
 
   const redraw=(forceFit=refit)=>{
     const saved=forceFit ? null : snapshotBracketFit();
@@ -1031,19 +1092,34 @@ function updateLiveChip(now){
   liveChip.classList.remove("err");
   if(liveMatches.length){
     liveChip.disabled=false;
-    liveChipTxt.textContent="ÉLŐ: "+liveLabel(liveMatches[0])+(liveMatches.length>1?" +"+(liveMatches.length-1):"")+" · ugrás";
+    liveChipTxt.textContent="ÉLŐ: "+liveLabel(liveMatches[0])+(liveMatches.length>1?" +"+(liveMatches.length-1):"")+" · statisztika";
   }else{
     liveChip.disabled=true;
     liveChipTxt.textContent="Élő frissítés · "+now.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"});
   }
 }
+function matchByNo(no){
+  R32.forEach(applyRes);
+  const rounds=buildRounds();
+  const all=[
+    ...R32.map(m=>({m,roundIdx:0})),
+    ...rounds.r16.map(m=>({m,roundIdx:1})),
+    ...rounds.qf.map(m=>({m,roundIdx:2})),
+    ...rounds.sf.map(m=>({m,roundIdx:3})),
+    {m:rounds.fin,roundIdx:4}
+  ];
+  return all.find(x=>x.m && x.m.no===no) || null;
+}
 function jumpToLiveMatch(){
   if(!liveMatches.length) return;
   const el=document.getElementById("match-"+liveMatches[0]);
-  if(!el) return;
-  el.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
-  el.classList.add("jump-highlight");
-  setTimeout(()=>el.classList.remove("jump-highlight"),1800);
+  if(el){
+    el.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+    el.classList.add("jump-highlight");
+    setTimeout(()=>el.classList.remove("jump-highlight"),1800);
+  }
+  const liveMatch=matchByNo(liveMatches[0]);
+  if(liveMatch) openModal(liveMatch.m, liveMatch.roundIdx);
 }
 
 async function liveSync(){
@@ -1075,6 +1151,7 @@ async function liveSync(){
     });
     const now=new Date();
     updateLiveChip(now);
+    refreshNextMatchLineup();
     if(changed) render();
   }catch(e){
     liveChip.classList.add("err");
@@ -1116,6 +1193,13 @@ function statRowsHtml(stats){
   });
   return html;
 }
+function liveStatsWaitingHtml(isLive){
+  return '<div class="mo-loading">'
+    +(isLive
+      ? 'A FIFA részletes statisztikái még nem érhetők el. Nyitva hagyva 30 másodpercenként újrapróbáljuk.'
+      : 'A részletes statisztika még nem érhető el.')
+    +'</div>';
+}
 function goalsHtml(goals){
   if(!goals || !goals.length) return "";
   let html='<div class="mo-goals">';
@@ -1147,7 +1231,10 @@ function scoreHeadHtml(m, extraNote){
 }
 
 function lineupButtonHtml(m){
-  return m && (m.s || m.live) ? '<div class="mo-actions" style="margin-top:12px"><button class="btn" id="btnLineups" type="button">Kezdőcsapatok</button></div>' : "";
+  if(!m) return "";
+  const cache=nextLineupCache[m.no];
+  const available=!!(m.s || m.live || (cache && cache.available));
+  return available ? '<div class="mo-actions" style="margin-top:12px"><button class="btn" id="btnLineups" type="button">Kezdőcsapatok</button></div>' : "";
 }
 function playerText(v){
   if(!v) return "";
@@ -1411,7 +1498,13 @@ function openModal(m, roundIdx){
   }else if(m.s || m.live){
     /* élő vagy utólag befejezett meccs → statisztika letöltése a FIFA-tól */
     renderDynamic(m, roundIdx, moToken);
-    if(m.live){ const tk=moToken; moTimer=setInterval(()=>{ liveSync(); renderDynamic(m, roundIdx, tk); },30000); }
+    if(m.live){
+      const tk=moToken;
+      moTimer=setInterval(async()=>{
+        await liveSync();
+        renderDynamic(m, roundIdx, tk);
+      },30000);
+    }
   }else if(m.h && m.a){
     /* tippelhető meccs */
     const t=tips[m.key] || null;
@@ -1446,12 +1539,14 @@ function openModal(m, roundIdx){
       +(t?'<button class="btn danger" id="tipDel">Tipp törlése</button>':'')
       +'<button class="btn" id="tipCancel">Mégse</button>'
       +'</div>'
+      +lineupButtonHtml(m)
       +'<div class="mo-sec" style="margin-top:18px">Emlékeztető</div>'
       +'<div class="mo-actions" style="margin-top:0">'+calButtonsHtml()+'</div>'
       +'<div class="mo-src" style="margin-top:14px">A tippek csak ebben a böngészőben, helyben tárolódnak.</div></div>';
     attachClose();
     wireTipEditor(m);
     wireCalButtons(m, roundIdx);
+    wireLineupButton(m, roundIdx);
   }else{
     /* még ismeretlen párosítás */
     modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+'</div><div class="mo-pend">'
@@ -1468,6 +1563,7 @@ function openModal(m, roundIdx){
 /* élő / utólag lejátszott meccs statisztikái közvetlenül a FIFA API-ból */
 async function renderDynamic(m, roundIdx, token){
   if(token!==moToken || !overlay.classList.contains("open")) return;
+  applyRes(m);
   if(!modal.querySelector(".mo-body")){
     modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)+(m.s?scoreHeadHtml(m):"")+'</div>'
       +'<div class="mo-loading">Statisztika letöltése a FIFA-tól…</div>';
@@ -1521,7 +1617,7 @@ async function renderDynamic(m, roundIdx, token){
     +(m.s?scoreHeadHtml(m):'<div class="mo-note" style="margin-top:10px">Az eredmény betöltése…</div>')+'</div>'
     +'<div class="mo-body">'
     +(goals?goalsHtml(goals):"")
-    +(stats?statRowsHtml(stats):'<div class="mo-loading">A részletes statisztika még nem érhető el.</div>')
+    +(stats?statRowsHtml(stats):liveStatsWaitingHtml(m.live))
     +lineupButtonHtml(m)
     +'<div class="mo-extra">'+(att?'Nézőszám: <b>'+nfat(att)+'</b> · ':"")
     +(m.live?'A statisztika 30 másodpercenként automatikusan frissül.':'Végeredmény.')
@@ -1632,6 +1728,7 @@ document.getElementById("btnClearTips").addEventListener("click",()=>{
 });
 document.getElementById("btnAllCalendar").addEventListener("click",openAllCalendarModal);
 document.getElementById("btnPrivacy").addEventListener("click",openPrivacyModal);
+document.getElementById("nextMatch").addEventListener("click",openNextMatchModal);
 liveChip.addEventListener("click",jumpToLiveMatch);
 document.getElementById("btnTheme").addEventListener("click",()=>applyTheme(currentTheme==="dark"?"light":"dark"));
 
