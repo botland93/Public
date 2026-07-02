@@ -1,904 +1,559 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<!doctype html>
+<html lang="hu">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R0SZ5CB32H"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-R0SZ5CB32H');
-  </script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Botland Solutions | Operations & Digital Infrastructure</title>
-  <meta name="description" content="Botland Solutions helps growing teams build reliable digital operations — project management, internal digitalization, AI workflows, and operational infrastructure." />
-  <meta name="theme-color" content="#ffffff" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VB 2026 — Kieséses ágrajz · eredmények</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0c0f;--bg2:#14161c;--card:#151821;--card2:#11141b;--ink:#f3f1ea;--ink-soft:#c9c6bc;
+    --muted:#82868f;--line:#33363f;--line-soft:#23252c;--gold:#e3af3a;--gold-bright:#ffd277;
+    --gold-bar:#b9891c;--blue-bar:#5e8fe8;--surface-modal:#171a21;--win:#ffe3a1;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
+    color:var(--ink);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    min-height:100vh;padding:clamp(14px,2.5vw,28px) 0 40px}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  /* ---------- fejléc ---------- */
+  header{max-width:900px;margin:0 auto;text-align:center;padding:0 16px}
+  .eyebrow{font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--gold);font-size:clamp(9px,1.4vw,12px);margin:0 0 8px}
+  h1{font-family:'Oswald','Arial Narrow',sans-serif;font-weight:700;font-size:clamp(26px,5.5vw,46px);
+    line-height:.95;margin:0;letter-spacing:.01em;text-transform:uppercase}
+  h1 .yr{color:var(--gold-bright)}
+  .sub{color:var(--muted);font-size:clamp(11px,1.6vw,13.5px);margin:9px auto 0;max-width:640px;line-height:1.55}
+  .statusline{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;
+    background:linear-gradient(180deg,#181a20,#10121a);padding:6px 13px;font-size:11.5px;color:var(--ink-soft)}
+  .chip b{color:var(--gold-bright);font-weight:600}
+  .chip .dotp{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(227,175,58,.8)}
+  .champ{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;
+    border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#181a20,#0f1115)}
+  .champ .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
+  .champ .who{font-weight:600;font-size:14px;color:var(--muted)}
 
-  <style>
-    :root {
-      --bg: #ffffff;
-      --bg-soft: #f8f9fb;
-      --surface: #ffffff;
-      --surface-hover: #f3f4f6;
-      --line: #e5e7eb;
-      --line-soft: #f0f1f3;
-      --text: #111827;
-      --text-secondary: #374151;
-      --muted: #6b7280;
-      --dim: #9ca3af;
-      --brand: #b8913a;
-      --brand-bg: #fdf8ef;
-      --accent: #4f46e5;
-      --accent-soft: #6366f1;
-      --accent-bg: #eef2ff;
-      --teal: #0d9488;
-      --teal-bg: #ecfdf5;
-      --green: #16a34a;
-      --danger: #e11d48;
-      --danger-bg: #fff1f2;
-      --gradient-accent: linear-gradient(135deg, #4f46e5, #7c3aed);
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04);
-      --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 12px 28px rgba(0,0,0,0.06);
-      --radius-xl: 20px;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
-      --container: min(1080px, calc(100% - 32px));
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+  /* ---------- színpad / görgetés ---------- */
+  .stage{margin-top:clamp(16px,2.5vw,30px);overflow-x:auto;overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
+  .stage::-webkit-scrollbar{height:10px}
+  .stage::-webkit-scrollbar-track{background:#101218;border-radius:6px}
+  .stage::-webkit-scrollbar-thumb{background:#3a3d45;border-radius:6px}
+  .scrollhint{text-align:center;color:var(--muted);font-size:11px;margin:6px 0 0;letter-spacing:.08em}
 
-    [data-theme="dark"] {
-      --bg: #0a0f1a;
-      --bg-soft: #111827;
-      --surface: #111827;
-      --surface-hover: #1e293b;
-      --line: #253354;
-      --line-soft: #1e2d4a;
-      --text: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --muted: #94a3b8;
-      --dim: #64748b;
-      --brand: #c9a265;
-      --brand-bg: rgba(201,162,101,0.08);
-      --accent: #818cf8;
-      --accent-soft: #a5b4fc;
-      --accent-bg: rgba(99,102,241,0.1);
-      --teal: #33b8a6;
-      --teal-bg: rgba(51,184,166,0.08);
-      --green: #22c55e;
-      --danger: #fb7185;
-      --danger-bg: rgba(244,63,94,0.08);
-      --gradient-accent: linear-gradient(135deg, #818cf8, #a78bfa);
-      --card-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 12px 28px rgba(0,0,0,0.2);
-      --card-shadow-hover: 0 8px 24px rgba(0,0,0,0.35), 0 20px 40px rgba(0,0,0,0.25);
-    }
+  .bracket{position:relative;margin:0 auto;width:max-content;
+    display:grid;column-gap:24px;row-gap:8px;
+    grid-template-columns:repeat(4,186px) 214px repeat(4,186px);
+    grid-template-rows:auto repeat(16,50px)}
+  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+  .wire{fill:none;stroke:var(--line);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
+  .wire.live{stroke:var(--gold);opacity:.9}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--text);
-      line-height: 1.7;
-      background: var(--bg);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      transition: background-color 0.35s ease, color 0.35s ease;
-    }
-    body.no-tr, body.no-tr *, body.no-tr *::before, body.no-tr *::after {
-      transition: none !important;
-    }
-    img, svg { display: block; max-width: 100%; }
+  .colhead{grid-row:1;align-self:end;text-align:center;padding-bottom:10px}
+  .colhead .t{font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+    font-size:12px;color:var(--gold)}
+  .colhead .d{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:.05em}
 
-    a { color: inherit; }
-    h1, h2, h3, h4 {
-      font-family: "Sora", sans-serif;
-      letter-spacing: -0.03em;
-      color: var(--text);
-    }
-    h1 {
-      font-size: clamp(2.5rem, 5.8vw, 4.1rem);
-      line-height: 1.06;
-      margin-bottom: 20px;
-      font-weight: 800;
-    }
-    h1 em {
-      font-style: normal;
-      background: var(--gradient-accent);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-      font-weight: 750;
-      margin-bottom: 12px;
-    }
-    .wrap { width: var(--container); margin: 0 auto; }
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      top: 8px;
-      z-index: 9999;
-      background: var(--surface);
-      color: var(--text);
-      padding: 10px 14px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-    }
-    .skip-link:focus { left: 16px; }
+  /* ---------- meccskártya ---------- */
+  .match{position:relative;z-index:1;align-self:center;width:100%;text-align:left;
+    font-family:inherit;color:inherit;background:linear-gradient(180deg,var(--card),var(--card2));
+    border:1px solid var(--line);border-radius:10px;padding:7px 9px 8px;cursor:pointer;
+    box-shadow:0 3px 10px rgba(0,0,0,.35);transition:border-color .15s, box-shadow .15s}
+  .match:hover{border-color:#4d5160;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+  .match.has-stats:hover{border-color:var(--gold)}
+  .match:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .match.tbd{cursor:default;background:linear-gradient(180deg,#12141b,#0e1016)}
+  .match.tbd:hover{border-color:var(--line);box-shadow:0 3px 10px rgba(0,0,0,.35)}
+  .mmeta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:5px}
+  .mmeta .when{font-family:'Oswald',sans-serif;font-size:9.5px;font-weight:500;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mmeta .ico{font-size:10.5px;color:var(--gold);opacity:.9;flex:0 0 auto}
+  .trow{display:flex;align-items:center;gap:8px;min-height:26px}
+  .trow + .trow{margin-top:3px}
+  .trow img.fl{width:27px;height:20px;border-radius:3px;object-fit:cover;flex:0 0 auto;
+    background:#262932;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #363a44}
+  .trow .fl.ph{width:27px;height:20px;border-radius:3px;flex:0 0 auto;background:#20232c;
+    box-shadow:inset 0 0 0 1px #30333d;display:flex;align-items:center;justify-content:center;
+    color:#565a66;font-size:11px;font-weight:600}
+  .trow .nm{flex:1;font-size:12.5px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .trow .nm.cand{font-weight:500;font-size:11px;color:#6b6f79;font-style:italic}
+  .trow .sc{flex:0 0 auto;min-width:22px;text-align:center;font-weight:700;font-size:13.5px;
+    font-variant-numeric:tabular-nums;color:var(--ink);background:#0d0f14;border:1px solid var(--line-soft);
+    border-radius:6px;padding:2px 5px}
+  .trow .sc.none{color:#4a4e59;border-style:dashed}
+  .trow.winner .nm{color:var(--win)}
+  .trow.winner .sc{color:var(--gold-bright);border-color:#584417;background:#191307}
+  .trow.loser .nm,.trow.loser img.fl{opacity:.5}
+  .trow.loser .sc{opacity:.75}
+  .pens{margin-top:5px;font-size:10.5px;color:var(--muted);border-top:1px dashed var(--line-soft);padding-top:4px}
+  .pens b{color:var(--ink-soft);font-weight:600}
 
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 16px 0;
-      background: rgba(255,255,255,0.62);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: var(--transition);
-    }
-    [data-theme="dark"] nav { background: rgba(10,15,26,0.62); }
-    nav.scrolled {
-      background: rgba(255,255,255,0.92);
-      padding: 10px 0;
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
-    [data-theme="dark"] nav.scrolled { background: rgba(10,15,26,0.92); }
-    nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--text);
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-    }
-    /* brand mark removed until a logo is ready */
-    .nav-r { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
-    .nav-r a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 500;
-      padding: 7px 14px;
-      border-radius: 8px;
-      transition: color 0.2s, background 0.2s;
-    }
-    .nav-r a:hover { color: var(--text); background: var(--surface-hover); }
-    .nav-cta {
-      text-decoration: none;
-      color: #fff !important;
-      background: var(--accent);
-      font-family: "Sora", sans-serif;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 10px 22px;
-      border-radius: 8px;
-      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-      box-shadow: 0 2px 10px rgba(79,70,229,0.2);
-      margin-left: 8px;
-    }
-    .nav-cta:hover { transform: translateY(-1px); background: var(--accent-soft); box-shadow: 0 4px 16px rgba(79,70,229,0.25); }
+  /* ---------- döntő oszlop ---------- */
+  .finalcol{grid-column:5;grid-row:2 / span 16;align-self:center;display:flex;flex-direction:column;
+    align-items:center;gap:14px;position:relative;z-index:1}
+  .trophywrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .trophywrap .glow{position:absolute;inset:-34px;border-radius:50%;
+    background:radial-gradient(circle,rgba(227,175,58,.33),rgba(227,175,58,0) 65%);filter:blur(3px);pointer-events:none}
+  .trophywrap .cup{font-size:52px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,210,120,.55));position:relative}
+  .trophywrap .flbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.3em;
+    font-size:11px;color:var(--gold);position:relative}
+  .finalcol .match{width:100%}
+  .champmini{font-size:11px;color:var(--muted);text-align:center;line-height:1.5}
 
-    .theme-toggle {
-      width: 48px;
-      height: 26px;
-      background: var(--line);
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      margin-left: 8px;
-      position: relative;
-      transition: background 0.3s;
-      flex-shrink: 0;
-    }
-    .theme-toggle:hover { background: var(--dim); }
-    .theme-toggle .thumb {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--surface);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-      transition: transform 0.3s;
-      display: grid;
-      place-items: center;
-      font-size: 0.65rem;
-    }
-    [data-theme="dark"] .theme-toggle .thumb { transform: translateX(22px); }
+  /* ---------- lábléc ---------- */
+  footer{text-align:center;color:var(--muted);font-size:11.5px;margin:26px auto 0;line-height:1.8;max-width:760px;padding:0 16px}
+  footer .k{display:inline-block;margin:0 7px;white-space:nowrap}
+  footer .swatch{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin-right:5px}
 
-    .hero {
-      position: relative;
-      padding: 150px 0 72px;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--line-soft);
-      overflow: hidden;
-      transition: background-color 0.35s, border-color 0.35s;
-    }
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: -30%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(79,70,229,0.06), transparent 65%);
-      pointer-events: none;
-    }
-    .hero-content {
-      text-align: center;
-      max-width: 760px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-      animation: fadeUp .7s ease-out both;
-    }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--green);
-      background: #ecfdf5;
-      border: 1px solid #bbf7d0;
-      border-radius: 999px;
-      padding: 6px 16px;
-      margin-bottom: 24px;
-    }
-    [data-theme="dark"] .hero-badge { background: rgba(34,197,94,0.08); border-color: rgba(34,197,94,0.2); }
-    .hero-badge::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: dot 2s ease-in-out infinite;
-    }
-    @keyframes dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.6); } }
-    .hero-sub {
-      color: var(--muted);
-      font-size: clamp(1rem, 1.4vw, 1.1rem);
-      max-width: 58ch;
-      margin: 0 auto 28px;
-      line-height: 1.75;
-    }
-    .hero-note {
-      max-width: 54ch;
-      margin: 0 auto 28px;
-      color: var(--text-secondary);
-      font-size: 0.94rem;
-      line-height: 1.7;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: "Sora", sans-serif;
-      font-weight: 600;
-      border-radius: var(--radius-sm);
-      padding: 13px 26px;
-      font-size: 0.92rem;
-      text-decoration: none;
-      transition: var(--transition);
-      border: 1px solid transparent;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(79,70,229,0.2);
-    }
-    .btn-primary:hover { background: var(--accent-soft); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(79,70,229,0.25); }
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border-color: var(--line);
-    }
-    .btn-secondary:hover { background: var(--surface-hover); transform: translateY(-1px); }
+  /* ---------- modális statisztika ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(4,5,8,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+    display:none;align-items:flex-start;justify-content:center;z-index:60;padding:4vh 14px 5vh;overflow-y:auto}
+  .overlay.open{display:flex}
+  .modal{width:min(560px,100%);background:linear-gradient(180deg,#1a1d26,var(--surface-modal));
+    border:1px solid #3a3e49;border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.65);overflow:hidden}
+  .mo-top{position:relative;padding:16px 18px 14px;border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg,rgba(227,175,58,.07),rgba(227,175,58,0))}
+  .mo-round{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.24em;font-size:10.5px;
+    color:var(--gold);text-align:center}
+  .mo-place{text-align:center;color:var(--muted);font-size:11.5px;margin-top:5px}
+  .mo-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);
+    background:#141720;color:var(--ink-soft);font-size:15px;cursor:pointer;line-height:1}
+  .mo-close:hover{border-color:#4d5160;color:#fff}
+  .mo-close:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .mo-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:14px}
+  .mo-team{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
+  .mo-team img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
+    box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
+  .mo-team .n{font-weight:600;font-size:13px;text-align:center;color:var(--ink)}
+  .mo-team .tag{width:16px;height:5px;border-radius:3px}
+  .mo-num{font-family:'Oswald',sans-serif;font-weight:700;font-size:40px;letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;text-align:center;line-height:1}
+  .mo-note{text-align:center;font-size:11px;color:var(--muted);margin-top:2px}
+  .mo-note b{color:var(--ink-soft)}
+  .mo-body{padding:14px 18px 18px}
+  .mo-goals{display:flex;flex-direction:column;gap:3px;margin:2px 0 6px}
+  .mo-goal{display:flex;font-size:12px;color:var(--ink-soft)}
+  .mo-goal.away{justify-content:flex-end}
+  .mo-goal .min{color:var(--muted);margin:0 5px;font-variant-numeric:tabular-nums}
+  .mo-sec{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
+    color:var(--gold);text-align:center;margin:14px 0 10px;display:flex;align-items:center;gap:10px}
+  .mo-sec::before,.mo-sec::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+  .stat{margin-bottom:9px}
+  .stat .vals{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;margin-bottom:3px}
+  .stat .vals .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink);min-width:44px}
+  .stat .vals .v.r{text-align:right}
+  .stat .vals .lab{color:var(--muted);font-size:11px;letter-spacing:.04em;text-align:center;flex:1;padding:0 8px}
+  .stat .bars{display:flex;align-items:center;height:8px}
+  .stat .half{flex:1;display:flex;height:8px}
+  .stat .half.l{justify-content:flex-end}
+  .stat .axis{flex:0 0 2px;height:12px;background:var(--line-soft);margin:0 2px;border-radius:1px}
+  .stat .bar{height:8px}
+  .stat .half.l .bar{background:var(--gold-bar);border-radius:4px 0 0 4px}
+  .stat .half.r .bar{background:var(--blue-bar);border-radius:0 4px 4px 0}
+  .mo-extra{margin-top:12px;padding-top:10px;border-top:1px solid var(--line-soft);
+    color:var(--muted);font-size:11px;line-height:1.7;text-align:center}
+  .mo-extra b{color:var(--ink-soft);font-weight:600}
+  .mo-src{margin-top:8px;font-size:10px;color:#5b5f6a;text-align:center;letter-spacing:.05em}
+  .mo-pend{padding:26px 18px;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.8}
+  .mo-pend .big{font-size:15px;font-weight:600;color:var(--ink)}
 
-    .section {
-      padding: 72px 0;
-    }
-    .s-label {
-      display: inline-block;
-      font-family: "Sora", sans-serif;
-      font-size: 0.82rem;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-    }
-    .s-label.gold { color: var(--brand); }
-    .s-label.teal { color: var(--teal); }
-    .s-desc {
-      color: var(--muted);
-      max-width: 54ch;
-      margin-bottom: 36px;
-    }
-
-    .about-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      padding: 40px;
-      display: flex;
-      gap: 32px;
-      align-items: flex-start;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-    .avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--gradient-accent);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .about-text h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 2px; }
-    .about-role { color: var(--muted); font-size: 0.88rem; margin-bottom: 14px; font-weight: 500; }
-    .about-text p { color: var(--text-secondary); margin-bottom: 10px; font-size: 0.94rem; }
-    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
-    .tag {
-      font-size: 0.75rem;
-      font-weight: 500;
-      padding: 5px 12px;
-      border-radius: 6px;
-      background: var(--bg-soft);
-      color: var(--text-secondary);
-      border: 1px solid var(--line);
-    }
-
-    .srv-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .srv {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      padding: 32px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-    .srv:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
-    .srv:last-child:nth-child(odd) { grid-column: 1 / -1; }
-    .srv-ic {
-      width: 44px;
-      height: 44px;
-      border-radius: 11px;
-      display: grid;
-      place-items: center;
-      font-size: 1.15rem;
-      margin-bottom: 16px;
-      flex-shrink: 0;
-    }
-    .srv h3 { font-size: 1.08rem; font-weight: 700; margin-bottom: 8px; }
-    .srv p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
-
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .step {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-    }
-    .step-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: var(--accent-bg);
-      color: var(--accent);
-      font-family: "Sora", sans-serif;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .step h3 { font-size: 1.02rem; margin-bottom: 8px; }
-    .step p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
-
-    .c-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .c-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      padding: 30px;
-      text-align: center;
-      text-decoration: none;
-      color: var(--text);
-      transition: var(--transition);
-      box-shadow: var(--card-shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      min-height: 150px;
-      justify-content: center;
-    }
-    .c-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
-    .c-ic {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-    .c-card strong { font-size: 0.95rem; font-weight: 700; }
-    .c-card span { font-size: 0.84rem; color: var(--muted); }
-
-    footer {
-      padding: 36px 0;
-      border-top: 1px solid var(--line);
-      transition: border-color 0.35s;
-    }
-    .f-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
-    footer p { font-size: 0.8rem; color: var(--muted); }
-    .f-links { list-style: none; display: flex; gap: 18px; flex-wrap: wrap; }
-    .f-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .f-links a:hover { color: var(--text); }
-
-    .rv { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
-    .rv.vis { opacity: 1; transform: translateY(0); }
-
-    .mo {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-    .mo-box {
-      background: var(--surface);
-      color: var(--text);
-      max-width: 660px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      border-radius: var(--radius-xl);
-      padding: 40px;
-      position: relative;
-      box-shadow: var(--card-shadow-hover);
-    }
-    .mo-x {
-      position: absolute;
-      top: 14px;
-      right: 18px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: var(--muted);
-    }
-    .mo-x:hover { color: var(--text); }
-    .mo-box h2 { font-size: 1.35rem; margin-bottom: 4px; }
-    .mo-box .dt { font-size: 0.8rem; color: var(--muted); margin-bottom: 22px; }
-    .mo-box h3 { font-size: 0.98rem; font-weight: 600; margin: 18px 0 5px; }
-    .mo-box p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.7; }
-    .mo-box a { color: var(--accent); }
-
-    .mobile-toggle {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      width: 36px; height: 36px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: var(--text);
-      transition: all 0.2s;
-    }
-    .mobile-toggle:hover { border-color: var(--muted); }
-
-    section[id] { scroll-margin-top: 96px; }
-
-    @media (max-width: 860px) {
-      .how-grid { grid-template-columns: 1fr; }
-      .about-card { flex-direction: column; align-items: center; text-align: center; }
-      .tags { justify-content: center; }
-    }
-    @media (max-width: 700px) {
-      nav .wrap { gap: 10px; }
-      .brand { font-size: 0.96rem; }
-      .mobile-toggle {
-        display: flex;
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
-        flex-shrink: 0;
-      }
-      .nav-r {
-        flex-wrap: nowrap;
-        gap: 6px;
-        align-items: center;
-      }
-      .nav-r a.hm { display: none; }
-      .nav-cta {
-        margin-left: 0;
-        padding: 8px 12px;
-        font-size: 0.76rem;
-        white-space: nowrap;
-      }
-      .theme-toggle {
-        margin-left: 0;
-        width: 42px;
-        height: 24px;
-      }
-      .theme-toggle .thumb {
-        width: 18px;
-        height: 18px;
-        font-size: 0.6rem;
-      }
-      .hero { padding: 122px 0 56px; }
-      .f-inner { flex-direction: column; text-align: center; }
-      .f-links { justify-content: center; }
-      .about-card, .srv, .step, .c-card, .mo-box { padding: 24px; }
-      .nav-r.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0; right: 0;
-        background: var(--surface);
-        border-bottom: 1px solid var(--line);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        padding: 16px 24px;
-        gap: 4px;
-      }
-      [data-theme="dark"] .nav-r.open { box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-      .nav-r.open a.hm { display: block; padding: 10px 14px; width: 100%; }
-      .nav-r.open .nav-cta { width: 100%; text-align: center; margin-left: 0; margin-top: 4px; }
-      .nav-r.open .theme-toggle { margin: 8px 0 0 0; align-self: flex-start; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .rv { opacity: 1; transform: none; transition: none; }
-      .hero-content { animation: none; }
-      .hero-badge::before { animation: none; }
-      .theme-toggle .thumb { transition: none; }
-      * { scroll-behavior: auto; }
-    }
-  </style>
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  @media (max-width:640px){
+    .mo-num{font-size:32px}
+    .mo-team img{width:40px;height:30px}
+  }
+</style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <nav id="nb" aria-label="Primary">
-    <div class="wrap">
-      <a href="#" class="brand" aria-label="Botland Solutions home">
-        Botland Solutions
-      </a>
-      <button class="mobile-toggle" id="menuBtn" aria-label="Menu">☰</button>
-      <div class="nav-r" id="navR">
-        <a href="#about" class="hm">About</a>
-        <a href="#services" class="hm">Services</a>
-        <a href="#process" class="hm">Process</a>
-        <a href="#contact" class="nav-cta">Get in Touch</a>
-        <button class="theme-toggle" id="tt" aria-label="Toggle theme">
-          <span class="thumb" id="ti">☀️</span>
-        </button>
-      </div>
+  <header>
+    <p class="eyebrow">FIFA World Cup · Kieséses szakasz</p>
+    <h1>Világbajnokság <span class="yr">2026</span></h1>
+    <p class="sub">Az ágrajz a hivatalos eredményekkel frissül — a továbbjutók automatikusan lépnek a következő körbe.
+      <strong style="color:var(--ink-soft)">Kattints egy lejátszott meccsre</strong>, és felugró ablakban jelennek meg a FIFA hivatalos statisztikái.</p>
+    <div class="statusline">
+      <span class="chip"><span class="dotp"></span>Legjobb 32: <b>10 / 16</b>&nbsp;meccs lejátszva</span>
+      <span class="chip">Ma (júl. 2.): <b>ESP–AUT · SUI–ALG · POR–CRO</b></span>
+      <span class="chip">Holnap: <b>ARG–CPV · AUS–EGY · COL–GHA</b></span>
     </div>
-  </nav>
-
-  <header class="hero">
-    <div class="wrap">
-      <div class="hero-content">
-        <div class="hero-badge">Operations • Digitalization • Project Management</div>
-        <h1>Your team is growing.<br>Your operations <em>should keep up.</em></h1>
-        <p class="hero-sub">
-          I help organizations build structured project workflows, digitalize their internal operations, and adopt the right tools — so nothing falls through the cracks.
-        </p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">
-            Get in Touch
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-          <a href="#services" class="btn btn-secondary">See Services</a>
-        </div>
-      </div>
-    </div>
+    <div class="champ"><span class="lbl">Bajnok</span><span class="who" id="champWho">— még nem dőlt el —</span></div>
   </header>
 
-  <main id="main">
-    <section id="about" class="section">
-      <div class="wrap">
-        <span class="s-label gold">About</span>
-        <h2>The person behind the systems</h2>
-        <div class="about-card rv">
-          <div class="avatar">BN</div>
-          <div class="about-text">
-            <h3>Botond Nagy</h3>
-            <p class="about-role">Operations Consultant · Project Manager · Digital Infrastructure Specialist</p>
-            <p>I've spent over a decade helping organizations across Central Europe improve the way they work. My background is in Communication &amp; PR, but my day-to-day work focuses on project management, internal digitalization, cross-platform IT environments, and hands-on execution, including the adoption of emerging AI/LLM tools.</p>
-            <p>I'm not an agency. I work directly with your team, understand your context, and build systems that stay useful after the project ends.</p>
-            <div class="tags">
-              <span class="tag">Project Management</span>
-              <span class="tag">Internal Digitalization</span>
-              <span class="tag">Event Logistics</span>
-              <span class="tag">Operational Infrastructure</span>
-              <span class="tag">Cross-platform IT</span>
-              <span class="tag">Based in Transylvania</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="services" class="section" style="background:var(--bg-soft);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);transition:background-color 0.35s,border-color 0.35s;">
-      <div class="wrap">
-        <span class="s-label">Services</span>
-        <h2>What I can do for your team</h2>
-        <p class="s-desc">I start with the biggest operational bottleneck, then build a practical system around it.</p>
-        <div class="srv-grid">
-          <div class="srv rv">
-            <div class="srv-ic" style="background:var(--accent-bg);color:var(--accent);">📋</div>
-            <h3>Project &amp; Event Management</h3>
-            <p>End-to-end coordination for multi-stakeholder projects, grant programs, and events — with clear timelines, structured communication, and fewer missed handoffs.</p>
-          </div>
-          <div class="srv rv">
-            <div class="srv-ic" style="background:var(--teal-bg);color:var(--teal);">⚙️</div>
-            <h3>Internal Digitalization</h3>
-            <p>Replace ad-hoc processes with structured digital workflows — from document handling and team collaboration to emerging AI/LLM adoption that fits your team's actual needs.</p>
-          </div>
-          <div class="srv rv">
-            <div class="srv-ic" style="background:var(--brand-bg);color:var(--brand);">🖥️</div>
-            <h3>Technical Infrastructure</h3>
-            <p>Cross-platform support for Windows, macOS, and Linux. Workspace configuration, onboarding, troubleshooting, and simple security baselines that make sense in real life.</p>
-          </div>
-          <div class="srv rv">
-            <div class="srv-ic" style="background:var(--danger-bg);color:var(--danger);">🔒</div>
-            <h3>GDPR &amp; Security Review</h3>
-            <p>Review your setup, identify compliance gaps, configure access policies, and document the essentials so your organization is better protected and audit-ready.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="process" class="section">
-      <div class="wrap">
-        <span class="s-label teal">Process</span>
-        <h2>How we start</h2>
-        <p class="s-desc">Simple, direct, and built around the actual bottleneck — not around a generic template.</p>
-        <div class="how-grid">
-          <div class="step rv">
-            <div class="step-num">1</div>
-            <h3>Quick review</h3>
-            <p>We look at your current setup, identify what is slowing the team down, and define the most urgent fix.</p>
-          </div>
-          <div class="step rv">
-            <div class="step-num">2</div>
-            <h3>Practical implementation</h3>
-            <p>I build the system with your team — workflows, structure, tools, and documentation where needed.</p>
-          </div>
-          <div class="step rv">
-            <div class="step-num">3</div>
-            <h3>Hand-over that sticks</h3>
-            <p>You get something usable, understandable, and maintainable after I step away from the project.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="wrap">
-        <span class="s-label teal">Contact</span>
-        <h2>Let's talk about your operations</h2>
-        <p class="s-desc">Book a free 30-minute strategy call. I'll review your setup and tell you where to start — no strings attached.</p>
-        <div class="c-grid">
-          <a href="/cdn-cgi/l/email-protection#41232e352d202f25787201262c20282d6f222e2c" class="c-card rv">
-            <div class="c-ic" style="background:var(--accent-bg);color:var(--accent);">✉</div>
-            <strong>Email</strong>
-            <span>Drop me a message anytime</span>
-          </a>
-          <a href="tel:+40748472200" class="c-card rv">
-            <div class="c-ic" style="background:var(--teal-bg);color:var(--teal);">📞</div>
-            <strong>Phone</strong>
-            <span>Available during business hours</span>
-          </a>
-          <a href="https://wa.me/40748472200" target="_blank" rel="noopener" class="c-card rv">
-            <div class="c-ic" style="background:#ecfdf5;color:#25D366;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-            </div>
-            <strong>WhatsApp</strong>
-            <span>Quick questions welcome</span>
-          </a>
-          <a href="https://www.linkedin.com/in/botond-nagy-198a11a6/" target="_blank" rel="noopener" class="c-card rv">
-            <div class="c-ic" style="background:var(--accent-bg);color:var(--accent);font-weight:700;font-family:'Sora',sans-serif;font-size:0.95rem;">in</div>
-            <strong>LinkedIn</strong>
-            <span>Connect &amp; follow updates</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <div class="f-inner">
-        <p>&copy; 2026 Botland Solutions — Operations &amp; Digital Infrastructure</p>
-        <ul class="f-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="#" onclick="document.getElementById('pm').style.display='flex';return false;">Privacy Policy</a></li>
-        </ul>
-      </div>
-    </div>
-  </footer>
-
-  <div class="mo" id="pm" role="dialog" aria-modal="true" aria-labelledby="privacy-title" onclick="if(event.target===this)this.style.display='none'">
-    <div class="mo-box">
-      <button class="mo-x" aria-label="Close privacy policy" onclick="document.getElementById('pm').style.display='none'">✕</button>
-      <h2 id="privacy-title">Privacy Policy</h2>
-      <p class="dt">Last updated: April 6, 2026</p>
-      <p>This website (<strong>botland.ro</strong>) is operated by Botond Nagy, a private individual based in Târgu Mureș, Romania. This Privacy Policy explains what data may be processed when you visit this website or contact me.</p>
-
-      <h3>1. Data Controller</h3>
-      <p><strong>Botond Nagy</strong><br>Târgu Mureș, Romania<br>Contact: <a href="/cdn-cgi/l/email-protection#bad8d5ced6dbd4de8389faddd7dbd3d694d9d5d7"><span class="__cf_email__" data-cfemail="482a273c2429262c717b082f25292124662b2725">[email&#160;protected]</span></a></p>
-
-      <h3>2. What Data May Be Collected</h3>
-      <p>When you use this website, the following data may be processed:</p>
-      <p><strong>Technical data</strong> (automatically collected by the hosting provider): IP address, browser type and version, device information, and access time.</p>
-      <p><strong>Contact data</strong> (only if you contact me): name, email address, phone number, and any information you include in your message.</p>
-
-      <h3>3. Purpose and Legal Basis</h3>
-      <p>Your data may be processed for the following purposes:</p>
-      <p><strong>Website operation</strong> — legal basis: legitimate interest (Art. 6(1)(f) GDPR).</p>
-      <p><strong>Responding to inquiries</strong> — legal basis: consent (Art. 6(1)(a) GDPR) and/or legitimate interest (Art. 6(1)(f) GDPR).</p>
-      <p><strong>Basic technical functionality</strong> (such as theme preference) — legal basis: legitimate interest (Art. 6(1)(f) GDPR).</p>
-
-      <h3>4. Hosting</h3>
-      <p>This website is hosted on <strong>GitHub Pages</strong> (GitHub, Inc., USA). When you access the website, GitHub may process technical data such as your IP address.</p>
-      <p>This may involve a transfer of data outside the European Union. Such transfers rely on appropriate safeguards, such as Standard Contractual Clauses.</p>
-      <p>More information: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub's Privacy Statement</a>.</p>
-
-      <h3>5. Google Analytics</h3>
-      <p>This website uses Google Analytics (GA4) to understand how visitors interact with the site. Google Analytics collects data such as pages visited, session duration, and approximate location via cookies. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Browser Add-on</a>.</p>
-      <h3>6. Google Fonts</h3>
-      <p>This website loads fonts from Google's servers, which may receive your IP address.</p>
-      <p>More information: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
-
-      <h3>7. External Links &amp; Communication Tools</h3>
-      <p>This website may contain links to external services, including email, phone, WhatsApp, and LinkedIn. When you use these services, your data is processed by the respective provider under their own privacy policies.</p>
-
-      <h3>8. Cookies and Storage</h3>
-      <p>This website uses cookies set by Google Analytics for traffic analysis, and a single <strong>localStorage</strong> entry for your theme preference. No other tracking cookies are used.</p>
-      <p>Only a single <strong>localStorage</strong> entry is used to store your theme preference (light/dark mode).</p>
-
-      <h3>9. Data Retention</h3>
-      <p>Personal data provided via contact is stored only as long as necessary to respond and manage communication, then deleted.</p>
-
-      <h3>10. Your Rights</h3>
-      <p>Under the GDPR, you have the right to access your data, rectify inaccurate data, request deletion, restrict processing, object to processing, and request data portability.</p>
-      <p>If processing is based on consent, you may withdraw consent at any time.</p>
-
-      <h3>11. Complaint</h3>
-      <p>You have the right to lodge a complaint with the Romanian data protection authority:</p>
-      <p><a href="https://www.dataprotection.ro" target="_blank" rel="noopener">ANSPDCP</a></p>
-
-      <h3>12. Automated Decision-Making</h3>
-      <p>No automated decision-making or profiling is carried out on this website.</p>
+  <div class="stage" id="stage">
+    <div class="bracket" id="bracket">
+      <svg class="wires" id="wires" aria-hidden="true"></svg>
     </div>
   </div>
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const tt = document.getElementById('tt');
-    const ti = document.getElementById('ti');
-    const rt = document.documentElement;
-    const body = document.body;
+  <p class="scrollhint" id="scrollhint">⟵ az ágrajz vízszintesen görgethető ⟶</p>
 
-    function setTheme(t) {
-      rt.setAttribute('data-theme', t);
-      ti.textContent = t === 'dark' ? '🌙' : '☀️';
-      try { localStorage.setItem('bl-t', t); } catch (e) {}
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t === 'dark' ? '#0a0f1a' : '#ffffff');
-    }
+  <footer>
+    <span class="k"><span class="swatch" style="background:var(--gold-bright)"></span>arany = továbbjutott</span>
+    <span class="k">📊 = FIFA-statisztika kattintásra</span>
+    <span class="k">h. u. = hosszabbítás után</span>
+    <span class="k">tiz. = tizenegyesekkel</span><br>
+    Eredmények és statisztikák: <b style="color:#9aa0ab">FIFA (api.fifa.com)</b> · Frissítve: 2026. július 2. · Zászlók: FlagCDN
+  </footer>
 
-    (function initTheme() {
-      body.classList.add('no-tr');
-      let saved = null;
-      try { saved = localStorage.getItem('bl-t'); } catch (e) {}
-      if (saved) {
-        setTheme(saved);
-      } else if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-      requestAnimationFrame(() => requestAnimationFrame(() => body.classList.remove('no-tr')));
-    })();
+  <div class="overlay" id="overlay" role="presentation">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="moTitle" id="modal"></div>
+  </div>
 
-    tt.addEventListener('click', () => {
-      setTheme((rt.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark');
-    });
+<script>
+"use strict";
+/* =========================================================================
+   ADATOK — FIFA hivatalos API (api.fifa.com / fdh-api.fifa.com), 2026. júl. 2.
+   R32 sorrend: 0–7 bal szárny (fentről), 8–15 jobb szárny (fentről).
+   stats kulcsok: pos %, xg, sh (lövés), sot (kapura), cor, fls, off, pas, acc %, yc, rc
+   goals: [oldal(0/1), név, perc, típus(''|'p'=11-es|'r'=piros lap)]
+   ========================================================================= */
+const TEAMS = {
+  br:"Brazília", jp:"Japán", ci:"Elefántcsontpart", no:"Norvégia", mx:"Mexikó", ec:"Ecuador",
+  "gb-eng":"Anglia", cd:"Kongói DK", ar:"Argentína", cv:"Zöld-foki-szk.", au:"Ausztrália",
+  eg:"Egyiptom", ch:"Svájc", dz:"Algéria", co:"Kolumbia", gh:"Ghána", sn:"Szenegál",
+  be:"Belgium", ba:"Bosznia-Herc.", us:"USA", at:"Ausztria", es:"Spanyolország",
+  hr:"Horvátország", pt:"Portugália", ma:"Marokkó", nl:"Hollandia", ca:"Kanada",
+  za:"Dél-Afrika", se:"Svédország", fr:"Franciaország", py:"Paraguay", de:"Németország"
+};
 
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    mq.addEventListener('change', e => {
-      let saved = null;
-      try { saved = localStorage.getItem('bl-t'); } catch (x) {}
-      if (!saved) setTheme(e.matches ? 'dark' : 'light');
-    });
+const R32 = [
+  /* ---- BAL szárny ---- */
+  { no:76, date:"jún. 29.", city:"Houston", att:68777, ref:"Maurizio Mariani (olasz)",
+    h:"br", a:"jp", s:[2,1],
+    goals:[[1,"Kaishu Sano","29’",""],[0,"Casemiro","56’",""],[0,"Gabriel Martinelli","90+5’",""]],
+    stats:{pos:[61.6,30.3],xg:[2.12,0.26],sh:[19,5],sot:[7,2],cor:[6,2],fls:[10,4],off:[1,0],pas:[715,330],acc:[91.2,84.5],yc:[2,3],rc:[0,0]} },
+  { no:78, date:"jún. 30.", city:"Dallas (Arlington)", att:69665, ref:"Jesús Valenzuela (venezuelai)",
+    h:"ci", a:"no", s:[1,2],
+    goals:[[1,"Antonio Nusa","39’",""],[0,"Amad Diallo","74’",""],[1,"Erling Haaland","86’",""]],
+    stats:{pos:[41.3,50.2],xg:[1.43,2.30],sh:[14,9],sot:[5,4],cor:[14,3],fls:[7,4],off:[2,2],pas:[406,492],acc:[87.0,89.8],yc:[0,1],rc:[0,0]} },
+  { no:79, date:"júl. 1.", city:"Mexikóváros", att:80824, ref:"Slavko Vinčić (szlovén)",
+    h:"mx", a:"ec", s:[2,0],
+    goals:[[0,"Julián Quiñones","22’",""],[0,"Raúl Jiménez","31’",""],[1,"Piero Hincapié","90+5’","r"]],
+    stats:{pos:[37.1,52.9],xg:[1.86,0.47],sh:[15,7],sot:[3,1],cor:[3,8],fls:[14,10],off:[0,1],pas:[317,420],acc:[81.7,84.0],yc:[0,3],rc:[0,1]} },
+  { no:80, date:"júl. 1.", city:"Atlanta", att:68239, ref:"Adham Makhadmeh (jordán)",
+    h:"gb-eng", a:"cd", s:[2,1],
+    goals:[[1,"Brian Cipenga","7’",""],[0,"Harry Kane","75’",""],[0,"Harry Kane","86’",""]],
+    stats:{pos:[53.5,37.9],xg:[1.75,0.64],sh:[16,7],sot:[7,2],cor:[5,3],fls:[12,10],off:[0,4],pas:[523,392],acc:[92.2,83.2],yc:[1,1],rc:[0,0]} },
+  { date:"júl. 3.", city:"Miami",        h:"ar", a:"cv", s:null },
+  { date:"júl. 3.", city:"Dallas (Arlington)", h:"au", a:"eg", s:null },
+  { date:"júl. 2.", city:"Vancouver",    h:"ch", a:"dz", s:null },
+  { date:"júl. 3.", city:"Kansas City",  h:"co", a:"gh", s:null },
+  /* ---- JOBB szárny ---- */
+  { no:82, date:"júl. 1.", city:"Seattle", att:66925, ref:"Saíd Martínez (hondurasi)",
+    h:"be", a:"sn", s:[3,2], aet:true,
+    goals:[[1,"Habib Diarra","24’",""],[1,"Ismaïla Sarr","51’",""],[0,"Romelu Lukaku","86’",""],[0,"Youri Tielemans","89’",""],[0,"Youri Tielemans","120+5’","p"]],
+    stats:{pos:[48.3,42.9],xg:[1.74,2.09],sh:[19,19],sot:[5,5],cor:[4,2],fls:[12,20],off:[2,2],pas:[695,638],acc:[87.3,87.0],yc:[1,1],rc:[0,0]} },
+  { no:81, date:"júl. 1.", city:"San Francisco", att:68827, ref:"Raphael Claus (brazil)",
+    h:"us", a:"ba", s:[2,0],
+    goals:[[0,"Folarin Balogun","45’",""],[0,"Folarin Balogun","64’","r"],[0,"Malik Tillman","82’",""]],
+    stats:{pos:[44.0,47.7],xg:[0.80,0.21],sh:[8,10],sot:[2,3],cor:[4,3],fls:[13,6],off:[3,0],pas:[425,459],acc:[85.2,83.0],yc:[0,1],rc:[1,0]} },
+  { no:84, date:"júl. 2.", city:"Los Angeles", h:"es", a:"at", s:null },
+  { no:83, date:"júl. 2.", city:"Toronto",     h:"pt", a:"hr", s:null },
+  { no:75, date:"jún. 29.", city:"Monterrey", att:51243, ref:"Wilton Sampaio (brazil)",
+    h:"nl", a:"ma", s:[1,1], aet:true, pens:[2,3],
+    goals:[[0,"Cody Gakpo","72’",""],[1,"Issa Diop","90+1’",""]],
+    stats:{pos:[31.1,61.4],xg:[0.33,1.30],sh:[6,11],sot:[2,5],cor:[5,8],fls:[15,13],off:[3,0],pas:[395,891],acc:[77.7,91.2],yc:[0,1],rc:[0,0]} },
+  { no:73, date:"jún. 28.", city:"Los Angeles (Inglewood)", att:69237, ref:"João Pinheiro (portugál)",
+    h:"za", a:"ca", s:[0,1],
+    goals:[[1,"Stephen Eustáquio","90+2’",""]],
+    stats:{pos:[55.8,35.6],xg:[0.16,1.33],sh:[6,12],sot:[1,7],cor:[1,4],fls:[16,9],off:[1,0],pas:[575,390],acc:[84.5,80.5],yc:[0,2],rc:[0,0]} },
+  { no:77, date:"jún. 30.", city:"New York / New Jersey", att:80663, ref:"Danny Makkelie (holland)",
+    h:"fr", a:"se", s:[3,0],
+    goals:[[0,"Kylian Mbappé","45’",""],[0,"Bradley Barcola","53’",""],[0,"Kylian Mbappé","74’",""]],
+    stats:{pos:[53.5,38.0],xg:[2.90,0.71],sh:[25,8],sot:[12,3],cor:[9,1],fls:[9,13],off:[3,1],pas:[548,365],acc:[90.9,81.1],yc:[0,0],rc:[0,0]} },
+  { no:74, date:"jún. 29.", city:"Boston (Foxborough)", att:63945, ref:"Jalal Jayed (marokkói)",
+    h:"de", a:"py", s:[1,1], aet:true, pens:[3,4],
+    goals:[[1,"Julio Enciso","42’",""],[0,"Kai Havertz","54’",""]],
+    stats:{pos:[65.5,23.7],xg:[1.25,0.61],sh:[21,7],sot:[6,3],cor:[16,6],fls:[12,17],off:[4,1],pas:[834,264],acc:[90.2,62.9],yc:[2,2],rc:[0,0]} },
+];
 
-    const nb = document.getElementById('nb');
-    window.addEventListener('scroll', () => nb.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+/* Nyolcaddöntők (R16) menetrendje — sorrend az ágrajz szerint: 0–3 bal, 4–7 jobb */
+const META16 = [
+  {date:"júl. 5.", city:"New York / New Jersey"},
+  {date:"júl. 5.", city:"Mexikóváros"},
+  {date:"júl. 7.", city:"Atlanta"},
+  {date:"júl. 7.", city:"Vancouver"},
+  {date:"júl. 6.", city:"Seattle"},
+  {date:"júl. 6.", city:"Dallas (Arlington)"},
+  {date:"júl. 4.", city:"Houston"},
+  {date:"júl. 4.", city:"Philadelphia"},
+];
+const METAQF = [{date:"júl. 9–11."},{date:"júl. 9–11."},{date:"júl. 9–11."},{date:"júl. 9–11."}];
+const METASF = [{date:"júl. 14–15."},{date:"júl. 14–15."}];
+const METAF  = {date:"júl. 19.", city:"New York / New Jersey"};
 
-    const ob = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('vis');
+const ROUNDNAME = ["Legjobb 32","Nyolcaddöntő","Negyeddöntő","Elődöntő","Döntő"];
+const ROUNDDATE = ["jún. 28. – júl. 3.","júl. 4–7.","júl. 9–11.","júl. 14–15.","júl. 19."];
+
+/* ---------- segédek ---------- */
+const nameOf = c => TEAMS[c] || "—";
+const flagUrl = (c,w) => `https://flagcdn.com/w${w||80}/${c}.png`;
+const nfat = n => n.toLocaleString("hu-HU");           // 68 777
+const nf1  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:1,maximumFractionDigits:1});
+const nf2  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function winnerOf(m){
+  if(!m || !m.s) return null;
+  if(m.s[0]!==m.s[1]) return m.s[0]>m.s[1] ? 0 : 1;
+  if(m.pens) return m.pens[0]>m.pens[1] ? 0 : 1;
+  return null;
+}
+function winnerCode(m){ const w=winnerOf(m); return w===null?null:(w===0?m.h:m.a); }
+
+/* Későbbi körök felépítése az eredményekből */
+function buildRounds(){
+  const r16 = META16.map((meta,i)=>{
+    const f1=R32[i*2], f2=R32[i*2+1];
+    return {...meta, feeders:[f1,f2], h:winnerCode(f1), a:winnerCode(f2), s:null};
+  });
+  const qf = METAQF.map((meta,i)=>{
+    const f1=r16[i*2], f2=r16[i*2+1];
+    return {...meta, feeders:[f1,f2], h:winnerCode(f1), a:winnerCode(f2), s:null};
+  });
+  const sf = METASF.map((meta,i)=>{
+    const f1=qf[i*2], f2=qf[i*2+1];
+    return {...meta, feeders:[f1,f2], h:winnerCode(f1), a:winnerCode(f2), s:null};
+  });
+  const fin = {...METAF, feeders:[sf[0],sf[1]], h:winnerCode(sf[0]), a:winnerCode(sf[1]), s:null};
+  return {r16, qf, sf, fin};
+}
+
+/* ---------- kártyák ---------- */
+const bracket = document.getElementById("bracket");
+const cardIndex = [];   // {el, match} a modálhoz és a vonalakhoz
+
+function teamRow(code, match, side, feeder){
+  const row=document.createElement("div"); row.className="trow";
+  if(code){
+    const img=document.createElement("img");
+    img.className="fl"; img.src=flagUrl(code,80); img.alt=""; img.width=27; img.height=20; img.loading="lazy";
+    row.appendChild(img);
+    const nm=document.createElement("span"); nm.className="nm"; nm.textContent=nameOf(code); row.appendChild(nm);
+  }else{
+    const ph=document.createElement("span"); ph.className="fl ph"; ph.textContent="?"; row.appendChild(ph);
+    const nm=document.createElement("span"); nm.className="nm cand";
+    nm.textContent = feeder && feeder.h && feeder.a ? nameOf(feeder.h)+" / "+nameOf(feeder.a) : "később dől el";
+    row.appendChild(nm);
+  }
+  const sc=document.createElement("span");
+  if(match.s){ sc.className="sc"; sc.textContent=match.s[side]; }
+  else{ sc.className="sc none"; sc.textContent="–"; }
+  row.appendChild(sc);
+  if(match.s){
+    const w=winnerOf(match);
+    row.classList.add(w===side ? "winner" : "loser");
+  }
+  return row;
+}
+
+function makeCard(match, roundIdx, col, rowStart, rowSpan){
+  const el=document.createElement("button");
+  el.type="button";
+  el.className="match"+(match.stats?" has-stats":"")+(!match.s?" tbd":"");
+  el.style.gridColumn=col;
+  el.style.gridRow=(rowStart+1)+" / span "+rowSpan;   // +1 a fejlécsor miatt
+
+  const meta=document.createElement("div"); meta.className="mmeta";
+  const when=document.createElement("span"); when.className="when";
+  when.textContent=match.date+(match.city?" · "+match.city:"");
+  meta.appendChild(when);
+  const ico=document.createElement("span"); ico.className="ico";
+  ico.textContent = match.stats ? "📊" : (match.s ? "" : "🕓");
+  meta.appendChild(ico);
+  el.appendChild(meta);
+
+  el.appendChild(teamRow(match.h, match, 0, match.feeders&&match.feeders[0]));
+  el.appendChild(teamRow(match.a, match, 1, match.feeders&&match.feeders[1]));
+
+  if(match.pens){
+    const p=document.createElement("div"); p.className="pens";
+    const w=winnerOf(match);
+    p.innerHTML="Tizenegyesekkel: <b>"+match.pens[0]+"–"+match.pens[1]+"</b> → "+nameOf(w===0?match.h:match.a);
+    el.appendChild(p);
+  }else if(match.aet && match.s){
+    const p=document.createElement("div"); p.className="pens";
+    p.textContent="Hosszabbítás után";
+    el.appendChild(p);
+  }
+
+  const hasInfo = match.s || match.h || match.a;
+  if(hasInfo){
+    el.addEventListener("click",()=>openModal(match, roundIdx));
+    el.setAttribute("aria-haspopup","dialog");
+    el.title = match.stats ? "Kattints a FIFA-statisztikákért" : "Meccsinformáció";
+  }else{
+    el.disabled=true;
+  }
+  bracket.appendChild(el);
+  cardIndex.push({el, match});
+  return el;
+}
+
+function colHead(col, roundIdx){
+  const d=document.createElement("div"); d.className="colhead"; d.style.gridColumn=col;
+  d.innerHTML='<div class="t">'+ROUNDNAME[roundIdx]+'</div><div class="d">'+ROUNDDATE[roundIdx]+'</div>';
+  bracket.appendChild(d);
+}
+
+function render(){
+  const {r16, qf, sf, fin}=buildRounds();
+  [0,1,2,3,4,3,2,1,0].forEach((ri,i)=>colHead(i+1,ri));
+
+  const cards32=[], cards16=[], cardsQF=[], cardsSF=[];
+  for(let i=0;i<8;i++)  cards32.push(makeCard(R32[i],   0, 1, 1+i*2, 2));
+  for(let i=0;i<4;i++)  cards16.push(makeCard(r16[i],   1, 2, 1+i*4, 4));
+  for(let i=0;i<2;i++)  cardsQF.push(makeCard(qf[i],    2, 3, 1+i*8, 8));
+  cardsSF.push(makeCard(sf[0], 3, 4, 1, 16));
+  for(let i=8;i<16;i++) cards32.push(makeCard(R32[i],   0, 9, 1+(i-8)*2, 2));
+  for(let i=4;i<8;i++)  cards16.push(makeCard(r16[i],   1, 8, 1+(i-4)*4, 4));
+  for(let i=2;i<4;i++)  cardsQF.push(makeCard(qf[i],    2, 7, 1+(i-2)*8, 8));
+  cardsSF.push(makeCard(sf[1], 3, 6, 1, 16));
+
+  /* döntő oszlop */
+  const fc=document.createElement("div"); fc.className="finalcol";
+  fc.innerHTML='<div class="trophywrap"><div class="glow"></div><div class="cup">🏆</div><div class="flbl">Döntő</div></div>';
+  bracket.appendChild(fc);
+  const finCard=makeCard(fin, 4, 5, 1, 1);
+  fc.appendChild(finCard);          // átmozgatjuk a gridcellából a flex oszlopba
+  finCard.style.gridColumn=""; finCard.style.gridRow="";
+  const cm=document.createElement("div"); cm.className="champmini";
+  cm.textContent="A győztes útja aranyszínnel rajzolódik ki.";
+  fc.appendChild(cm);
+
+  const champ=winnerCode(fin);
+  if(champ) document.getElementById("champWho").textContent=nameOf(champ);
+
+  drawWires(cards32, cards16, cardsQF, cardsSF, finCard);
+  window.addEventListener("resize",()=>drawWires(cards32, cards16, cardsQF, cardsSF, finCard));
+}
+
+/* ---------- összekötő vonalak ---------- */
+function drawWires(c32, c16, cQF, cSF, cF){
+  const svg=document.getElementById("wires");
+  svg.setAttribute("viewBox","0 0 "+bracket.offsetWidth+" "+bracket.offsetHeight);
+  let s="";
+  const edge=(el,side)=>({x: side==="r" ? el.offsetLeft+el.offsetWidth : el.offsetLeft,
+                          y: el.offsetTop+el.offsetHeight/2});
+  function link(fromEl, toEl, leftHalf, live){
+    const p1=edge(fromEl, leftHalf?"r":"l"), p2=edge(toEl, leftHalf?"l":"r");
+    const xm=(p1.x+p2.x)/2;
+    s+='<path class="wire'+(live?' live':'')+'" d="M '+p1.x+' '+p1.y+' H '+xm+' V '+p2.y+' H '+p2.x+'"/>';
+  }
+  const {r16, qf, sf, fin}=buildRounds();
+  for(let i=0;i<8;i++)  link(c32[i],       c16[i>>1],       true,  winnerOf(R32[i])!==null);
+  for(let i=8;i<16;i++) link(c32[i],       c16[4+((i-8)>>1)],false, winnerOf(R32[i])!==null);
+  for(let i=0;i<4;i++)  link(c16[i],       cQF[i>>1],       true,  winnerOf(r16[i])!==null);
+  for(let i=4;i<8;i++)  link(c16[i],       cQF[2+((i-4)>>1)],false, winnerOf(r16[i])!==null);
+  for(let i=0;i<2;i++)  link(cQF[i],       cSF[0],          true,  winnerOf(qf[i])!==null);
+  for(let i=2;i<4;i++)  link(cQF[i],       cSF[1],          false, winnerOf(qf[i])!==null);
+  link(cSF[0], cF, true,  winnerOf(sf[0])!==null);
+  link(cSF[1], cF, false, winnerOf(sf[1])!==null);
+  svg.innerHTML=s;
+}
+
+/* ---------- modális ablak ---------- */
+const overlay=document.getElementById("overlay");
+const modal=document.getElementById("modal");
+let lastFocus=null;
+
+const STATROWS=[
+  ["pos","Labdabirtoklás", v=>nf1(v)+"%", 100],
+  ["xg","Várható gólok (xG)", nf2, null],
+  ["sh","Lövések", String, null],
+  ["sot","Kapura lövések", String, null],
+  ["cor","Szögletek", String, null],
+  ["fls","Szabálytalanságok", String, null],
+  ["off","Lesek", String, null],
+  ["pas","Passzok", String, null],
+  ["acc","Passzpontosság", v=>nf1(v)+"%", 100],
+  ["yc","Sárga lapok", String, null],
+  ["rc","Piros lapok", String, null],
+];
+
+function openModal(m, roundIdx){
+  lastFocus=document.activeElement;
+  const w=winnerOf(m);
+  const hName=nameOf(m.h), aName=nameOf(m.a);
+  let html='<div class="mo-top">'
+    +'<button class="mo-close" id="moClose" aria-label="Bezárás">✕</button>'
+    +'<div class="mo-round" id="moTitle">'+ROUNDNAME[roundIdx]+(m.no?" · "+m.no+". mérkőzés":"")+'</div>'
+    +'<div class="mo-place">'+m.date+(m.city?" · "+m.city:"")+'</div>';
+
+  if(m.s){
+    html+='<div class="mo-score">'
+      +'<div class="mo-team"><img src="'+flagUrl(m.h,160)+'" alt="" width="46" height="34">'
+      +'<span class="n">'+hName+'</span><span class="tag" style="background:var(--gold-bar)"></span></div>'
+      +'<div><div class="mo-num">'+m.s[0]+' – '+m.s[1]+'</div>'
+      +(m.pens?'<div class="mo-note">hosszabbítás után · tizenegyesekkel <b>'+m.pens[0]+'–'+m.pens[1]+'</b></div>'
+        :(m.aet?'<div class="mo-note">hosszabbítás után</div>':""))
+      +'<div class="mo-note">Továbbjutó: <b>'+nameOf(w===0?m.h:m.a)+'</b></div></div>'
+      +'<div class="mo-team"><img src="'+flagUrl(m.a,160)+'" alt="" width="46" height="34">'
+      +'<span class="n">'+aName+'</span><span class="tag" style="background:var(--blue-bar)"></span></div>'
+      +'</div></div>';
+    html+='<div class="mo-body">';
+    if(m.goals && m.goals.length){
+      html+='<div class="mo-goals">';
+      m.goals.forEach(g=>{
+        const ic = g[3]==="r" ? "🟥" : "⚽";
+        const pen = g[3]==="p" ? " (11-esből)" : "";
+        html+='<div class="mo-goal'+(g[0]===1?" away":"")+'">'
+          +(g[0]===0 ? ic+'<span class="min">'+g[2]+'</span>'+g[1]+pen
+                     : g[1]+pen+'<span class="min">'+g[2]+'</span>'+ic)
+          +'</div>';
       });
-    }, { threshold: 0.15 });
+      html+='</div>';
+    }
+    if(m.stats){
+      html+='<div class="mo-sec">Mérkőzésstatisztika</div>';
+      STATROWS.forEach(([key,label,fmtv,fix])=>{
+        const va=m.stats[key][0], vb=m.stats[key][1];
+        const max = fix || Math.max(va,vb) || 1;
+        const wa=Math.max(va/max*100, va>0?2.5:0), wb=Math.max(vb/max*100, vb>0?2.5:0);
+        html+='<div class="stat">'
+          +'<div class="vals"><span class="v">'+fmtv(va)+'</span><span class="lab">'+label+'</span><span class="v r">'+fmtv(vb)+'</span></div>'
+          +'<div class="bars">'
+          +'<div class="half l"><div class="bar" style="width:'+wa.toFixed(1)+'%"></div></div>'
+          +'<div class="axis"></div>'
+          +'<div class="half r"><div class="bar" style="width:'+wb.toFixed(1)+'%"></div></div>'
+          +'</div></div>';
+      });
+      if(m.aet) html+='<div class="mo-note" style="margin-top:8px">A statisztika a hosszabbítást is tartalmazza.</div>';
+    }
+    html+='<div class="mo-extra">';
+    if(m.att) html+='Nézőszám: <b>'+nfat(m.att)+'</b>';
+    if(m.ref) html+=' · Játékvezető: <b>'+m.ref+'</b>';
+    html+='</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com</div></div>';
+  }else{
+    html+='</div><div class="mo-pend">'
+      +'<div class="big">'+(m.h?hName:"?")+' – '+(m.a?aName:"?")+'</div>'
+      +'Ezt a mérkőzést még nem játszották le.<br>Kezdés: <b style="color:var(--ink)">'+m.date+'</b>'
+      +(m.city?' · '+m.city:"")
+      +'<div class="mo-src" style="margin-top:14px">Az eredmény és a statisztika a lefújás után kerül fel.</div></div>';
+  }
 
-    document.querySelectorAll('.rv').forEach(el => ob.observe(el));
+  modal.innerHTML=html;
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+  const cbtn=document.getElementById("moClose");
+  if(cbtn){ cbtn.addEventListener("click",closeModal); cbtn.focus(); }
+}
+function closeModal(){
+  overlay.classList.remove("open");
+  document.body.style.overflow="";
+  if(lastFocus) lastFocus.focus();
+}
+overlay.addEventListener("click",e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeModal(); });
 
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    const navR = document.getElementById('navR');
-    menuBtn.addEventListener('click', () => {
-      navR.classList.toggle('open');
-      menuBtn.textContent = navR.classList.contains('open') ? '✕' : '☰';
-    });
-    navR.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      navR.classList.remove('open');
-      menuBtn.textContent = '☰';
-    }));
-
-    const pm = document.getElementById('pm');
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && pm.style.display === 'flex') pm.style.display = 'none';
-    });
-  </script>
+/* ---------- indítás ---------- */
+render();
+/* a görgethető színpadot középre igazítjuk, hogy a döntő legyen fókuszban */
+(function(){ const st=document.getElementById("stage");
+  st.scrollLeft=(st.scrollWidth-st.clientWidth)/2;
+  if(st.scrollWidth<=st.clientWidth+4) document.getElementById("scrollhint").style.display="none";
+})();
+</script>
 </body>
 </html>
