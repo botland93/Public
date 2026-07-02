@@ -8,14 +8,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    color-scheme:light;
+    --bg:#f5f7fb;--bg2:#ffffff;--card:#ffffff;--card2:#f8fafc;--ink:#172033;--ink-soft:#344054;
+    --muted:#667085;--line:#d5dbe7;--line-soft:#e7ebf2;--gold:#b98012;--gold-bright:#8a5b05;
+    --gold-bar:#c99524;--blue-bar:#4f7fd6;--surface-modal:#ffffff;--win:#7a4f05;--tip:#80651f;
+    --live:#d92d20;--live-soft:#f04438;
+    --page-bg:radial-gradient(120% 90% at 50% 0%, #ffffff 0%, #f5f7fb 54%, #eaf0f7 100%);
+    --chip-bg:linear-gradient(180deg,#ffffff,#f6f8fc);
+    --card-tbd:linear-gradient(180deg,#fbfcff,#f3f6fb);--modal-bg:linear-gradient(180deg,#ffffff,var(--surface-modal));
+    --overlay-bg:rgba(15,23,42,.42);--hover-line:#aab3c2;--score-bg:#f7f9fc;--score-border:#e1e6ef;
+    --score-none:#9aa4b2;--winner-bg:#fff6dc;--winner-border:#e5c463;--close-bg:#ffffff;
+    --input-bg:#ffffff;--button-bg:#ffffff;--button-hover:#aab3c2;--soft-panel:rgba(255,255,255,.62);
+    --shadow:0 3px 10px rgba(20,32,54,.12);--shadow-hover:0 5px 18px rgba(20,32,54,.18);
+  }
+  html[data-theme="dark"]{
+    color-scheme:dark;
     --bg:#0b0c0f;--bg2:#14161c;--card:#151821;--card2:#11141b;--ink:#f3f1ea;--ink-soft:#c9c6bc;
     --muted:#82868f;--line:#33363f;--line-soft:#23252c;--gold:#e3af3a;--gold-bright:#ffd277;
     --gold-bar:#b9891c;--blue-bar:#5e8fe8;--surface-modal:#171a21;--win:#ffe3a1;--tip:#d9b96a;
     --live:#e05656;--live-soft:#f0908f;
+    --page-bg:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
+    --chip-bg:linear-gradient(180deg,#181a20,#10121a);
+    --card-tbd:linear-gradient(180deg,#12141b,#0e1016);--modal-bg:linear-gradient(180deg,#1a1d26,var(--surface-modal));
+    --overlay-bg:rgba(4,5,8,.72);--hover-line:#4d5160;--score-bg:#0d0f14;--score-border:#23252c;
+    --score-none:#4a4e59;--winner-bg:#191307;--winner-border:#584417;--close-bg:#141720;
+    --input-bg:#0d0f14;--button-bg:#161922;--button-hover:#4d5160;--soft-panel:rgba(13,15,20,.42);
+    --shadow:0 3px 10px rgba(0,0,0,.35);--shadow-hover:0 4px 14px rgba(0,0,0,.5);
   }
   *{box-sizing:border-box}
   html,body{margin:0;overflow-x:hidden}
-  body{background:radial-gradient(120% 90% at 50% 0%, #181a20 0%, #0b0c0f 55%, #06070a 100%);
+  body{background:var(--page-bg);
     color:var(--ink);font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     min-height:100vh;padding:clamp(14px,2.5vw,28px) 0 40px}
 
@@ -30,7 +52,7 @@
   .sub strong{color:var(--ink-soft)}
   .statusline{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
   .chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;
-    background:linear-gradient(180deg,#181a20,#10121a);padding:6px 13px;font-size:11.5px;color:var(--ink-soft)}
+    background:var(--chip-bg);padding:6px 13px;font-size:11.5px;color:var(--ink-soft)}
   .chip b{color:var(--gold-bright);font-weight:600}
   .chip .dotp{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(227,175,58,.8)}
   .chip .dotl{width:7px;height:7px;border-radius:50%;background:#4caf7d;box-shadow:0 0 6px rgba(76,175,125,.8);
@@ -38,8 +60,10 @@
   .chip.err .dotl{background:#888;box-shadow:none;animation:none}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   button.chip{cursor:pointer;font-family:inherit}
-  button.chip:hover{border-color:#4d5160}
+  button.chip:hover{border-color:var(--hover-line)}
+  button.chip:disabled{cursor:default;opacity:.82}
   button.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .iconchip{width:34px;justify-content:center;font-size:14px;padding-inline:0}
   .rotate-note{display:none;position:relative;margin:12px auto 0;
     max-width:430px;border:1px solid rgba(227,175,58,.34);background:rgba(227,175,58,.08);
     border-radius:10px;padding:10px 12px 10px 58px;color:var(--ink-soft);font-size:12px;line-height:1.45;text-align:left}
@@ -49,12 +73,6 @@
   .rotate-icon::after{content:"↻";position:absolute;right:1px;top:-3px;color:var(--gold-bright);
     font-size:27px;font-weight:700;line-height:1}
   .rotate-note span:last-child{display:block;min-width:0;white-space:normal;overflow-wrap:anywhere}
-  .champ{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:8px 16px;
-    border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,#181a20,#0f1115)}
-  .champ .lbl{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10px;color:var(--gold)}
-  .champ .who{font-weight:600;font-size:14px;color:var(--muted)}
-  .champ .who.set{color:var(--gold-bright)}
-
   /* ---------- színpad / görgetés ---------- */
   .stage{margin-top:clamp(16px,2.5vw,30px);overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
     -webkit-overflow-scrolling:touch;padding:6px 18px 18px;scrollbar-color:#3a3d45 #101218}
@@ -91,11 +109,12 @@
   .match{position:relative;z-index:1;align-self:center;width:100%;text-align:left;
     font-family:inherit;color:inherit;background:linear-gradient(180deg,var(--card),var(--card2));
     border:1px solid var(--line);border-radius:10px;padding:8px 10px 9px;cursor:pointer;
-    box-shadow:0 3px 10px rgba(0,0,0,.35);transition:border-color .15s, box-shadow .15s}
-  .match:hover{border-color:#4d5160;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+    box-shadow:var(--shadow);transition:border-color .15s, box-shadow .15s}
+  .match:hover{border-color:var(--hover-line);box-shadow:var(--shadow-hover)}
   .match.has-stats:hover,.match.pickable:hover{border-color:var(--gold)}
   .match:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .match.tbd{background:linear-gradient(180deg,#12141b,#0e1016)}
+  .match.jump-highlight{outline:3px solid var(--live-soft);outline-offset:4px}
+  .match.tbd{background:var(--card-tbd)}
   .match.tipped{border-color:#5c4d22}
   .match.islive{border-color:#7c3b3b;box-shadow:0 0 0 1px rgba(224,86,86,.35),0 3px 12px rgba(0,0,0,.5)}
   .mmeta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:5px}
@@ -112,22 +131,22 @@
   .trow{display:flex;align-items:center;gap:8px;min-height:28px}
   .trow + .trow{margin-top:3px}
   .trow img.fl{width:30px;height:22px;border-radius:3px;object-fit:cover;flex:0 0 auto;
-    background:#262932;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #363a44}
-  .trow .fl.ph{width:30px;height:22px;border-radius:3px;flex:0 0 auto;background:#20232c;
-    box-shadow:inset 0 0 0 1px #30333d;display:flex;align-items:center;justify-content:center;
-    color:#565a66;font-size:11px;font-weight:600}
+    background:var(--line-soft);box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 2px var(--line)}
+  .trow .fl.ph{width:30px;height:22px;border-radius:3px;flex:0 0 auto;background:var(--line-soft);
+    box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:11px;font-weight:600}
   .trow .nm{flex:1;font-size:13.2px;font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .trow .nm.cand{font-weight:500;font-size:11.5px;color:#6b6f79;font-style:italic}
   .trow .nm.tipteam{font-style:italic;color:#b7a878}
   .trow .sc{flex:0 0 auto;min-width:24px;text-align:center;font-weight:700;font-size:14.5px;
-    font-variant-numeric:tabular-nums;color:var(--ink);background:#0d0f14;border:1px solid var(--line-soft);
+    font-variant-numeric:tabular-nums;color:var(--ink);background:var(--score-bg);border:1px solid var(--score-border);
     border-radius:6px;padding:2px 5px}
-  .trow .sc.none{color:#4a4e59;border-style:dashed}
+  .trow .sc.none{color:var(--score-none);border-style:dashed}
   .trow .sc.tipsc{border-style:dashed;border-color:#5c4d22;color:var(--tip);font-style:italic}
   .trow .sc.livesc{border-color:#8a3a38;color:#ffd9d9}
   .trow.winner .nm{color:var(--win)}
-  .trow.winner .sc{color:var(--gold-bright);border-color:#584417;background:#191307}
-  .trow.winner .sc.tipsc{color:var(--tip);background:#15110a}
+  .trow.winner .sc{color:var(--gold-bright);border-color:var(--winner-border);background:var(--winner-bg)}
+  .trow.winner .sc.tipsc{color:var(--tip);background:var(--winner-bg)}
   .trow.loser .nm,.trow.loser img.fl{opacity:.5}
   .trow.loser .sc{opacity:.75}
   .pens{margin-top:5px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line-soft);padding-top:4px}
@@ -145,7 +164,7 @@
     text-shadow:0 0 16px rgba(255,210,120,.28)}
   .worldcup-title .brand{font-weight:700;font-size:13px;letter-spacing:.18em;color:var(--gold-bright)}
   .worldcup-title .name{font-weight:700;font-size:16px;letter-spacing:.08em;color:var(--ink)}
-  .worldcup-title .year{font-weight:700;font-size:30px;letter-spacing:.04em;color:#fff}
+  .worldcup-title .year{font-weight:700;font-size:30px;letter-spacing:.04em;color:var(--ink)}
   .trophywrap .flbl{font-family:inherit;text-transform:uppercase;letter-spacing:.3em;
     font-size:11px;color:var(--gold);position:relative}
   .finalcol .match{width:100%}
@@ -163,8 +182,8 @@
   .scorer.top{border-color:#584417;box-shadow:0 0 14px rgba(227,175,58,.12)}
   .scorer .rank{position:absolute;top:8px;left:10px;font-family:inherit;font-size:11px;color:var(--muted)}
   .scorer img.face{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:top;
-    background:#262932;box-shadow:0 0 0 1px #000,0 0 0 3px #3a3e49}
-  .scorer.top img.face{box-shadow:0 0 0 1px #000,0 0 0 3px var(--gold-bar)}
+    background:var(--line-soft);box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 3px var(--line)}
+  .scorer.top img.face{box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 3px var(--gold-bar)}
   .scorer .pname{font-weight:600;font-size:12.5px;margin-top:8px;color:var(--ink)}
   .scorer .pteam{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:4px;
     color:var(--muted);font-size:10.5px}
@@ -187,11 +206,11 @@
   .footlink:hover{color:var(--gold-bright);text-decoration-color:var(--gold-bright)}
 
   /* ---------- modális ablak ---------- */
-  .overlay{position:fixed;inset:0;background:rgba(4,5,8,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  .overlay{position:fixed;inset:0;background:var(--overlay-bg);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
     display:none;align-items:flex-start;justify-content:center;z-index:60;padding:4vh 14px 5vh;overflow-y:auto}
   .overlay.open{display:flex}
-  .modal{width:min(560px,100%);background:linear-gradient(180deg,#1a1d26,var(--surface-modal));
-    border:1px solid #3a3e49;border-radius:16px;box-shadow:0 22px 60px rgba(0,0,0,.65);overflow:hidden}
+  .modal{width:min(560px,100%);background:var(--modal-bg);
+    border:1px solid var(--line);border-radius:16px;box-shadow:0 22px 60px rgba(20,32,54,.22);overflow:hidden}
   .modal.privacy-modal{width:min(520px,100%)}
   .mo-top{position:relative;padding:16px 18px 14px;border-bottom:1px solid var(--line-soft);
     background:linear-gradient(180deg,rgba(227,175,58,.07),rgba(227,175,58,0))}
@@ -202,13 +221,13 @@
     letter-spacing:.16em;color:#ffd9d9;background:#57201f;border:1px solid #8a3a38;border-radius:5px;padding:2px 8px}
   .mo-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--live-soft);animation:pulse 1.4s infinite}
   .mo-close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);
-    background:#141720;color:var(--ink-soft);font-size:15px;cursor:pointer;line-height:1}
-  .mo-close:hover{border-color:#4d5160;color:#fff}
+    background:var(--close-bg);color:var(--ink-soft);font-size:15px;cursor:pointer;line-height:1}
+  .mo-close:hover{border-color:var(--hover-line);color:var(--ink)}
   .mo-close:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .mo-score{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-top:14px}
   .mo-team{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
-  .mo-team img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
-    box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
+  .mo-team img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:var(--line-soft);
+    box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 2px var(--line)}
   .mo-team .n{font-weight:600;font-size:13px;text-align:center;color:var(--ink)}
   .mo-team .tag{width:16px;height:5px;border-radius:3px}
   .mo-num{font-family:inherit;font-weight:700;font-size:40px;letter-spacing:.04em;
@@ -246,16 +265,26 @@
   .mo-pend{padding:24px 18px;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.8}
   .mo-pend .big{font-size:15px;font-weight:600;color:var(--ink)}
   .mo-loading{padding:30px 18px;text-align:center;color:var(--muted);font-size:12.5px}
+  .lineup-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .lineup-team{border:1px solid var(--line-soft);border-radius:12px;background:var(--soft-panel);padding:12px}
+  .lineup-team h3{margin:0 0 10px;font-size:12px;color:var(--ink);display:flex;align-items:center;gap:7px}
+  .lineup-team h3 img{width:22px;height:16px;border-radius:3px;object-fit:cover}
+  .lineup-player{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;
+    padding:6px 0;border-top:1px solid var(--line-soft);font-size:12px;color:var(--ink-soft)}
+  .lineup-player:first-of-type{border-top:0}
+  .lineup-no{font-weight:700;color:var(--gold-bright);font-variant-numeric:tabular-nums}
+  .lineup-pos{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .lineup-empty{text-align:center;color:var(--muted);font-size:12px;line-height:1.7;padding:14px}
 
   /* ---------- tipp-szerkesztő ---------- */
-  .pickteam{cursor:pointer;background:#141720;border:1px solid var(--line);border-radius:12px;
+  .pickteam{cursor:pointer;background:var(--button-bg);border:1px solid var(--line);border-radius:12px;
     padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;
     font-family:inherit;color:var(--ink);transition:border-color .12s, background .12s}
-  .pickteam:hover{border-color:#5a5e6b}
+  .pickteam:hover{border-color:var(--hover-line)}
   .pickteam:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .pickteam.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:#1b1710}
-  .pickteam img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:#262932;
-    box-shadow:0 0 0 1px rgba(0,0,0,.7),0 0 0 2px #3a3e49}
+  .pickteam.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:var(--winner-bg)}
+  .pickteam img{width:46px;height:34px;object-fit:cover;border-radius:4px;background:var(--line-soft);
+    box-shadow:0 0 0 1px rgba(0,0,0,.18),0 0 0 2px var(--line)}
   .pickteam .n{font-weight:600;font-size:13px;text-align:center}
   .pickteam .adv{font-family:inherit;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
     color:#565a66}
@@ -264,7 +293,7 @@
   .scoreblock{display:flex;flex-direction:column;align-items:center;gap:6px}
   .scorelabel{font-family:inherit;text-transform:uppercase;letter-spacing:.16em;font-size:9.5px;color:var(--muted)}
   .scorein{width:52px;height:46px;text-align:center;font-family:inherit;font-weight:600;font-size:22px;
-    background:#0d0f14;border:1px solid var(--line);border-radius:9px;color:var(--ink);
+    background:var(--input-bg);border:1px solid var(--line);border-radius:9px;color:var(--ink);
     font-variant-numeric:tabular-nums;-moz-appearance:textfield;appearance:textfield}
   .scorein::-webkit-outer-spin-button,.scorein::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   .scorein:focus{outline:none;border-color:var(--gold)}
@@ -272,19 +301,19 @@
   .mo-help{margin-top:12px;color:var(--muted);font-size:11.5px;text-align:center;line-height:1.6;min-height:18px}
   .mo-help.err{color:#e8a1a1}
   .extra-panel{margin:14px 0 0;padding:12px;border:1px solid var(--line-soft);border-radius:12px;
-    background:rgba(13,15,20,.42)}
+    background:var(--soft-panel)}
   .extra-panel[hidden]{display:none}
   .extra-panel .mo-sec{margin-top:0}
   .penpick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
-  .penpick button{min-height:38px;border-radius:9px;border:1px solid var(--line);background:#141720;color:var(--ink-soft);
+  .penpick button{min-height:38px;border-radius:9px;border:1px solid var(--line);background:var(--button-bg);color:var(--ink-soft);
     cursor:pointer;font-family:inherit;text-transform:uppercase;letter-spacing:.09em;font-size:10.5px}
-  .penpick button.sel{border-color:var(--gold);background:#1b1710;color:var(--gold-bright)}
+  .penpick button.sel{border-color:var(--gold);background:var(--winner-bg);color:var(--gold-bright)}
   .penpick button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .mo-actions{display:flex;gap:9px;justify-content:center;margin-top:14px;flex-wrap:wrap}
   .btn{font-family:inherit;letter-spacing:.09em;text-transform:uppercase;font-size:11.5px;font-weight:500;
-    border-radius:8px;padding:10px 18px;cursor:pointer;border:1px solid var(--line);background:#161922;color:var(--ink);
+    border-radius:8px;padding:10px 18px;cursor:pointer;border:1px solid var(--line);background:var(--button-bg);color:var(--ink);
     text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-  .btn:hover{border-color:#4d5160}
+  .btn:hover{border-color:var(--button-hover)}
   .btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .btn.primary{background:linear-gradient(180deg,#2a2110,#1d1708);border-color:#6a5820;color:var(--gold-bright)}
   .btn.primary:hover{border-color:var(--gold)}
@@ -293,13 +322,14 @@
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media (max-width:760px){
     body{padding-top:12px}
-    header{padding-inline:12px}
-    h1{font-size:24px;line-height:1.05}
+    header{width:100%;max-width:100vw;padding-inline:12px;overflow:hidden}
+    h1{font-size:22px;line-height:1.05}
     .eyebrow{letter-spacing:.22em}
-    .sub{font-size:12px;line-height:1.5;max-width:100%;overflow-wrap:anywhere}
+    .sub{display:none}
     .statusline{display:grid;grid-template-columns:1fr;gap:6px;max-width:100%;padding-inline:4px}
     .chip{font-size:11px;padding:6px 10px;justify-content:center;max-width:100%;min-width:0}
     button.chip{width:100%}
+    button.iconchip{width:42px;justify-self:center}
     .rotate-note{display:block;width:calc(100vw - 24px);max-width:calc(100vw - 24px)}
     .stage{max-width:100vw;padding-inline:10px}
     .bracketfit{width:100%;transform:none!important}
@@ -333,6 +363,7 @@
     .penpick{grid-template-columns:1fr}
     .mo-actions{gap:8px}
     .btn{justify-content:center;min-height:40px}
+    .lineup-grid{grid-template-columns:1fr}
   }
   @media (max-height:520px) and (pointer:coarse){
     .overlay{padding:8px;align-items:flex-start}
@@ -347,7 +378,7 @@
 </head>
 <body>
   <header>
-    <p class="eyebrow">FIFA World Cup · Kieséses szakasz</p>
+    <p class="eyebrow"></p>
     <h1>Világbajnokság <span class="yr">2026</span></h1>
     <p class="sub">Az ágrajz <strong>élőben frissül</strong> a FIFA adataival: gól után percenként frissülnek az állások,
       élő meccs statisztikáját a pop-up 30 másodpercenként újratölti.
@@ -356,15 +387,15 @@
       Minden időpont <strong>romániai idő (EEST)</strong> szerint.</p>
     <div class="statusline">
       <span class="chip"><span class="dotp"></span>Legjobb 32: <b id="playedCount">10 / 16</b>&nbsp;lejátszva</span>
-      <span class="chip" id="liveChip"><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></span>
+      <button class="chip" id="liveChip" type="button" disabled><span class="dotl"></span><span id="liveChipTxt">Élő frissítés indul…</span></button>
       <button class="chip" id="btnClearTips" type="button" hidden>↺ Tippek törlése</button>
       <button class="chip" id="btnAllCalendar" type="button">📅 Összes meccs naptárba</button>
+      <button class="chip iconchip" id="btnTheme" type="button" aria-label="Sötét mód">☾</button>
     </div>
     <div class="rotate-note" aria-label="Mobilnézeti tipp">
       <span class="rotate-icon" aria-hidden="true"></span>
       <span>Fordítsd el a telefont:<br>fekvő nézetben látszik a teljes ágrajz.</span>
     </div>
-    <div class="champ"><span class="lbl">Bajnok</span><span class="who" id="champWho">— még nem dőlt el —</span></div>
   </header>
 
   <div class="stage" id="stage">
@@ -378,7 +409,7 @@
   <section class="scorers" aria-label="Góllövőlista">
     <h2 class="sec-title">Góllövőlista</h2>
     <p class="sec-sub">adidas Aranycipő-verseny · állás: 2026. július 2.</p>
-    <div class="scorer-grid">
+    <div class="scorer-grid" id="scorerGrid">
       <div class="scorer top"><span class="rank">1.</span>
         <img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="Lionel Messi"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg/330px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg">
@@ -429,7 +460,7 @@
         <div class="goals">4<small>GÓL</small></div>
       </div>
     </div>
-    <div class="scorer-more">3 gólnál:
+    <div class="scorer-more" id="scorerMore">3 gólnál:
       <span class="mchip"><img src="https://flagcdn.com/w40/ca.png" alt="Kanada">Jonathan David</span>
       <span class="mchip"><img src="https://flagcdn.com/w40/de.png" alt="Németország">Deniz Undav</span>
       <span class="mchip"><img src="https://flagcdn.com/w40/de.png" alt="Németország">Kai Havertz</span>
@@ -576,6 +607,24 @@ function loadTips(){
 }
 function saveTips(){ try{ localStorage.setItem("vb2026_tips_v1", JSON.stringify(tips)); }catch(e){} }
 
+let currentTheme="light";
+function loadTheme(){
+  try{ return localStorage.getItem("vb2026_theme")==="dark" ? "dark" : "light"; }
+  catch(e){ return "light"; }
+}
+function applyTheme(theme){
+  currentTheme=theme==="dark" ? "dark" : "light";
+  if(currentTheme==="dark") document.documentElement.setAttribute("data-theme","dark");
+  else document.documentElement.removeAttribute("data-theme");
+  const btn=document.getElementById("btnTheme");
+  if(btn){
+    btn.textContent=currentTheme==="dark" ? "☀" : "☾";
+    btn.setAttribute("aria-label", currentTheme==="dark" ? "Világos mód" : "Sötét mód");
+    btn.title=currentTheme==="dark" ? "Világos mód" : "Sötét mód";
+  }
+  try{ localStorage.setItem("vb2026_theme", currentTheme); }catch(e){}
+}
+
 /* ---------- segédek ---------- */
 const nameOf = c => TEAMS[c] || "—";
 const flagUrl = (c,w) => `https://flagcdn.com/w${w||80}/${c}.png`;
@@ -584,6 +633,53 @@ const nf1  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:1,maximumFract
 const nf2  = n => n.toLocaleString("hu-HU",{minimumFractionDigits:2,maximumFractionDigits:2});
 const shortCity = c => !c ? "" : c.replace(/\s*\(.*\)/,"").replace("New York / New Jersey","New York");
 const isMobileLayout = () => window.matchMedia("(max-width: 760px)").matches;
+const esc = s => String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+
+const SCORERS = [
+  {name:"Lionel Messi", team:"Argentína", code:"ar", goals:6, assists:3, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg/330px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-055.jpg"},
+  {name:"Kylian Mbappé", team:"Franciaország", code:"fr", goals:6, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg/330px-Kylian_Mbappe_France_v_Senegal_16_June_2026-391_%28cropped%29.jpg"},
+  {name:"Erling Haaland", team:"Norvégia", code:"no", goals:5, assists:2, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg/330px-Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg"},
+  {name:"Harry Kane", team:"Anglia", code:"gb-eng", goals:5, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg/330px-Harry_Kane_England_v_Ghana_23_June_2026-219_%28cropped%29.jpg"},
+  {name:"Vinícius Júnior", team:"Brazília", code:"br", goals:4, assists:3, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg/330px-Vin%C3%ADcius_J%C3%BAnior_Brazil_V_Morocco_13_June_2026-207_%28cropped%29.jpg"},
+  {name:"Ousmane Dembélé", team:"Franciaország", code:"fr", goals:4, assists:2, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg/330px-Ousmane_Dembele_France_v_Senegal_16_June_2026-341_%28cropped%29.jpg"},
+  {name:"Ismaïla Sarr", team:"Szenegál", code:"sn", goals:4, assists:1, img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg/330px-Ismaila_Sarr_France_v_Senegal_16_June_2026-425_%28cropped%29.jpg"},
+  {name:"Jonathan David", team:"Kanada", code:"ca", goals:3, assists:2},
+  {name:"Deniz Undav", team:"Németország", code:"de", goals:3, assists:1},
+  {name:"Kai Havertz", team:"Németország", code:"de", goals:3, assists:1},
+  {name:"Johan Manzambi", team:"Svájc", code:"ch", goals:3, assists:0},
+  {name:"Matheus Cunha", team:"Brazília", code:"br", goals:3, assists:0},
+  {name:"Ismael Saibari", team:"Marokkó", code:"ma", goals:3, assists:0},
+  {name:"Brian Brobbey", team:"Hollandia", code:"nl", goals:3, assists:0},
+  {name:"Cody Gakpo", team:"Hollandia", code:"nl", goals:3, assists:0},
+  {name:"Elijah Just", team:"Új-Zéland", code:"nz", goals:3, assists:0},
+  {name:"Julián Quiñones", team:"Mexikó", code:"mx", goals:3, assists:0},
+  {name:"Folarin Balogun", team:"USA", code:"us", goals:3, assists:0}
+];
+
+function sortedScorers(){
+  return [...SCORERS].sort((a,b)=>b.goals-a.goals || b.assists-a.assists || a.name.localeCompare(b.name,"hu"));
+}
+function renderScorers(){
+  const grid=document.getElementById("scorerGrid"), more=document.getElementById("scorerMore");
+  if(!grid || !more) return;
+  const list=sortedScorers();
+  const top=list.slice(0,7);
+  let rank=0, prev=null;
+  grid.innerHTML=top.map((p,i)=>{
+    if(!prev || p.goals!==prev.goals || p.assists!==prev.assists) rank=i+1;
+    prev=p;
+    return '<div class="scorer'+(i<2?' top':'')+'"><span class="rank">'+rank+'.</span>'
+      +(p.img?'<img class="face" loading="lazy" referrerpolicy="no-referrer" width="64" height="64" alt="'+esc(p.name)+'" src="'+esc(p.img)+'">':'')
+      +'<div class="pname">'+esc(p.name)+'</div>'
+      +'<div class="pteam"><img src="'+flagUrl(p.code,40)+'" alt="" width="16" height="12">'+esc(p.team)+'</div>'
+      +'<div class="goals">'+p.goals+'<small>GÓL · '+p.assists+' GP</small></div>'
+      +'</div>';
+  }).join("");
+  const rest=list.filter(p=>p.goals===3);
+  more.innerHTML='3 gólnál, gólpassz szerint: '+rest.map(p=>
+    '<span class="mchip"><img src="'+flagUrl(p.code,40)+'" alt="'+esc(p.team)+'">'+esc(p.name)+' · '+p.assists+' GP</span>'
+  ).join("");
+}
 
 function tipScore(t){ return t && t.aet ? t.aet : (t && t.s ? t.s : null); }
 function tipMethodText(m,t){
@@ -743,6 +839,7 @@ function makeCard(match, roundIdx, col, rowStart, rowSpan){
   const pickable=!match.s && !match.live && match.h && match.a;
   const el=document.createElement("button");
   el.type="button";
+  el.id="match-"+match.no;
   el.className="match"+(match.stats?" has-stats":"")+(!match.s?" tbd":"")
     +(pickable?" pickable":"")+(t?" tipped":"")+(match.live?" islive":"");
   if(col!=null) el.style.gridColumn=col;
@@ -799,11 +896,7 @@ function colHead(col, roundIdx){
   bracket.appendChild(d);
 }
 
-function updateHeaderState(fin){
-  const champWho=document.getElementById("champWho");
-  const fi=effInfo(fin);
-  if(fi.code){ champWho.textContent=nameOf(fi.code)+(fi.tip?" (tipp)":""); champWho.classList.add("set"); }
-  else{ champWho.textContent="— még nem dőlt el —"; champWho.classList.remove("set"); }
+function updateHeaderState(){
   document.getElementById("btnClearTips").hidden = Object.keys(tips).length===0;
   const played=R32.filter(m=>winnerOf(m)!==null).length;
   document.getElementById("playedCount").textContent=played+" / 16";
@@ -926,7 +1019,31 @@ window.addEventListener("resize",()=>{
 const API="https://api.fifa.com/api/v3", FDH="https://fdh-api.fifa.com/v1";
 const IDC=17, IDSN=285023;
 const liveChip=document.getElementById("liveChip"), liveChipTxt=document.getElementById("liveChipTxt");
-let anyLive=false;
+let anyLive=false, liveMatches=[];
+
+function liveLabel(no){
+  const r=RES[no];
+  if(!r) return no+". mérkőzés";
+  return nameOf(ABBR[r.hAb])+" – "+nameOf(ABBR[r.aAb])+(r.min?" · "+r.min:"");
+}
+function updateLiveChip(now){
+  liveChip.classList.remove("err");
+  if(liveMatches.length){
+    liveChip.disabled=false;
+    liveChipTxt.textContent="ÉLŐ: "+liveLabel(liveMatches[0])+(liveMatches.length>1?" +"+(liveMatches.length-1):"")+" · ugrás";
+  }else{
+    liveChip.disabled=true;
+    liveChipTxt.textContent="Élő frissítés · "+now.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"});
+  }
+}
+function jumpToLiveMatch(){
+  if(!liveMatches.length) return;
+  const el=document.getElementById("match-"+liveMatches[0]);
+  if(!el) return;
+  el.scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+  el.classList.add("jump-highlight");
+  setTimeout(()=>el.classList.remove("jump-highlight"),1800);
+}
 
 async function liveSync(){
   try{
@@ -934,7 +1051,7 @@ async function liveSync(){
     const r=await fetch(u,{cache:"no-store"});
     if(!r.ok) throw new Error("HTTP "+r.status);
     const j=await r.json();
-    let changed=false; anyLive=false;
+    let changed=false; anyLive=false; liveMatches=[];
     (j.Results||[]).forEach(it=>{
       const no=it.MatchNumber; if(no==null) return;
       RAW[no]={idm:it.IdMatch, stg:it.IdStage, ifes:it.Properties&&it.Properties.IdIFES};
@@ -951,17 +1068,16 @@ async function liveSync(){
         aet:(it.ResultType===2||it.ResultType===3),
         live:live, min:it.MatchTime||""
       };
-      if(live) anyLive=true;
+      if(live){ anyLive=true; liveMatches.push(no); }
       const old=RES[no];
       if(!old || JSON.stringify(old)!==JSON.stringify(entry)){ RES[no]=entry; changed=true; }
     });
     const now=new Date();
-    liveChip.classList.remove("err");
-    liveChipTxt.textContent="Élő frissítés · "+now.toLocaleTimeString("hu-HU",{hour:"2-digit",minute:"2-digit"})
-      +(anyLive?" · most élő meccs megy!":"");
+    updateLiveChip(now);
     if(changed) render();
   }catch(e){
     liveChip.classList.add("err");
+    liveChip.disabled=true;
     liveChipTxt.textContent="Élő frissítés nem elérhető — beépített adatok";
   }
 }
@@ -1027,6 +1143,78 @@ function scoreHeadHtml(m, extraNote){
     +'<div class="mo-team"><img src="'+flagUrl(m.a,160)+'" alt="" width="46" height="34">'
     +'<span class="n">'+nameOf(m.a)+'</span><span class="tag" style="background:var(--blue-bar)"></span></div>'
     +'</div>';
+}
+
+function lineupButtonHtml(m){
+  return m && (m.s || m.live) ? '<div class="mo-actions" style="margin-top:12px"><button class="btn" id="btnLineups" type="button">Kezdőcsapatok</button></div>' : "";
+}
+function playerText(v){
+  if(!v) return "";
+  if(typeof v==="string") return v;
+  if(v.Description) return v.Description;
+  if(Array.isArray(v)) return playerText(v[0]);
+  return "";
+}
+function playerName(p){
+  return playerText(p.ShortName)||playerText(p.DisplayName)||playerText(p.Name)||playerText(p.PlayerName)||playerText(p.FullName)||"Ismeretlen játékos";
+}
+function playerNo(p){ return p.ShirtNumber||p.JerseyNumber||p.BibNumber||p.Number||""; }
+function playerPos(p){
+  const raw=playerText(p.Position)||playerText(p.FieldPosition)||playerText(p.TacticalPosition)||"";
+  const s=raw.toLowerCase();
+  if(/goal|kapus|keeper|gk/.test(s)) return "GK";
+  if(/def|back|véd|df/.test(s)) return "DF";
+  if(/mid|köz|mf/.test(s)) return "MF";
+  if(/for|striker|wing|tám|fw/.test(s)) return "FW";
+  return raw ? raw.slice(0,3).toUpperCase() : "";
+}
+function playerStatusText(p){
+  return [p.Status,p.LineupStatus,p.FieldStatus,p.PlayerStatus,p.MatchStatus,p.StatusText,p.LineupType]
+    .map(playerText).join(" ").toLowerCase();
+}
+function isSubstitute(p){
+  const s=playerStatusText(p);
+  return p.IsSubstitute===true || p.Substitute===true || /sub|bench|csere/.test(s);
+}
+function isStarter(p){
+  const s=playerStatusText(p);
+  return p.IsStarting===true || p.IsStarter===true || p.Starting===true || p.Starter===true
+    || p.LineupStatus===1 || p.Status===1 || /start|starter|starting|lineup|first xi|kezd/.test(s);
+}
+function teamPlayers(tm){
+  return (tm && (tm.Players||tm.Lineup||tm.StartingPlayers||tm.SquadList)) || [];
+}
+function lineupForTeam(tm){
+  const players=teamPlayers(tm).filter(p=>p && !/coach|manager|edző/.test(playerStatusText(p)));
+  let starters=players.filter(isStarter);
+  if(starters.length<7) starters=players.filter(p=>!isSubstitute(p)).slice(0,11);
+  if(starters.length<7) return [];
+  const order={GK:0,DF:1,MF:2,FW:3};
+  return starters.slice(0,11).sort((a,b)=>(order[playerPos(a)]??9)-(order[playerPos(b)]??9) || Number(playerNo(a)||99)-Number(playerNo(b)||99));
+}
+function lineupsFromLive(live,m){
+  const homeCode=ABBR[(live.HomeTeam&&live.HomeTeam.Abbreviation)||""];
+  const flip=homeCode===m.a;
+  return [
+    {code:m.h, team:flip?live.AwayTeam:live.HomeTeam},
+    {code:m.a, team:flip?live.HomeTeam:live.AwayTeam}
+  ].map(x=>({code:x.code, name:nameOf(x.code), players:lineupForTeam(x.team)}));
+}
+function lineupHtml(lineups){
+  if(!lineups || !lineups.some(t=>t.players.length)){
+    return '<div class="lineup-empty">A FIFA-nál a kezdőcsapat még nem érhető el ehhez a meccshez.</div>';
+  }
+  return '<div class="lineup-grid">'+lineups.map(t=>
+    '<div class="lineup-team"><h3><img src="'+flagUrl(t.code,40)+'" alt="">'+esc(t.name)+'</h3>'
+    +(t.players.length?t.players.map(p=>
+      '<div class="lineup-player"><span class="lineup-no">'+esc(playerNo(p)||"")+'</span><span>'+esc(playerName(p))+'</span><span class="lineup-pos">'+esc(playerPos(p))+'</span></div>'
+    ).join(""):'<div class="lineup-empty">Nincs elérhető kezdőcsapat.</div>')
+    +'</div>'
+  ).join("")+'</div>';
+}
+function wireLineupButton(m, roundIdx){
+  const btn=document.getElementById("btnLineups");
+  if(btn) btn.addEventListener("click",()=>openLineupModal(m, roundIdx));
 }
 
 /* ---------- naptár (.ics + Google) ---------- */
@@ -1162,8 +1350,8 @@ function openPrivacyModal(){
     +'<div class="mo-place">FIFA World Cup 2026 ágrajz</div>'
     +'</div><div class="mo-body privacy-copy">'
     +'<p>Ez az oldal személyes adatot nem gyűjt, nem továbbít és nem tárol szerveren.</p>'
-    +'<p>A felhasználó által megadott tippek kizárólag a saját böngészőjében, helyi tárhelyen (localStorage) kerülnek mentésre, hogy az oldal újranyitásakor megmaradjanak.</p>'
-    +'<p>A tippekhez az oldal üzemeltetője nem fér hozzá. A mentett tippek törölhetők a <b>Tippek törlése</b> gombbal, illetve a böngésző webhelyadatainak törlésével.</p>'
+    +'<p>A felhasználó által megadott tippek és a választott világos/sötét téma kizárólag a saját böngészőjében, helyi tárhelyen (localStorage) kerülnek mentésre, hogy az oldal újranyitásakor megmaradjanak.</p>'
+    +'<p>A mentett adatokhoz az oldal üzemeltetője nem fér hozzá. A tippek törölhetők a <b>Tippek törlése</b> gombbal, minden helyi adat pedig a böngésző webhelyadatainak törlésével.</p>'
     +'<p>A naptárba helyezés funkció .ics fájlt hoz létre, illetve Google Naptár választása esetén a felhasználót a Google Naptár felületére irányítja. A Google szolgáltatásaira a Google saját adatkezelési feltételei vonatkoznak.</p>'
     +'<p>Kapcsolat adatvédelmi kérdésekben: <b>botland93@gmail.com</b></p>'
     +'<div class="mo-actions"><button class="btn primary" id="privacyOk" type="button">Rendben</button></div>'
@@ -1171,6 +1359,32 @@ function openPrivacyModal(){
   attachClose();
   const ok=document.getElementById("privacyOk");
   if(ok) ok.addEventListener("click",closeModal);
+}
+
+async function openLineupModal(m, roundIdx){
+  lastFocus=document.activeElement;
+  clearInterval(moTimer); moTimer=null;
+  const token=++moToken;
+  modal.classList.remove("privacy-modal");
+  overlay.classList.add("open");
+  document.body.style.overflow="hidden";
+  modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
+    +(m.s?scoreHeadHtml(m):"")+'</div><div class="mo-loading">Kezdőcsapatok letöltése a FIFA-tól…</div>';
+  attachClose();
+  let html='<div class="lineup-empty">A FIFA-nál a kezdőcsapat még nem érhető el ehhez a meccshez.</div>';
+  const info=RAW[m.no];
+  if(info && info.idm){
+    try{
+      const live=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+info.stg+"/"+info.idm+"?language=en",{cache:"no-store"})).json();
+      html=lineupHtml(lineupsFromLive(live,m));
+    }catch(e){}
+  }
+  if(token!==moToken || !overlay.classList.contains("open")) return;
+  modal.innerHTML='<div class="mo-top">'+moHeader(m, roundIdx)
+    +(m.s?scoreHeadHtml(m):"")+'</div><div class="mo-body">'
+    +'<div class="mo-sec">Kezdőcsapatok</div>'+html
+    +'<div class="mo-src" style="margin-top:14px">Forrás: FIFA — api.fifa.com</div></div>';
+  attachClose();
 }
 
 function openModal(m, roundIdx){
@@ -1186,11 +1400,13 @@ function openModal(m, roundIdx){
       +'<div class="mo-body">'+goalsHtml(m.goals)
       +statRowsHtml(m.stats)
       +(m.aet?'<div class="mo-note" style="margin-top:8px">A statisztika a hosszabbítást is tartalmazza.</div>':"")
+      +lineupButtonHtml(m)
       +'<div class="mo-extra">'
       +(m.att?'Nézőszám: <b>'+nfat(m.att)+'</b>':"")
       +(m.ref?' · Játékvezető: <b>'+m.ref+'</b>':"")
       +'</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com</div></div>';
     attachClose();
+    wireLineupButton(m, roundIdx);
   }else if(m.s || m.live){
     /* élő vagy utólag befejezett meccs → statisztika letöltése a FIFA-tól */
     renderDynamic(m, roundIdx, moToken);
@@ -1305,10 +1521,12 @@ async function renderDynamic(m, roundIdx, token){
     +'<div class="mo-body">'
     +(goals?goalsHtml(goals):"")
     +(stats?statRowsHtml(stats):'<div class="mo-loading">A részletes statisztika még nem érhető el.</div>')
+    +lineupButtonHtml(m)
     +'<div class="mo-extra">'+(att?'Nézőszám: <b>'+nfat(att)+'</b> · ':"")
     +(m.live?'A statisztika 30 másodpercenként automatikusan frissül.':'Végeredmény.')
     +'</div><div class="mo-src">Forrás: FIFA — api.fifa.com · fdh-api.fifa.com (élő)</div></div>';
   attachClose();
+  wireLineupButton(m, roundIdx);
 }
 
 function wireTipEditor(m){
@@ -1413,8 +1631,12 @@ document.getElementById("btnClearTips").addEventListener("click",()=>{
 });
 document.getElementById("btnAllCalendar").addEventListener("click",openAllCalendarModal);
 document.getElementById("btnPrivacy").addEventListener("click",openPrivacyModal);
+liveChip.addEventListener("click",jumpToLiveMatch);
+document.getElementById("btnTheme").addEventListener("click",()=>applyTheme(currentTheme==="dark"?"light":"dark"));
 
 /* ---------- indítás ---------- */
+applyTheme(loadTheme());
+renderScorers();
 render();
 liveSync();
 </script>
