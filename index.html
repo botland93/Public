@@ -103,6 +103,7 @@
   .mobile-round-title{font-family:inherit;font-weight:600;text-transform:uppercase;
     letter-spacing:.16em;font-size:12px;color:var(--gold);margin:0 0 9px;padding-top:5px}
   .mobile-round .match{width:100%;margin:0 0 8px}
+  .mobile-next .match{border-color:var(--gold);box-shadow:0 0 0 1px rgba(185,128,18,.18),var(--shadow-hover)}
   .mobile-trophy{display:flex;justify-content:center;margin:4px 0 12px}
   svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
   .wire{fill:none;stroke:var(--line);stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
@@ -260,6 +261,11 @@
   .mo-event .evmin{min-width:34px;color:var(--muted);font-variant-numeric:tabular-nums}
   .mo-event .evico{width:24px;height:22px;border:1px solid var(--line-soft);border-radius:6px;
     display:inline-flex;align-items:center;justify-content:center;background:var(--soft-panel);font-size:12px;font-weight:700}
+  .mo-event .evico.card{background:transparent;border-color:transparent}
+  .mo-event .evico.card::before{content:"";display:block;width:13px;height:18px;border-radius:2px;
+    box-shadow:0 1px 4px rgba(20,32,54,.22),0 0 0 1px rgba(0,0,0,.16)}
+  .mo-event .evico.yellow::before{background:#ffd43b}
+  .mo-event .evico.red::before{background:#e03131}
   .mo-event .evtxt{min-width:0}
   .mo-event .evlab{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.09em;margin-left:4px}
   .mo-sec{font-family:inherit;text-transform:uppercase;letter-spacing:.22em;font-size:10.5px;
@@ -586,33 +592,42 @@ const R32 = [
     stats:{pos:[65.5,23.7],xg:[1.25,0.61],sh:[21,7],sot:[6,3],cor:[16,6],fls:[12,17],off:[4,1],pas:[834,264],acc:[90.2,62.9],yc:[2,2],rc:[0,0]} },
 ];
 
-/* Nyolcaddöntők — sorrend az ágrajz szerint: 0–3 bal, 4–7 jobb (FIFA M89–M96) */
+/* FIFA ágrajz-sorrend: bal oldal fentről lefelé, majd jobb oldal fentről lefelé. */
+const FIFA_R32_ORDER = [74,77,73,75,83,84,81,82,76,78,79,80,86,88,85,87];
+const FIFA_R32_POS = Object.fromEntries(FIFA_R32_ORDER.map((no,i)=>[no,i]));
+const LEGACY_R32_ORDER = [76,78,79,80,86,88,85,87,82,81,84,83,75,73,77,74];
+R32.sort((a,b)=>FIFA_R32_POS[a.no]-FIFA_R32_POS[b.no]);
+
+/* Nyolcaddöntők — FIFA ágrajz szerint: bal M89/M90/M93/M94, jobb M91/M92/M95/M96 */
 const META16 = [
+  {no:89, date:"júl. 5.", t:"00:00", utc:"2026-07-04T21:00:00Z", city:"Philadelphia"},
+  {no:90, date:"júl. 4.", t:"20:00", utc:"2026-07-04T17:00:00Z", city:"Houston"},
+  {no:93, date:"júl. 6.", t:"22:00", utc:"2026-07-06T19:00:00Z", city:"Dallas (Arlington)"},
+  {no:94, date:"júl. 7.", t:"03:00", utc:"2026-07-07T00:00:00Z", city:"Seattle"},
   {no:91, date:"júl. 5.", t:"23:00", utc:"2026-07-05T20:00:00Z", city:"New York / New Jersey"},
   {no:92, date:"júl. 6.", t:"03:00", utc:"2026-07-06T00:00:00Z", city:"Mexikóváros"},
   {no:95, date:"júl. 7.", t:"19:00", utc:"2026-07-07T16:00:00Z", city:"Atlanta"},
   {no:96, date:"júl. 7.", t:"23:00", utc:"2026-07-07T20:00:00Z", city:"Vancouver"},
-  {no:94, date:"júl. 7.", t:"03:00", utc:"2026-07-07T00:00:00Z", city:"Seattle"},
-  {no:93, date:"júl. 6.", t:"22:00", utc:"2026-07-06T19:00:00Z", city:"Dallas (Arlington)"},
-  {no:90, date:"júl. 4.", t:"20:00", utc:"2026-07-04T17:00:00Z", city:"Houston"},
-  {no:89, date:"júl. 5.", t:"00:00", utc:"2026-07-04T21:00:00Z", city:"Philadelphia"},
 ];
 const METAQF = [
+  {no:97,  date:"júl. 9.",  t:"23:00", utc:"2026-07-09T20:00:00Z", city:"Boston"},
+  {no:98,  date:"júl. 10.", t:"22:00", utc:"2026-07-10T19:00:00Z", city:"Los Angeles"},
   {no:99,  date:"júl. 12.", t:"00:00", utc:"2026-07-11T21:00:00Z", city:"Miami"},
   {no:100, date:"júl. 12.", t:"04:00", utc:"2026-07-12T01:00:00Z", city:"Kansas City"},
-  {no:98,  date:"júl. 10.", t:"22:00", utc:"2026-07-10T19:00:00Z", city:"Los Angeles"},
-  {no:97,  date:"júl. 9.",  t:"23:00", utc:"2026-07-09T20:00:00Z", city:"Boston"},
 ];
 const METASF = [
-  {no:102, date:"júl. 15.", t:"22:00", utc:"2026-07-15T19:00:00Z", city:"Atlanta"},
   {no:101, date:"júl. 14.", t:"22:00", utc:"2026-07-14T19:00:00Z", city:"Dallas (Arlington)"},
+  {no:102, date:"júl. 15.", t:"22:00", utc:"2026-07-15T19:00:00Z", city:"Atlanta"},
 ];
 const METAF = {no:104, date:"júl. 19.", t:"22:00", utc:"2026-07-19T19:00:00Z", city:"New York / New Jersey"};
 
 const ROUNDNAME = ["Legjobb 32","Nyolcaddöntő","Negyeddöntő","Elődöntő","Döntő"];
 const ROUNDDATE = ["jún. 28. – júl. 4.","júl. 4–7.","júl. 9–12.","júl. 14–15.","júl. 19. · 22:00"];
 
-R32.forEach((m,i)=>{ m.key="r"+i; });
+R32.forEach(m=>{ m.key="m"+m.no; });
+const LEGACY_R16_ORDER = [91,92,95,96,94,93,90,89];
+const LEGACY_QF_ORDER = [99,100,98,97];
+const LEGACY_SF_ORDER = [102,101];
 
 /* ---------- élő eredménytár (FIFA-szinkron tölti) ---------- */
 const RES = {};   /* meccsszám → {hAb,aAb,s,pens,aet,live,min} */
@@ -620,9 +635,25 @@ const RAW = {};   /* meccsszám → {idm, stg, ifes} a részletlekéréshez */
 
 /* ---------- tippek (localStorage) ---------- */
 let tips = loadTips();
+function migrateLegacyTips(j){
+  let changed=false;
+  const move=(oldKey,newKey)=>{
+    if(j[oldKey] && !j[newKey]){ j[newKey]=j[oldKey]; changed=true; }
+    if(j[oldKey]){ delete j[oldKey]; changed=true; }
+  };
+  LEGACY_R32_ORDER.forEach((no,i)=>move("r"+i,"m"+no));
+  LEGACY_R16_ORDER.forEach((no,i)=>move("s"+i,"m"+no));
+  LEGACY_QF_ORDER.forEach((no,i)=>move("q"+i,"m"+no));
+  LEGACY_SF_ORDER.forEach((no,i)=>move("f"+i,"m"+no));
+  move("F","m104");
+  if(changed){
+    try{ localStorage.setItem("vb2026_tips_v1", JSON.stringify(j)); }catch(e){}
+  }
+  return j;
+}
 function loadTips(){
   try{ const j=JSON.parse(localStorage.getItem("vb2026_tips_v1")||"{}");
-       return (j && typeof j==="object" && !Array.isArray(j)) ? j : {}; }
+       return (j && typeof j==="object" && !Array.isArray(j)) ? migrateLegacyTips(j) : {}; }
   catch(e){ return {}; }
 }
 function saveTips(){ try{ localStorage.setItem("vb2026_tips_v1", JSON.stringify(tips)); }catch(e){} }
@@ -660,20 +691,23 @@ const FIFA_GAMEDAY_API="https://gameday-prod.fifa.mangodev.co.uk/1-0";
 const FIFA_GAMEDAY_TOKEN="https://cxm-api.fifa.com/fifaplusweb/api/external/gameDay/token";
 const FIFA_GAMEDAY_COMPETITION=285023;
 const SCORERS_FALLBACK = [
-  {rank:1, name:"Kylian Mbappe", code:"fr", abbr:"FRA", goals:6, assists:2, minutes:378, pos:"FW", img:"https://digitalhub.fifa.com/transform/66f6087d-9563-4644-8f10-5614ef6e1e51/MBAPPE-Kylian_389867"},
-  {rank:2, name:"Lionel Messi", code:"ar", abbr:"ARG", goals:6, assists:0, minutes:223, pos:"FW", img:"https://digitalhub.fifa.com/transform/19823774-fac0-485a-8a8f-572e7324c6c2/MESSI-Lionel_229397"},
-  {rank:3, name:"Erling Haaland", code:"no", abbr:"NOR", goals:5, assists:0, minutes:309, pos:"FW", img:"https://digitalhub.fifa.com/transform/ee269811-9f84-401f-99b8-e953a2704ebb/HAALAND-Erling_419652"},
-  {rank:4, name:"Harry Kane", code:"gb-eng", abbr:"ENG", goals:5, assists:0, minutes:394, pos:"FW", img:"https://digitalhub.fifa.com/transform/5ad83fe6-1139-4f92-a97c-669052eb1755/KANE-Harry_369419"},
-  {rank:5, name:"Ousmane Dembele", code:"fr", abbr:"FRA", goals:4, assists:2, minutes:304, pos:"FW", img:"https://digitalhub.fifa.com/transform/e6eee717-fd8c-4f8f-a7e0-c4f978fe327f/DEMBELE-Ousmane_398680"},
-  {rank:6, name:"Vinicius Junior", code:"br", abbr:"BRA", goals:4, assists:1, minutes:398, pos:"FW", img:"https://digitalhub.fifa.com/transform/1c2722c3-a70b-49d8-bdb4-77109161f533/VINICIUS-JUNIOR_405742"},
+  {rank:1, name:"Kylian Mbappe", code:"fr", abbr:"FRA", goals:7, assists:2, minutes:482, pos:"FW", img:"https://digitalhub.fifa.com/transform/66f6087d-9563-4644-8f10-5614ef6e1e51/MBAPPE-Kylian_389867"},
+  {rank:2, name:"Lionel Messi", code:"ar", abbr:"ARG", goals:7, assists:0, minutes:361, pos:"FW", img:"https://digitalhub.fifa.com/transform/19823774-fac0-485a-8a8f-572e7324c6c2/MESSI-Lionel_229397"},
+  {rank:3, name:"Erling Haaland", code:"no", abbr:"NOR", goals:7, assists:0, minutes:416, pos:"FW", img:"https://digitalhub.fifa.com/transform/ee269811-9f84-401f-99b8-e953a2704ebb/HAALAND-Erling_419652"},
+  {rank:4, name:"Harry Kane", code:"gb-eng", abbr:"ENG", goals:6, assists:1, minutes:489, pos:"FW", img:"https://digitalhub.fifa.com/transform/5ad83fe6-1139-4f92-a97c-669052eb1755/KANE-Harry_369419"},
+  {rank:5, name:"Ousmane Dembele", code:"fr", abbr:"FRA", goals:4, assists:2, minutes:391, pos:"FW", img:"https://digitalhub.fifa.com/transform/e6eee717-fd8c-4f8f-a7e0-c4f978fe327f/DEMBELE-Ousmane_398680"},
+  {rank:6, name:"Mikel Oyarzabal", code:"es", abbr:"ESP", goals:4, assists:1, minutes:333, pos:"FW", img:"https://digitalhub.fifa.com/transform/2f46ed20-b155-4201-8b97-badbc3619450/OYARZABAL-Mikel_430751"},
   {rank:7, name:"Ismaila Sarr", code:"sn", abbr:"SEN", goals:4, assists:1, minutes:419, pos:"FW", img:"https://digitalhub.fifa.com/transform/695226c6-92b8-4aa6-995e-dcdd2d08eb96/SARR-Ismaila_401889"},
-  {rank:8, name:"Deniz Undav", code:"de", abbr:"GER", goals:3, assists:2, minutes:174, pos:"FW", img:"https://digitalhub.fifa.com/transform/3ec30e08-a7eb-4781-aea8-0e9ff86ebef1/UNDAV-Deniz_484851"},
-  {rank:9, name:"Johan Manzambi", code:"ch", abbr:"SUI", goals:3, assists:1, minutes:146, pos:"MF", img:"https://digitalhub.fifa.com/transform/a0cb9413-32ea-4b8f-9801-55474cb12b77/MANZAMBI-Johan_502727"},
-  {rank:10, name:"Julian Quinones", code:"mx", abbr:"MEX", goals:3, assists:1, minutes:354, pos:"FW", img:"https://digitalhub.fifa.com/transform/ea06becb-97b2-4f89-8464-5e0854cb7f81/QUINONES-Julian_429157"},
-  {rank:11, name:"Cody Gakpo", code:"nl", abbr:"NED", goals:3, assists:1, minutes:394, pos:"FW", img:"https://digitalhub.fifa.com/transform/bbb5637f-0587-4ddd-8a82-604c0d921bb3/GAKPO-Cody_448152"},
-  {rank:12, name:"Brian Brobbey", code:"nl", abbr:"NED", goals:3, assists:0, minutes:245, pos:"FW", img:"https://digitalhub.fifa.com/transform/15246275-ff97-404c-bac3-ce793d98c744/BROBBEY-Brian_424051"}
+  {rank:8, name:"Julian Quinones", code:"mx", abbr:"MEX", goals:4, assists:1, minutes:440, pos:"FW", img:"https://digitalhub.fifa.com/transform/ea06becb-97b2-4f89-8464-5e0854cb7f81/QUINONES-Julian_429157"},
+  {rank:9, name:"Jude Bellingham", code:"gb-eng", abbr:"ENG", goals:4, assists:1, minutes:447, pos:"MF", img:"https://digitalhub.fifa.com/transform/d711b37f-ec06-4ea7-bb52-50ba0a42ef67/BELLINGHAM-Jude_448202"},
+  {rank:10, name:"Vinicius Junior", code:"br", abbr:"BRA", goals:4, assists:1, minutes:505, pos:"FW", img:"https://digitalhub.fifa.com/transform/1c2722c3-a70b-49d8-bdb4-77109161f533/VINICIUS-JUNIOR_405742"},
+  {rank:11, name:"Deniz Undav", code:"de", abbr:"GER", goals:3, assists:2, minutes:174, pos:"FW", img:"https://digitalhub.fifa.com/transform/3ec30e08-a7eb-4781-aea8-0e9ff86ebef1/UNDAV-Deniz_484851"},
+  {rank:12, name:"Johan Manzambi", code:"ch", abbr:"SUI", goals:3, assists:2, minutes:220, pos:"MF", img:"https://digitalhub.fifa.com/transform/a0cb9413-32ea-4b8f-9801-55474cb12b77/MANZAMBI-Johan_502727"},
+  {rank:13, name:"Cody Gakpo", code:"nl", abbr:"NED", goals:3, assists:1, minutes:394, pos:"FW", img:"https://digitalhub.fifa.com/transform/bbb5637f-0587-4ddd-8a82-604c0d921bb3/GAKPO-Cody_448152"},
+  {rank:14, name:"Brian Brobbey", code:"nl", abbr:"NED", goals:3, assists:0, minutes:245, pos:"FW", img:"https://digitalhub.fifa.com/transform/15246275-ff97-404c-bac3-ce793d98c744/BROBBEY-Brian_424051"}
 ];
-let activeScorers=[...SCORERS_FALLBACK], gameDayTokenPromise=null, scorerLiveEnabled=true;
+let activeScorers=[...SCORERS_FALLBACK], gameDayTokenPromise=null, scorerLastLiveOk=false;
+const scorerMatchCache={};
 
 function sortedScorers(list=activeScorers){
   return [...list].sort((a,b)=>
@@ -749,7 +783,7 @@ function parseFifaScorers(actors){
   });
   return out;
 }
-async function loadFifaScorers(){
+async function loadFifaScorersFromGameDay(){
   const token=await fifaGameDayToken();
   const r=await fetch(fifaScorerStoryUrl(1),{
     cache:"no-store",
@@ -761,15 +795,93 @@ async function loadFifaScorers(){
   if(!list.length) throw new Error("Üres FIFA góllövőlista");
   return list;
 }
+function matchScorerImage(p){
+  const pic=p && p.PlayerPicture;
+  if(!pic) return "";
+  if(typeof pic==="string") return pic;
+  return pic.Url || pic.URL || pic.Href || pic.href || pic.PictureUrl || "";
+}
+function matchDetailPlayerMap(detail){
+  const map={};
+  [detail.HomeTeam,detail.AwayTeam].forEach(tm=>{
+    const abbr=tm && tm.Abbreviation;
+    const code=ABBR[abbr] || String(abbr||"").toLowerCase();
+    (tm&&tm.Players||[]).forEach(p=>{
+      if(!p || !p.IdPlayer) return;
+      map[p.IdPlayer]={
+        name:cleanPersonName(playerName(p)),
+        code,
+        abbr,
+        team:nameOf(code),
+        pos:playerPos(p),
+        img:matchScorerImage(p)
+      };
+    });
+  });
+  return map;
+}
+function addScorerStat(bucket, info, field){
+  if(!info || !info.name) return;
+  const key=info.name+"|"+info.abbr;
+  if(!bucket[key]) bucket[key]={...info,goals:0,assists:0,minutes:0,rank:999};
+  bucket[key][field]=(bucket[key][field]||0)+1;
+}
+function scorersFromMatchDetails(details){
+  const bucket={};
+  details.forEach(detail=>{
+    if(!detail || !detail.HomeTeam || !detail.AwayTeam) return;
+    const pmap=matchDetailPlayerMap(detail);
+    [detail.HomeTeam,detail.AwayTeam].forEach(tm=>{
+      (tm&&tm.Goals||[]).forEach(g=>{
+        if(Number(g.Type)===1) return;
+        addScorerStat(bucket, pmap[g.IdPlayer], "goals");
+        if(g.IdAssistPlayer) addScorerStat(bucket, pmap[g.IdAssistPlayer], "assists");
+      });
+    });
+  });
+  return Object.values(bucket)
+    .filter(p=>p.goals>0)
+    .sort((a,b)=>b.goals-a.goals || b.assists-a.assists || a.name.localeCompare(b.name,"hu"))
+    .map((p,i)=>({...p,rank:i+1}));
+}
+async function loadFifaScorersFromMatches(){
+  const calUrl=API+"/calendar/matches?from=2026-06-11T00:00:00Z&to=2026-07-20T23:59:59Z&idCompetition="+IDC+"&language=en&count=200";
+  const cal=await (await fetch(calUrl,{cache:"no-store"})).json();
+  const matches=(cal.Results||[]).filter(it=>{
+    if(!it || !it.IdMatch || !it.IdStage || !it.Home || !it.Away) return false;
+    if(it.HomeTeamScore!=null && it.AwayTeamScore!=null) return true;
+    return it.MatchStatus!==0 && it.MatchStatus!==1;
+  });
+  const details=(await Promise.all(matches.map(async it=>{
+    try{
+      const isLive=it.MatchStatus!==0 && it.MatchStatus!==1 && it.MatchStatus!==12;
+      const sig=[it.HomeTeamScore,it.AwayTeamScore,it.HomeTeamPenaltyScore,it.AwayTeamPenaltyScore,it.MatchStatus,it.MatchTime].join("|");
+      const cached=scorerMatchCache[it.IdMatch];
+      if(cached && cached.sig===sig && !isLive) return cached.detail;
+      const detail=await (await fetch(API+"/live/football/"+IDC+"/"+IDSN+"/"+it.IdStage+"/"+it.IdMatch+"?language=en",{cache:"no-store"})).json();
+      scorerMatchCache[it.IdMatch]={sig,detail};
+      return detail;
+    }catch(e){
+      return null;
+    }
+  }))).filter(Boolean);
+  const list=scorersFromMatchDetails(details);
+  if(!list.length) throw new Error("Üres FIFA meccsadat-alapú góllövőlista");
+  return list;
+}
+async function loadFifaScorers(){
+  return {list:await loadFifaScorersFromGameDay(), source:"player"};
+}
 async function refreshScorers(silent=false){
-  if(!scorerLiveEnabled) return;
   if(!silent) renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos játékosstatisztika frissítése…");
   try{
-    activeScorers=await loadFifaScorers();
+    const result=await loadFifaScorers();
+    activeScorers=result.list;
+    scorerLastLiveOk=true;
     renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos játékosstatisztika");
   }catch(e){
-    scorerLiveEnabled=false;
-    renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA hivatalos snapshot");
+    scorerLastLiveOk=false;
+    renderScorers(activeScorers,"adidas Aranycipő-verseny · FIFA player-statistics snapshot · automatikus újrapróbálás");
   }
 }
 
@@ -821,16 +933,16 @@ function applyRes(m){
 
 /* Későbbi körök felépítése az eredményekből + tippekből */
 function buildRounds(){
-  const mk=(meta,key,f1,f2)=>{
+  const mk=(meta,f1,f2)=>{
     const i1=effInfo(f1), i2=effInfo(f2);
-    const m={...meta, key, feeders:[f1,f2], h:i1.code, a:i2.code, hTip:i1.tip, aTip:i2.tip, s:null};
+    const m={...meta, key:"m"+meta.no, feeders:[f1,f2], h:i1.code, a:i2.code, hTip:i1.tip, aTip:i2.tip, s:null};
     applyRes(m);
     return m;
   };
-  const r16 = META16.map((meta,i)=>mk(meta,"s"+i,R32[i*2],R32[i*2+1]));
-  const qf  = METAQF.map((meta,i)=>mk(meta,"q"+i,r16[i*2],r16[i*2+1]));
-  const sf  = METASF.map((meta,i)=>mk(meta,"f"+i,qf[i*2],qf[i*2+1]));
-  const fin = mk(METAF,"F",sf[0],sf[1]);
+  const r16 = META16.map((meta,i)=>mk(meta,R32[i*2],R32[i*2+1]));
+  const qf  = METAQF.map((meta,i)=>mk(meta,r16[i*2],r16[i*2+1]));
+  const sf  = METASF.map((meta,i)=>mk(meta,qf[i*2],qf[i*2+1]));
+  const fin = mk(METAF,sf[0],sf[1]);
   return {r16, qf, sf, fin};
 }
 
@@ -1000,6 +1112,12 @@ function nextMatchItems(rounds){
     ...(rounds ? [{m:rounds.fin,roundIdx:4}] : [])
   ];
 }
+function findNextMatchRef(rounds){
+  const now=Date.now();
+  return nextMatchItems(rounds)
+    .filter(x=>x.m && x.m.utc && x.m.h && x.m.a && !x.m.s && !x.m.live && new Date(x.m.utc).getTime()>now)
+    .sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc))[0] || null;
+}
 function nextLineupSummary(lineups){
   if(!lineups || !lineups.some(t=>t.players.length)) return "";
   return "Kezdők: "+lineups.map(t=>shortTeam(t.code)+" "+t.players.map(p=>playerName(p)).join(", ")).join(" · ");
@@ -1040,10 +1158,7 @@ async function refreshNextMatchLineup(force=false){
   if(token===nextLineupToken) setNextMatchText();
 }
 function updateNextMatch(rounds){
-  const now=Date.now();
-  nextMatchRef=nextMatchItems(rounds)
-    .filter(x=>x.m && x.m.utc && x.m.h && x.m.a && !x.m.s && !x.m.live && new Date(x.m.utc).getTime()>now)
-    .sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc))[0] || null;
+  nextMatchRef=findNextMatchRef(rounds);
   setNextMatchText();
   refreshNextMatchLineup();
 }
@@ -1062,21 +1177,29 @@ function renderMobile(rounds){
   stageEl.classList.add("mobile-stage");
   bracket.classList.add("mobile");
   bracket.innerHTML='<svg class="wires" id="wires" aria-hidden="true"></svg>';
-  const sections=[
-    {idx:0,title:ROUNDNAME[0],sub:ROUNDDATE[0],matches:R32},
-    {idx:1,title:ROUNDNAME[1],sub:ROUNDDATE[1],matches:rounds.r16},
-    {idx:2,title:ROUNDNAME[2],sub:ROUNDDATE[2],matches:rounds.qf},
-    {idx:3,title:ROUNDNAME[3],sub:ROUNDDATE[3],matches:rounds.sf},
-    {idx:4,title:ROUNDNAME[4],sub:ROUNDDATE[4],matches:[rounds.fin],final:true}
-  ];
+  const nextRef=findNextMatchRef(rounds);
+  const all=nextMatchItems(rounds)
+    .filter(x=>x.m && x.m.utc)
+    .sort((a,b)=>new Date(a.m.utc)-new Date(b.m.utc) || (a.m.no||0)-(b.m.no||0));
+  const nextKey=nextRef && nextRef.m ? nextRef.m.no+"-"+nextRef.roundIdx : "";
+  const nextTs=nextRef && nextRef.m ? new Date(nextRef.m.utc).getTime() : null;
+  const sections=[];
+  if(nextRef){
+    const rest=all.filter(x=>(x.m.no+"-"+x.roundIdx)!==nextKey);
+    sections.push({title:"Következő meccs",sub:ROUNDNAME[nextRef.roundIdx],items:[nextRef],next:true});
+    sections.push({title:"Következő mérkőzések",sub:"időrendi sorrend",items:rest.filter(x=>new Date(x.m.utc).getTime()>=nextTs)});
+    sections.push({title:"Korábbi mérkőzések",sub:"időrendi sorrend",items:rest.filter(x=>new Date(x.m.utc).getTime()<nextTs)});
+  }else{
+    sections.push({title:"Időrendi sorrend",sub:"összes mérkőzés",items:all});
+  }
   sections.forEach(secInfo=>{
+    if(!secInfo.items.length) return;
     const sec=document.createElement("section");
-    sec.className="mobile-round";
-    sec.innerHTML='<h2 class="mobile-round-title">'+secInfo.title+' · '+secInfo.sub+'</h2>'
-      +(secInfo.final?'<div class="mobile-trophy"><div class="trophywrap"><div class="glow"></div>'+trophySvg()+'<div class="flbl">Döntő</div></div></div>':"");
+    sec.className="mobile-round"+(secInfo.next?" mobile-next":"");
+    sec.innerHTML='<h2 class="mobile-round-title">'+secInfo.title+' · '+secInfo.sub+'</h2>';
     bracket.appendChild(sec);
-    secInfo.matches.forEach(m=>{
-      const card=makeCard(m, secInfo.idx, null, null, null);
+    secInfo.items.forEach(({m,roundIdx})=>{
+      const card=makeCard(m, roundIdx, null, null, null);
       sec.appendChild(card);
     });
   });
@@ -1343,7 +1466,10 @@ function minuteValue(min){
   return Number(nums[0])+(Number(nums[1]||0)/100);
 }
 function eventIcon(type){
-  return type==="yellow" ? "Y" : type==="red" ? "R" : type==="sub" ? "⇄" : type==="var" ? "VAR" : "⚽";
+  return type==="yellow" || type==="red" ? "" : type==="sub" ? "⇄" : type==="var" ? "VAR" : "⚽";
+}
+function eventIconClass(type){
+  return "evico"+(type==="yellow" ? " card yellow" : type==="red" ? " card red" : "");
 }
 function eventLabel(type){
   return type==="yellow" ? "Sárga lap" : type==="red" ? "Piros lap" : type==="sub" ? "Csere"
@@ -1361,8 +1487,8 @@ function matchEventsHtml(events){
   let html='<div class="mo-sec">Mérkőzésesemények</div><div class="mo-events">';
   sorted.forEach(ev=>{
     html+='<div class="mo-event'+(ev.side===1?" away":"")+'">'
-      +(ev.side===1?'<span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span><span class="evico">'+eventIcon(ev.type)+'</span><span class="evmin">'+esc(ev.minute||"")+'</span>'
-        :'<span class="evmin">'+esc(ev.minute||"")+'</span><span class="evico">'+eventIcon(ev.type)+'</span><span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span>')
+      +(ev.side===1?'<span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span><span class="'+eventIconClass(ev.type)+'">'+eventIcon(ev.type)+'</span><span class="evmin">'+esc(ev.minute||"")+'</span>'
+        :'<span class="evmin">'+esc(ev.minute||"")+'</span><span class="'+eventIconClass(ev.type)+'">'+eventIcon(ev.type)+'</span><span class="evtxt">'+eventText(ev)+'<span class="evlab">'+eventLabel(ev.type)+'</span></span>')
       +'</div>';
   });
   return html+'</div>';
@@ -1977,7 +2103,7 @@ renderScorers();
 refreshScorers();
 render();
 liveSync();
-setInterval(()=>refreshScorers(true), 300000);
+setInterval(()=>refreshScorers(true), 60000);
 </script>
 </body>
 </html>
