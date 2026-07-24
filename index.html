@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Botond Nagy | Digital Operations & Internal Systems</title>
-  <meta name="description" content="Personal portfolio and résumé of Botond Nagy, focused on digital operations, internal systems, process improvement and project coordination.">
+  <meta name="description" content="A personal overview of Botond Nagy and his work across digital operations, internal systems, data, websites and project coordination.">
   <meta name="theme-color" content="#f8f8fb">
 
   <meta property="og:title" content="Botond Nagy | Digital Operations & Internal Systems">
@@ -22,13 +22,7 @@
   <script>
     (function () {
       document.documentElement.classList.add("js");
-      try {
-        const savedTheme = localStorage.getItem("botond-theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
-      } catch (error) {
-        document.documentElement.dataset.theme = "light";
-      }
+      document.documentElement.dataset.theme = "light";
     }());
   </script>
 
@@ -381,6 +375,7 @@
     }
 
     .button {
+      min-width: 0;
       min-height: 48px;
       display: inline-flex;
       align-items: center;
@@ -394,7 +389,10 @@
       font-size: 0.76rem;
       font-weight: 700;
       letter-spacing: 0.07em;
+      line-height: 1.2;
+      text-align: center;
       text-transform: uppercase;
+      white-space: normal;
       transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
     }
 
@@ -483,10 +481,6 @@
       font-size: 0.88rem;
       font-weight: 600;
       line-height: 1.4;
-    }
-
-    .profile-list .status {
-      color: var(--green);
     }
 
     .section {
@@ -981,7 +975,7 @@
 
       .actions {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .button {
@@ -1329,19 +1323,19 @@
     <section class="hero" id="top">
       <div class="hero-grid wrap">
         <div class="hero-content rv">
-          <p class="eyebrow">Personal portfolio & résumé</p>
+          <p class="eyebrow">Digital operations · systems · project work</p>
           <h1>Botond Nagy</h1>
           <p class="hero-role">Digital Operations & Internal Systems</p>
           <p class="hero-copy">
-            I manage and improve internal digital systems, workflows and data processes. I coordinate between operational users and technical partners, help colleagues use digital tools effectively, and turn practical needs into clear implementation tasks.
+            I work with the digital side of everyday operations: internal systems, structured data, websites and the workflows around them. A large part of my role is connecting practical user needs with technical partners, then testing, documenting and helping people use the result.
           </p>
-          <p class="location">Târgu Mureș, Romania · Open to local, hybrid and remote opportunities</p>
+          <p class="location">Târgu Mureș, Romania</p>
           <div class="actions">
-            <a class="button button-primary" href="#experience">View Experience</a>
+            <a class="button button-primary" href="#selected-work">See what I work on</a>
             <!-- RÉSUMÉ CONFIG:
                  Keep the PDF next to this HTML file.
                  To change it later, update both href and download below. -->
-            <a class="button" href="Botond_Nagy_Resume.pdf" download="Botond_Nagy_Resume.pdf">Download Résumé</a>
+            <a class="button" href="Botond_Nagy_Resume.pdf" download="Botond_Nagy_Resume.pdf">Résumé PDF</a>
           </div>
         </div>
 
@@ -1349,8 +1343,8 @@
           <div class="profile-head">
             <span class="bn" aria-hidden="true">BN</span>
             <div>
-              <strong>Professional profile</strong>
-              <span>Current direction</span>
+              <strong>At a glance</strong>
+              <span>What I work with</span>
             </div>
           </div>
           <dl class="profile-list">
@@ -1367,12 +1361,12 @@
               <dd>Business–IT Coordination</dd>
             </div>
             <div>
-              <dt>Location</dt>
-              <dd>Târgu Mureș, Romania</dd>
+              <dt>Working style</dt>
+              <dd>Practical, structured and collaborative</dd>
             </div>
             <div>
-              <dt>Status</dt>
-              <dd class="status">Open to relevant opportunities</dd>
+              <dt>Based in</dt>
+              <dd>Târgu Mureș, Romania</dd>
             </div>
           </dl>
         </aside>
@@ -1384,11 +1378,11 @@
         <div class="section-heading">
           <p class="section-label">About</p>
           <div>
-            <h2>Digital systems and operations in practice</h2>
+            <h2>Where people, processes and digital tools meet</h2>
             <div class="about-copy rv">
-              <p>My official background is in project management and communication, but much of my day-to-day work is focused on digital operations and internal systems.</p>
-              <p>I manage and improve digital tools, support colleagues, coordinate external IT partners, prepare structured data and reporting workflows, and help translate operational needs into practical technical tasks.</p>
-              <p>I enjoy my current work and have a stable professional environment. I am now looking for an opportunity where I can contribute more in a technology-focused setting and continue developing my digital and technical skills.</p>
+              <p>My background is in project management and communication. Over time, the digital side of the work became a bigger part of what I do: improving internal tools, organising data, supporting users and helping technical changes make sense in everyday practice.</p>
+              <p>Today I coordinate external IT partners, administer internal systems, build Excel-based reporting workflows, support websites and help colleagues solve practical digital problems.</p>
+              <p>I especially enjoy the part in between people and technology — understanding what is needed, turning it into a clear task, testing the result and making sure it is genuinely useful.</p>
             </div>
           </div>
         </div>
@@ -1401,7 +1395,7 @@
           <p class="section-label">Experience</p>
           <div>
             <h2>Professional experience</h2>
-            <p class="section-intro">Project-based work with a growing focus on internal systems, digital processes, structured data and implementation support.</p>
+            <p class="section-intro">My work combines project coordination with internal systems, digital processes, structured data and hands-on implementation support.</p>
           </div>
         </div>
 
@@ -1446,8 +1440,8 @@
         <div class="section-heading">
           <p class="section-label">Selected Work</p>
           <div>
-            <h2>Practical work across systems, data and content</h2>
-            <p class="section-intro">Examples focus on coordination, preparation, testing and usability. Organisation and website names are intentionally omitted.</p>
+            <h2>A few examples of what I work on</h2>
+            <p class="section-intro">These examples show the practical side of my work: understanding needs, preparing information, coordinating changes, testing and making things easier to use.</p>
           </div>
         </div>
 
@@ -1529,8 +1523,8 @@
         <div class="section-heading">
           <p class="section-label">Skills</p>
           <div>
-            <h2>Core skills and working tools</h2>
-            <p class="section-intro">A practical toolkit built through day-to-day operations, project work, system support and structured reporting.</p>
+            <h2>What I work with</h2>
+            <p class="section-intro">Most of these skills grew out of real day-to-day needs: helping colleagues, improving a process, organising data or getting a digital tool to work more clearly.</p>
           </div>
         </div>
 
@@ -1631,8 +1625,8 @@
       <div class="contact-grid wrap">
         <div>
           <p class="section-label">Contact</p>
-          <h2>Open to the right next step.</h2>
-          <p>I am interested in opportunities related to digital operations, internal systems, implementation support, process improvement and project coordination.</p>
+          <h2>You can find me here.</h2>
+          <p>If you would like to know more about my work, you can send me an email, find me on LinkedIn or download the short résumé.</p>
         </div>
 
         <div class="contact-links">
@@ -1645,7 +1639,7 @@
             <span class="arrow" aria-hidden="true">↗</span>
           </a>
           <a href="Botond_Nagy_Resume.pdf" download="Botond_Nagy_Resume.pdf">
-            <span>Download Résumé</span>
+            <span>Résumé PDF</span>
             <span class="arrow" aria-hidden="true">↓</span>
           </a>
         </div>
@@ -1658,7 +1652,7 @@
       <p>© 2026 Botond Nagy · Târgu Mureș, Romania</p>
       <details class="privacy">
         <summary>Privacy</summary>
-        <p>This page does not use analytics or marketing cookies. The selected color theme is stored locally in your browser. Fonts are loaded from Google Fonts, and the external LinkedIn link is governed by LinkedIn’s own privacy policy.</p>
+        <p>This page does not use analytics, marketing cookies or local storage. The color theme can be changed for the current visit. Fonts are loaded from Google Fonts, and the external LinkedIn link is governed by LinkedIn’s own privacy policy.</p>
       </details>
     </div>
   </footer>
@@ -1675,11 +1669,6 @@
         const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
         root.dataset.theme = nextTheme;
         themeButton.setAttribute("aria-pressed", nextTheme === "dark" ? "true" : "false");
-        try {
-          localStorage.setItem("botond-theme", nextTheme);
-        } catch (error) {
-          /* The theme still works when storage is unavailable. */
-        }
       });
 
       document.querySelectorAll(".mobile-links a").forEach(function (link) {
