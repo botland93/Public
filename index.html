@@ -849,7 +849,8 @@
       border-top: 1px solid var(--line-strong);
     }
 
-    .contact-links a {
+    .contact-links > a,
+    .contact-links > div {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -860,8 +861,38 @@
       font-weight: 600;
     }
 
-    .contact-links a:hover {
+    .contact-links > div a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0;
+      border-bottom: 0;
+      flex-grow: 1;
+      text-decoration: none;
+    }
+
+    .contact-links > a:hover,
+    .contact-links > div a:hover {
       color: var(--indigo);
+    }
+    
+    .copy-email {
+      padding: 0.4rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 160ms ease, border-color 160ms ease;
+    }
+
+    .copy-email:hover {
+      color: var(--indigo);
+      border-color: var(--indigo);
     }
 
     .arrow {
@@ -1226,7 +1257,8 @@
         gap: 1.2rem;
       }
 
-      .contact-links a {
+      .contact-links > a,
+      .contact-links > div {
         padding-block: 0.62rem;
         font-size: 0.8rem;
       }
@@ -1669,10 +1701,13 @@
         </div>
 
         <div class="contact-links">
-          <a href="mailto:botland93@gmail.com">
-            <span>Email</span>
-            <span class="arrow" aria-hidden="true">↗</span>
-          </a>
+          <div>
+            <a href="mailto:botland93@gmail.com">
+              <span>botland93@gmail.com</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <button class="copy-email" type="button" data-email="botland93@gmail.com">Copy email</button>
+          </div>
           <a href="https://www.linkedin.com/in/botond-nagy-198a11a6/" target="_blank" rel="noopener">
             <span>LinkedIn</span>
             <span class="arrow" aria-hidden="true">↗</span>
@@ -1815,7 +1850,8 @@
         ["Professional working proficiency", "Szakmai munkanyelvi szint", "Nivel profesional de lucru"],
         ["You can find me here.", "Itt találsz meg.", "Mă poți găsi aici."],
         ["If you would like to know more about my work, you can send me an email or find me on LinkedIn.", "Ha többet szeretnél megtudni a munkámról, írj e-mailt, vagy keress meg a LinkedInen.", "Dacă vrei să afli mai multe despre activitatea mea, îmi poți trimite un e-mail sau mă poți găsi pe LinkedIn."],
-        ["Email", "E-mail", "E-mail"],
+        ["Copy email", "E-mail cím másolása", "Copiază adresa de e-mail"],
+        ["Copied!", "Másolva!", "Copiat!"],
         ["© 2026 Botond Nagy · Târgu Mureș, Romania", "© 2026 Botond Nagy · Marosvásárhely, Románia", "© 2026 Botond Nagy · Târgu Mureș, România"],
         ["Privacy", "Adatvédelem", "Confidențialitate"],
         ["This page does not use analytics, marketing cookies or local storage. The color theme can be changed for the current visit. Fonts are loaded from Google Fonts, and the external LinkedIn link is governed by LinkedIn’s own privacy policy.", "Ez az oldal nem használ analitikai eszközöket, marketingcélú sütiket vagy helyi tárhelyet. A színtéma az aktuális látogatás idejére módosítható. A betűtípusok a Google Fonts szolgáltatásból töltődnek be, a külső LinkedIn-hivatkozásra pedig a LinkedIn saját adatvédelmi szabályzata vonatkozik.", "Această pagină nu folosește instrumente de analiză, cookie-uri de marketing sau stocare locală. Tema de culoare poate fi schimbată pentru vizita curentă. Fonturile sunt încărcate prin Google Fonts, iar linkul extern către LinkedIn este supus propriei politici de confidențialitate a LinkedIn."]
@@ -1940,6 +1976,23 @@
           item.classList.add("vis");
         });
       }
+
+      document.querySelectorAll('.copy-email').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          navigator.clipboard.writeText(btn.dataset.email).then(function () {
+            var currentLang = document.documentElement.lang || "en";
+            // Find the direct text node to avoid breaking the translation object reference
+            var textNode = Array.from(btn.childNodes).find(function(n) { return n.nodeType === 3; });
+            if (textNode) {
+              textNode.nodeValue = translatedValue("Copied!", currentLang);
+              setTimeout(function () { 
+                var updatedLang = document.documentElement.lang || "en";
+                textNode.nodeValue = translatedValue("Copy email", updatedLang); 
+              }, 1500);
+            }
+          });
+        });
+      });
     }());
   </script>
 </body>
