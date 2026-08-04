@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Botond Nagy | Digital Operations & Internal Systems</title>
-  <meta name="description" content="A personal overview of Botond Nagy and his work across digital operations, internal systems, data, websites and project coordination.">
+  <title>Botond Nagy | Digital Operations Manager</title>
+  <meta name="description" content="A personal overview of Botond Nagy and his work across project coordination, internal systems and practical digital operations.">
   <meta name="theme-color" content="#f8f8fb">
 
-  <meta property="og:title" content="Botond Nagy | Digital Operations & Internal Systems">
-  <meta property="og:description" content="Digital operations, internal systems, process improvement and project coordination.">
+  <meta property="og:title" content="Botond Nagy | Digital Operations Manager">
+  <meta property="og:description" content="Project coordination, internal systems and practical digital operations.">
   <meta property="og:type" content="profile">
   <meta property="profile:first_name" content="Botond">
   <meta property="profile:last_name" content="Nagy">
@@ -363,6 +363,12 @@
       text-transform: uppercase;
     }
 
+    .section-label {
+      font-size: clamp(0.92rem, 1.2vw, 1.04rem);
+      letter-spacing: 0.11em;
+      line-height: 1.3;
+    }
+
     h1,
     h2,
     h3,
@@ -380,7 +386,7 @@
       font-size: clamp(4.3rem, 10vw, 8.5rem);
       font-weight: 600;
       letter-spacing: -0.055em;
-      line-height: 1.1;
+      line-height: 0.93;
       word-spacing: 0.06em;
     }
 
@@ -637,7 +643,8 @@
     }
 
     .work-card {
-      display: block;
+      display: flex;
+      flex-direction: column;
       padding: clamp(1.35rem, 3vw, 1.9rem);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -651,53 +658,16 @@
       box-shadow: var(--shadow);
     }
 
-    .work-summary {
-      position: relative;
-      display: grid;
-      grid-template-columns: 2.2rem minmax(0, 1fr);
-      gap: 0.7rem;
-      align-items: start;
-      cursor: pointer;
-      list-style: none;
-    }
-
-    .work-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .work-summary::after {
-      content: "+";
-      position: absolute;
-      right: 1rem;
-      color: var(--indigo);
-      font-size: 1.15rem;
-      line-height: 1;
-    }
-
-    .work-card[open] .work-summary::after {
-      content: "−";
-    }
-
-    .work-card[open] .work-summary {
-      margin-bottom: 0.65rem;
-    }
-
     .work-body {
-      padding-left: 2.9rem;
-    }
-
-    .work-number {
-      margin-bottom: 0;
-      color: var(--gold);
-      font-family: var(--font-display);
-      font-size: 1.4rem;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
     }
 
     .work-title {
       display: block;
-      padding-right: 1.8rem;
-      margin-bottom: 0.65rem;
-      font-size: 1.25rem;
+      margin: 0 0 0.75rem;
+      font-size: 1.32rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.3;
@@ -1151,34 +1121,19 @@
         padding: 0.92rem;
       }
 
-      .work-number {
-        margin-bottom: 0.28rem;
-        font-size: 0.9rem;
-      }
-
       .work-title {
-        margin-bottom: 0.32rem;
-        font-size: 0.94rem;
+        margin-bottom: 0.48rem;
+        font-size: 1.05rem;
       }
 
       .work-body {
         padding-left: 0;
       }
 
-      .work-card[open] .work-summary {
-        margin-bottom: 0.38rem;
-      }
-
       .work-card p {
-        margin-bottom: 0.45rem;
-        font-size: 0.73rem;
-        line-height: 1.34;
-      }
-
-      .work-card .ai-note {
-        padding-left: 0.55rem;
-        font-size: 0.67rem;
-        line-height: 1.3;
+        margin-bottom: 0.65rem;
+        font-size: 0.84rem;
+        line-height: 1.48;
       }
 
       .work-card .tags {
@@ -1328,7 +1283,7 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Botond Nagy",
-      "jobTitle": "Digital Operations & Internal Systems",
+      "jobTitle": "Digital Operations Manager",
       "email": "mailto:botland93@gmail.com",
       "sameAs": [
         "https://www.linkedin.com/in/botond-nagy-198a11a6/"
@@ -1400,9 +1355,9 @@
         <div class="hero-content rv">
           <p class="eyebrow">Digital operations · systems · project work</p>
           <h1>Botond Nagy</h1>
-          <p class="hero-role">Digital Operations & Internal Systems</p>
+          <p class="hero-role">Digital Operations Manager · Project Coordination · Internal Systems</p>
           <p class="hero-copy">
-            I work with the digital side of everyday operations: internal systems, structured data, websites and the workflows around them. A large part of my role is connecting practical user needs with technical partners, then testing, documenting and helping people use the result.
+            I work at the intersection of project coordination, internal systems and day-to-day digital operations. I turn practical business needs into clearer processes, usable tools and well-coordinated implementation.
           </p>
           <p class="location">Târgu Mureș, Romania</p>
           <div class="actions">
@@ -1451,9 +1406,9 @@
           <div>
             <h2>Where people, processes and digital tools meet</h2>
             <div class="about-copy rv">
-              <p>My background is in project management and communication. Over time, the digital side of the work became a bigger part of what I do: improving internal tools, organizing data, supporting users and helping technical changes make sense in everyday practice.</p>
-              <p>Today I coordinate external IT partners, administer internal systems, build Excel-based reporting workflows, support websites and help colleagues solve practical digital problems.</p>
-              <p>I especially enjoy the part in between people and technology — understanding what is needed, turning it into a clear task, testing the result and making sure it is genuinely useful.</p>
+              <p>My background is in Communication & PR, and for more than ten years I have worked across project management and digital operations. My focus is on making everyday work clearer: improving internal processes, organizing information and helping teams use digital tools with confidence.</p>
+              <p>Today I coordinate external IT partners, administer internal systems, build reporting workflows, support websites and help move changes from a practical need to a working result.</p>
+              <p>I am most comfortable between people and technology — clarifying what is needed, coordinating the right contributors, testing the outcome and making sure it works in practice.</p>
             </div>
           </div>
         </div>
@@ -1466,7 +1421,7 @@
           <p class="section-label">Experience</p>
           <div>
             <h2>Professional experience</h2>
-            <p class="section-intro">My work combines project coordination with internal systems, digital processes, structured data and hands-on implementation support.</p>
+            <p class="section-intro">For more than ten years, I have worked across project coordination, digital operations and internal systems, helping turn operational needs into clear, workable solutions.</p>
           </div>
         </div>
 
@@ -1474,8 +1429,7 @@
           <article class="experience-card rv">
             <div class="experience-meta">
               <time datetime="2019-01">January 2019 — Present</time>
-              <h3>Current role — Project Management & Digital Operations</h3>
-              <p>Nonprofit / foundation environment</p>
+              <h3>Project Manager — Digital Operations & Internal Systems</h3>
             </div>
             <ul class="responsibilities">
               <li>Coordinating the ongoing development and optimization of an online grant application and administration system.</li>
@@ -1493,7 +1447,6 @@
             <div class="experience-meta">
               <time datetime="2015-10">October 2015 — December 2018</time>
               <h3>Earlier project and program experience</h3>
-              <p>Environmental nonprofit environment</p>
             </div>
             <ul class="responsibilities">
               <li>Worked with teachers, local-government representatives and public-sector stakeholders in environmental programs.</li>
@@ -1511,19 +1464,16 @@
         <div class="section-heading">
           <p class="section-label">Selected Work</p>
           <div>
-            <h2>A few examples of what I work on</h2>
-            <p class="section-intro">These examples show the practical side of my work: understanding needs, preparing information, coordinating changes, testing and making things easier to use.</p>
+            <h2>A practical overview of my work</h2>
+            <p class="section-intro">My work usually begins with a practical need and continues through clarification, coordination, implementation and review. These are the areas where I contribute most often.</p>
           </div>
         </div>
 
         <div class="work-grid">
-          <details class="work-card rv" open>
-            <summary class="work-summary">
-              <span class="work-number" aria-hidden="true">01</span>
-              <span class="work-title">Online Application System Improvement</span>
-            </summary>
+          <article class="work-card rv">
+            <h3 class="work-title">Internal Systems & Digital Workflows</h3>
             <div class="work-body">
-              <p>Ongoing coordination of an internal online application system, including requirement collection, communication with the IT specialist, testing, user support and workflow improvements.</p>
+              <p>I help improve internal digital systems by gathering needs, clarifying workflows, coordinating with technical partners, testing changes and supporting colleagues in daily use.</p>
               <div class="tags" aria-label="Contribution areas">
                 <span class="tag">Requirements</span>
                 <span class="tag">Testing</span>
@@ -1532,16 +1482,12 @@
                 <span class="tag">Process Improvement</span>
               </div>
             </div>
-          </details>
+          </article>
 
-          <details class="work-card rv" open>
-            <summary class="work-summary">
-              <span class="work-number" aria-hidden="true">02</span>
-              <span class="work-title">Nonprofit Website Refresh & Quality Assurance</span>
-            </summary>
+          <article class="work-card rv">
+            <h3 class="work-title">Websites & Content Operations</h3>
             <div class="work-body">
-              <p>Currently supporting the refresh of a WordPress-based nonprofit environmental website in a clone environment. The work includes page and content updates, configuration checks, publishing workflows, and desktop and mobile quality assurance.</p>
-              <p class="ai-note">AI tools are used as practical support for preparing, troubleshooting and checking technical changes; the requirements, review and final validation remain human-led.</p>
+              <p>I support WordPress websites from content and configuration updates through publishing and desktop/mobile quality checks. AI tools can assist with preparation and troubleshooting, while requirements, review and final validation remain human-led.</p>
               <div class="tags" aria-label="Contribution areas">
                 <span class="tag">WordPress</span>
                 <span class="tag">Content Operations</span>
@@ -1550,15 +1496,12 @@
                 <span class="tag">AI-Assisted Support</span>
               </div>
             </div>
-          </details>
+          </article>
 
-          <details class="work-card rv" open>
-            <summary class="work-summary">
-              <span class="work-number" aria-hidden="true">03</span>
-              <span class="work-title">Structured Data & Interactive Web Content</span>
-            </summary>
+          <article class="work-card rv">
+            <h3 class="work-title">Structured Data & Clear Information</h3>
             <div class="work-body">
-              <p>Prepared, cleaned and structured project data for an interactive web-based presentation. The work included spreadsheet preparation, content organization, interface review and quality checks.</p>
+              <p>I turn scattered project information into structured spreadsheets and clear web content, with attention to consistency, usability and quality.</p>
               <div class="tags" aria-label="Contribution areas">
                 <span class="tag">Excel</span>
                 <span class="tag">Data Preparation</span>
@@ -1567,15 +1510,12 @@
                 <span class="tag">Quality Assurance</span>
               </div>
             </div>
-          </details>
+          </article>
 
-          <details class="work-card rv" open>
-            <summary class="work-summary">
-              <span class="work-number" aria-hidden="true">04</span>
-              <span class="work-title">Reporting & Operational Workflows</span>
-            </summary>
+          <article class="work-card rv">
+            <h3 class="work-title">Reporting & Everyday Operations</h3>
             <div class="work-body">
-              <p>Prepared complex spreadsheets, reports and reusable working structures to help colleagues complete administrative and data-heavy tasks more reliably.</p>
+              <p>I build practical Excel-based reports and reusable working structures that make recurring administrative and data-heavy tasks easier to manage.</p>
               <div class="tags" aria-label="Contribution areas">
                 <span class="tag">Microsoft Excel</span>
                 <span class="tag">Reporting</span>
@@ -1584,7 +1524,7 @@
                 <span class="tag">Colleague Support</span>
               </div>
             </div>
-          </details>
+          </article>
         </div>
       </div>
     </section>
@@ -1754,8 +1694,8 @@
         ["Contact", "Kapcsolat", "Contact"],
         ["Menu", "Menü", "Meniu"],
         ["Digital operations · systems · project work", "Digitális működés · rendszerek · projektmunka", "Operațiuni digitale · sisteme · activitate de proiect"],
-        ["Digital Operations & Internal Systems", "Digitális működés és belső rendszerek", "Operațiuni digitale și sisteme interne"],
-        ["I work with the digital side of everyday operations: internal systems, structured data, websites and the workflows around them. A large part of my role is connecting practical user needs with technical partners, then testing, documenting and helping people use the result.", "A mindennapi működés digitális oldalával foglalkozom: belső rendszerekkel, strukturált adatokkal, weboldalakkal és a hozzájuk kapcsolódó munkafolyamatokkal. Munkám fontos része, hogy összekapcsoljam a felhasználók gyakorlati igényeit a műszaki partnerekkel, majd teszteljem és dokumentáljam az eredményt, valamint segítsem annak használatát.", "Lucrez cu partea digitală a activității de zi cu zi: sisteme interne, date structurate, site-uri web și fluxurile de lucru din jurul lor. O parte importantă a rolului meu este să conectez nevoile practice ale utilizatorilor cu partenerii tehnici, apoi să testez și să documentez rezultatul și să îi ajut pe oameni să îl folosească."],
+        ["Digital Operations Manager · Project Coordination · Internal Systems", "Digitális működés · projektkoordináció · belső rendszerek", "Manager operațiuni digitale · coordonare de proiecte · sisteme interne"],
+        ["I work at the intersection of project coordination, internal systems and day-to-day digital operations. I turn practical business needs into clearer processes, usable tools and well-coordinated implementation.", "A projektkoordináció, a belső rendszerek és a mindennapi digitális működés találkozásánál dolgozom. A gyakorlati üzleti igényeket átláthatóbb folyamatokká, jól használható eszközökké és összehangolt megvalósítássá alakítom.", "Lucrez la intersecția dintre coordonarea proiectelor, sistemele interne și operațiunile digitale de zi cu zi. Transform nevoile practice ale organizației în procese mai clare, instrumente ușor de folosit și implementări bine coordonate."],
         ["Târgu Mureș, Romania", "Marosvásárhely, Románia", "Târgu Mureș, România"],
         ["See what I work on", "Mivel foglalkozom", "Vezi cu ce mă ocup"],
         ["At a glance", "Röviden", "Pe scurt"],
@@ -1769,14 +1709,13 @@
         ["Practical, structured and collaborative", "Gyakorlatias, rendszerezett és együttműködő", "Practic, structurat și colaborativ"],
         ["Based in", "Lakóhely", "Stabilit în"],
         ["Where people, processes and digital tools meet", "Ahol az emberek, a folyamatok és a digitális eszközök találkoznak", "Acolo unde oamenii, procesele și instrumentele digitale se întâlnesc"],
-        ["My background is in project management and communication. Over time, the digital side of the work became a bigger part of what I do: improving internal tools, organising data, supporting users and helping technical changes make sense in everyday practice.", "Projektmenedzsment és kommunikáció területéről érkezem. Idővel a munka digitális oldala egyre nagyobb szerepet kapott abban, amit csinálok: belső eszközök fejlesztése, adatok rendszerezése, felhasználók támogatása és a technikai változások gyakorlati alkalmazásának segítése.", "Am o pregătire în management de proiect și comunicare. În timp, latura digitală a devenit o parte tot mai importantă a activității mele: îmbunătățirea instrumentelor interne, organizarea datelor, sprijinirea utilizatorilor și transpunerea schimbărilor tehnice în practica de zi cu zi."],
-        ["Today I coordinate external IT partners, administer internal systems, build Excel-based reporting workflows, support websites and help colleagues solve practical digital problems.", "Jelenleg külső IT-partnerekkel dolgozom együtt, belső rendszereket adminisztrálok, Excel-alapú jelentési folyamatokat készítek, weboldalakat támogatok, és segítek a kollégáknak a gyakorlati digitális problémák megoldásában.", "În prezent coordonez parteneri IT externi, administrez sisteme interne, construiesc fluxuri de raportare bazate pe Excel, sprijin activitatea legată de site-uri web și îi ajut pe colegi să rezolve probleme digitale practice."],
-        ["I especially enjoy the part in between people and technology — understanding what is needed, turning it into a clear task, testing the result and making sure it is genuinely useful.", "Különösen azt a szerepet szeretem, amely az emberek és a technológia között van: megérteni az igényt, egyértelmű feladattá alakítani, tesztelni az eredményt, és meggyőződni arról, hogy valóban hasznos.", "Îmi place în mod special partea dintre oameni și tehnologie: să înțeleg ce este necesar, să transform nevoia într-o sarcină clară, să testez rezultatul și să mă asigur că este cu adevărat util."],
+        ["My background is in Communication & PR, and for more than ten years I have worked across project management and digital operations. My focus is on making everyday work clearer: improving internal processes, organizing information and helping teams use digital tools with confidence.", "Kommunikáció és PR területéről érkezem, és több mint tíz éve dolgozom a projektmenedzsment és a digitális működés területén. Arra törekszem, hogy a mindennapi munka átláthatóbb legyen: belső folyamatokat fejlesztek, információkat rendszerezek, és segítem a csapatokat a digitális eszközök magabiztos használatában.", "Am o pregătire în Comunicare și Relații Publice și lucrez de peste zece ani în management de proiect și operațiuni digitale. Mă concentrez pe clarificarea activității de zi cu zi: îmbunătățirea proceselor interne, organizarea informațiilor și sprijinirea echipelor în utilizarea cu încredere a instrumentelor digitale."],
+        ["Today I coordinate external IT partners, administer internal systems, build reporting workflows, support websites and help move changes from a practical need to a working result.", "Jelenleg külső IT-partnerekkel dolgozom együtt, belső rendszereket adminisztrálok, jelentési folyamatokat építek, weboldalakat támogatok, és segítem, hogy a gyakorlati igényekből működő megoldások szülessenek.", "În prezent coordonez parteneri IT externi, administrez sisteme interne, construiesc fluxuri de raportare, sprijin activitatea site-urilor web și ajut la transformarea nevoilor practice în rezultate funcționale."],
+        ["I am most comfortable between people and technology — clarifying what is needed, coordinating the right contributors, testing the outcome and making sure it works in practice.", "Leginkább az emberek és a technológia közötti szerepben érzem otthon magam: pontosítom az igényeket, összehangolom a megfelelő közreműködőket, tesztelem az eredményt, és meggyőződöm arról, hogy a megoldás a gyakorlatban is működik.", "Mă simt cel mai bine în rolul de legătură dintre oameni și tehnologie: clarific nevoile, coordonez persoanele potrivite, testez rezultatul și mă asigur că soluția funcționează în practică."],
         ["Professional experience", "Szakmai tapasztalat", "Experiență profesională"],
-        ["My work combines project coordination with internal systems, digital processes, structured data and hands-on implementation support.", "Munkám a projektkoordinációt belső rendszerekkel, digitális folyamatokkal, strukturált adatokkal és gyakorlati megvalósítási támogatással kapcsolja össze.", "Activitatea mea combină coordonarea proiectelor cu sistemele interne, procesele digitale, datele structurate și sprijinul practic pentru implementare."],
+        ["For more than ten years, I have worked across project coordination, digital operations and internal systems, helping turn operational needs into clear, workable solutions.", "Több mint tíz éve dolgozom a projektkoordináció, a digitális működés és a belső rendszerek területén, segítve, hogy a működési igényekből világos és használható megoldások szülessenek.", "De peste zece ani lucrez în coordonarea proiectelor, operațiuni digitale și sisteme interne, contribuind la transformarea nevoilor operaționale în soluții clare și funcționale."],
         ["January 2019 — Present", "2019. január — jelenleg", "Ianuarie 2019 — prezent"],
-        ["Current role — Project Management & Digital Operations", "Jelenlegi szerepkör — projektmenedzsment és digitális működés", "Rol actual — management de proiect și operațiuni digitale"],
-        ["Nonprofit / foundation environment", "Nonprofit / alapítványi környezet", "Mediu nonprofit / fundație"],
+        ["Project Manager — Digital Operations & Internal Systems", "Projektmenedzser — digitális működés és belső rendszerek", "Manager de proiect — operațiuni digitale și sisteme interne"],
         ["Coordinating the ongoing development and optimization of an online grant application and administration system.", "Egy online pályázati és adminisztrációs rendszer folyamatos fejlesztésének és optimalizálásának koordinálása.", "Coordonarea dezvoltării și optimizării continue a unui sistem online de depunere și administrare a cererilor de finanțare."],
         ["Working with an IT specialist to translate operational needs into system improvements.", "Együttműködés IT-szakemberrel annak érdekében, hogy a működési igények rendszerfejlesztésekké váljanak.", "Colaborarea cu un specialist IT pentru transformarea nevoilor operaționale în îmbunătățiri ale sistemului."],
         ["Administering key internal digital systems and supporting colleagues in their daily use.", "A fontos belső digitális rendszerek adminisztrálása és a kollégák támogatása a mindennapi használatban.", "Administrarea principalelor sisteme digitale interne și sprijinirea colegilor în utilizarea lor zilnică."],
@@ -1787,35 +1726,33 @@
         ["Coordinating events and partner-related operational activities.", "Rendezvények és partnerekkel kapcsolatos operatív tevékenységek koordinálása.", "Coordonarea evenimentelor și a activităților operaționale legate de parteneri."],
         ["October 2015 — December 2018", "2015. október — 2018. december", "Octombrie 2015 — decembrie 2018"],
         ["Earlier project and program experience", "Korábbi projekt- és programtapasztalat", "Experiență anterioară în proiecte și programe"],
-        ["Environmental nonprofit environment", "Környezetvédelmi nonprofit környezet", "Mediu nonprofit de protecție a mediului"],
         ["Worked with teachers, local-government representatives and public-sector stakeholders in environmental programs.", "Tanárokkal, önkormányzati képviselőkkel és közintézményi szereplőkkel való együttműködés környezetvédelmi programokban.", "Colaborarea cu profesori, reprezentanți ai administrațiilor locale și actori din sectorul public în programe de mediu."],
         ["Coordinated communication with international partners.", "A nemzetközi partnerekkel folytatott kommunikáció koordinálása.", "Coordonarea comunicării cu parteneri internaționali."],
         ["Supported multi-partner projects, events, websites, publications and communication materials.", "Többpartneres projektek, rendezvények, weboldalak, kiadványok és kommunikációs anyagok támogatása.", "Sprijinirea proiectelor cu mai mulți parteneri, a evenimentelor, site-urilor web, publicațiilor și materialelor de comunicare."],
         ["Helped align different institutions, expectations and deliverables.", "Különböző intézmények, elvárások és eredmények összehangolásának segítése.", "Sprijinirea alinierii dintre instituții, așteptări și rezultate de livrat."],
-        ["A few examples of what I work on", "Néhány példa arra, amivel foglalkozom", "Câteva exemple din activitatea mea"],
-        ["These examples show the practical side of my work: understanding needs, preparing information, coordinating changes, testing and making things easier to use.", "Ezek a példák a munkám gyakorlati oldalát mutatják: az igények megértését, az információk előkészítését, a változtatások koordinálását, a tesztelést és a használat egyszerűbbé tételét.", "Aceste exemple arată latura practică a activității mele: înțelegerea nevoilor, pregătirea informațiilor, coordonarea schimbărilor, testarea și simplificarea utilizării."],
-        ["Online Application System Improvement", "Online pályázati rendszer fejlesztése", "Îmbunătățirea sistemului online de depunere a cererilor"],
-        ["Ongoing coordination of an internal online application system, including requirement collection, communication with the IT specialist, testing, user support and workflow improvements.", "Egy belső online pályázati rendszer folyamatos koordinálása, beleértve az igények összegyűjtését, az IT-szakemberrel való egyeztetést, a tesztelést, a felhasználói támogatást és a munkafolyamatok fejlesztését.", "Coordonarea continuă a unui sistem intern online de depunere a cererilor, inclusiv colectarea cerințelor, comunicarea cu specialistul IT, testarea, sprijinul utilizatorilor și îmbunătățirea fluxurilor de lucru."],
+        ["A practical overview of my work", "Munkám gyakorlati áttekintése", "O prezentare practică a activității mele"],
+        ["My work usually begins with a practical need and continues through clarification, coordination, implementation and review. These are the areas where I contribute most often.", "A munkám általában egy gyakorlati igényből indul, majd pontosítással, egyeztetéssel, megvalósítással és ellenőrzéssel folytatódik. Ezek azok a területek, ahol leggyakrabban hozzá tudok tenni.", "Activitatea mea pornește de obicei de la o nevoie practică și continuă prin clarificare, coordonare, implementare și verificare. Acestea sunt domeniile în care contribui cel mai des."],
+        ["Internal Systems & Digital Workflows", "Belső rendszerek és digitális munkafolyamatok", "Sisteme interne și fluxuri de lucru digitale"],
+        ["I help improve internal digital systems by gathering needs, clarifying workflows, coordinating with technical partners, testing changes and supporting colleagues in daily use.", "A belső digitális rendszerek fejlesztését igényfelméréssel, a munkafolyamatok tisztázásával, a műszaki partnerekkel való egyeztetéssel, teszteléssel és a kollégák mindennapi támogatásával segítem.", "Contribui la îmbunătățirea sistemelor digitale interne prin colectarea nevoilor, clarificarea fluxurilor de lucru, coordonarea cu partenerii tehnici, testarea schimbărilor și sprijinirea colegilor în utilizarea zilnică."],
         ["Requirements", "Igények", "Cerințe"],
         ["Testing", "Tesztelés", "Testare"],
         ["User Support", "Felhasználói támogatás", "Sprijin pentru utilizatori"],
         ["IT Coordination", "IT-koordináció", "Coordonare IT"],
         ["Process Improvement", "Folyamatfejlesztés", "Îmbunătățirea proceselor"],
-        ["Nonprofit Website Refresh & Quality Assurance", "Nonprofit weboldal frissítése és minőségellenőrzése", "Actualizarea și verificarea calității unui site nonprofit"],
-        ["Currently supporting the refresh of a WordPress-based nonprofit environmental website in a clone environment. The work includes page and content updates, configuration checks, publishing workflows, and desktop and mobile quality assurance.", "Jelenleg egy WordPress-alapú környezetvédelmi nonprofit weboldal frissítését támogatom egy klónozott tesztkörnyezetben. A munka oldal- és tartalomfrissítéseket, konfigurációs ellenőrzéseket, közzétételi folyamatokat, valamint asztali és mobil minőségellenőrzést foglal magában.", "În prezent sprijin actualizarea unui site WordPress al unei organizații nonprofit de mediu, într-un mediu clonat de testare. Activitatea include actualizarea paginilor și a conținutului, verificarea configurației, fluxurile de publicare și controlul calității pe desktop și mobil."],
-        ["AI tools are used as practical support for preparing, troubleshooting and checking technical changes; the requirements, review and final validation remain human-led.", "Az AI-eszközöket gyakorlati segítségként használom a technikai változtatások előkészítéséhez, hibaelhárításához és ellenőrzéséhez; az igények meghatározása, az átnézés és a végső jóváhagyás továbbra is emberi feladat.", "Instrumentele AI sunt folosite ca sprijin practic pentru pregătirea, depanarea și verificarea schimbărilor tehnice; stabilirea cerințelor, revizuirea și validarea finală rămân responsabilități umane."],
+        ["Websites & Content Operations", "Weboldalak és tartalomkezelés", "Site-uri web și operațiuni de conținut"],
+        ["I support WordPress websites from content and configuration updates through publishing and desktop/mobile quality checks. AI tools can assist with preparation and troubleshooting, while requirements, review and final validation remain human-led.", "WordPress-weboldalakat támogatok a tartalmi és konfigurációs frissítésektől a közzétételen át az asztali és mobil minőségellenőrzésig. Az AI-eszközök segíthetik az előkészítést és a hibaelhárítást, miközben az igények meghatározása, az átnézés és a végső jóváhagyás továbbra is emberi feladat.", "Sprijin site-uri WordPress de la actualizarea conținutului și a configurației până la publicare și verificarea calității pe desktop și mobil. Instrumentele AI pot ajuta la pregătire și depanare, în timp ce stabilirea cerințelor, revizuirea și validarea finală rămân responsabilități umane."],
         ["Content Operations", "Tartalomkezelés", "Operațiuni de conținut"],
         ["Website QA", "Weboldal-ellenőrzés", "Verificarea site-ului"],
         ["Responsive Testing", "Reszponzív tesztelés", "Testare responsive"],
         ["AI-Assisted Support", "AI-val támogatott munka", "Sprijin asistat de AI"],
-        ["Structured Data & Interactive Web Content", "Strukturált adatok és interaktív webes tartalom", "Date structurate și conținut web interactiv"],
-        ["Prepared, cleaned and structured project data for an interactive web-based presentation. The work included spreadsheet preparation, content organization, interface review and quality checks.", "Projektadatok előkészítése, tisztítása és rendszerezése egy interaktív webes bemutatóhoz. A munka táblázatok előkészítését, a tartalom rendszerezését, a felület átnézését és minőségellenőrzést tartalmazott.", "Pregătirea, curățarea și structurarea datelor de proiect pentru o prezentare web interactivă. Activitatea a inclus pregătirea foilor de calcul, organizarea conținutului, revizuirea interfeței și verificări de calitate."],
+        ["Structured Data & Clear Information", "Strukturált adatok és átlátható információk", "Date structurate și informații clare"],
+        ["I turn scattered project information into structured spreadsheets and clear web content, with attention to consistency, usability and quality.", "A szétszórt projektinformációkat strukturált táblázatokká és átlátható webes tartalommá rendezem, figyelve a következetességre, a használhatóságra és a minőségre.", "Transform informațiile de proiect dispersate în foi de calcul structurate și conținut web clar, cu atenție la consecvență, ușurință în utilizare și calitate."],
         ["Data Preparation", "Adatelőkészítés", "Pregătirea datelor"],
         ["Content Structure", "Tartalmi struktúra", "Structura conținutului"],
         ["Web Content", "Webes tartalom", "Conținut web"],
         ["Quality Assurance", "Minőségellenőrzés", "Controlul calității"],
-        ["Reporting & Operational Workflows", "Jelentések és operatív munkafolyamatok", "Raportare și fluxuri operaționale"],
-        ["Prepared complex spreadsheets, reports and reusable working structures to help colleagues complete administrative and data-heavy tasks more reliably.", "Összetett táblázatok, jelentések és újra felhasználható munkastruktúrák készítése, hogy a kollégák megbízhatóbban végezhessék el az adminisztratív és adatintenzív feladatokat.", "Pregătirea unor foi de calcul complexe, rapoarte și structuri de lucru reutilizabile, pentru ca colegii să poată realiza mai sigur sarcinile administrative și cele bazate pe volume mari de date."],
+        ["Reporting & Everyday Operations", "Jelentések és mindennapi működés", "Raportare și operațiuni de zi cu zi"],
+        ["I build practical Excel-based reports and reusable working structures that make recurring administrative and data-heavy tasks easier to manage.", "Gyakorlatias Excel-alapú jelentéseket és újra felhasználható munkastruktúrákat készítek, amelyek megkönnyítik az ismétlődő adminisztratív és adatintenzív feladatok kezelését.", "Construiesc rapoarte practice bazate pe Excel și structuri de lucru reutilizabile, care fac mai ușor de gestionat sarcinile administrative repetitive și cele bazate pe volume mari de date."],
         ["Reporting", "Jelentéskészítés", "Raportare"],
         ["Documentation", "Dokumentáció", "Documentație"],
         ["Workflow Improvement", "Munkafolyamat-fejlesztés", "Îmbunătățirea fluxurilor de lucru"],
@@ -1866,16 +1803,16 @@
 
       const pageMeta = {
         en: {
-          title: "Botond Nagy | Digital Operations & Internal Systems",
-          description: "A personal overview of Botond Nagy and his work across digital operations, internal systems, data, websites and project coordination."
+          title: "Botond Nagy | Digital Operations Manager",
+          description: "A personal overview of Botond Nagy and his work across project coordination, internal systems and practical digital operations."
         },
         hu: {
           title: "Nagy Botond | Digitális működés és belső rendszerek",
-          description: "Nagy Botond személyes bemutatkozó oldala a digitális működés, belső rendszerek, adatok, weboldalak és projektkoordináció területén végzett munkájáról."
+          description: "Nagy Botond személyes bemutatkozó oldala a projektkoordináció, a belső rendszerek és a gyakorlati digitális működés területén végzett munkájáról."
         },
         ro: {
-          title: "Botond Nagy | Operațiuni digitale și sisteme interne",
-          description: "O prezentare personală a lui Botond Nagy și a activității sale în operațiuni digitale, sisteme interne, date, site-uri web și coordonarea proiectelor."
+          title: "Botond Nagy | Manager operațiuni digitale",
+          description: "O prezentare personală a lui Botond Nagy și a activității sale în coordonarea proiectelor, sisteme interne și operațiuni digitale practice."
         }
       };
 
@@ -1952,12 +1889,6 @@
           if (menu) menu.open = false;
         });
       });
-
-      if (window.matchMedia("(max-width: 700px)").matches) {
-        document.querySelectorAll(".work-card").forEach(function (card) {
-          card.open = false;
-        });
-      }
 
       const revealItems = document.querySelectorAll(".rv");
       if ("IntersectionObserver" in window) {
