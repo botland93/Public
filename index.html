@@ -943,33 +943,6 @@
       .scores.live-score {
         color: var(--red);
       }
-      .odds {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
-      }
-      .odd {
-        height: 31px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        color: var(--ink-2);
-        font-size: 10px;
-        font-weight: 800;
-      }
-      .odd small {
-        color: var(--faint);
-        font-size: 8px;
-      }
-      .odd:hover {
-        border-color: #abd1bf;
-        background: var(--green-50);
-        color: var(--green-800);
-      }
       .official-source {
         display: flex;
         align-items: center;
@@ -1522,6 +1495,158 @@
         width: 8px;
         height: 8px;
         border-radius: 3px;
+      }
+      .bracket-shell {
+        overflow-x: auto;
+        padding: 18px;
+        background:
+          radial-gradient(circle at 10% 0%, rgba(100, 216, 157, 0.12), transparent 28%),
+          var(--card);
+        scrollbar-color: var(--green-400) transparent;
+      }
+      .bracket-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 226px;
+        align-items: stretch;
+        gap: 42px;
+        min-width: max-content;
+      }
+      .bracket-round {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .bracket-round-head {
+        min-height: 43px;
+        margin-bottom: 10px;
+        padding-bottom: 9px;
+        border-bottom: 1px solid var(--line);
+      }
+      .bracket-round-head strong {
+        display: block;
+        color: var(--ink);
+        font-size: 11px;
+      }
+      .bracket-round-head span {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 8.5px;
+      }
+      .bracket-games {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 12px;
+      }
+      .bracket-match {
+        position: relative;
+        width: 100%;
+        min-height: 78px;
+        padding: 8px 10px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: var(--card-2);
+        color: var(--ink-2);
+        text-align: left;
+        box-shadow: 0 5px 15px rgba(13, 70, 47, 0.06);
+      }
+      button.bracket-match {
+        cursor: pointer;
+        font: inherit;
+      }
+      button.bracket-match:hover {
+        border-color: var(--green-400);
+        transform: translateY(-1px);
+      }
+      .bracket-match::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 1px);
+        width: 42px;
+        border-top: 1px solid var(--line);
+      }
+      .bracket-round:last-child .bracket-match::after {
+        display: none;
+      }
+      .bracket-team {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr) 20px;
+        align-items: center;
+        gap: 7px;
+        min-height: 27px;
+        font-size: 10.5px;
+        font-weight: 720;
+      }
+      .bracket-team + .bracket-team {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid var(--line-2);
+      }
+      .bracket-team .crest {
+        width: 22px;
+        height: 22px;
+        border-radius: 7px;
+      }
+      .bracket-team span:nth-child(2) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .bracket-team b {
+        color: var(--ink);
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+      }
+      .bracket-team.winner span:nth-child(2),
+      .bracket-team.winner b {
+        color: var(--green-800);
+        font-weight: 900;
+      }
+      .bracket-match-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 7.5px;
+      }
+      .bracket-placeholder {
+        display: grid;
+        place-items: center;
+        min-height: 78px;
+        border-style: dashed;
+        box-shadow: none;
+        color: var(--muted);
+        text-align: center;
+      }
+      .bracket-placeholder strong {
+        display: block;
+        color: var(--ink-2);
+        font-size: 10px;
+      }
+      .bracket-placeholder span {
+        display: block;
+        margin-top: 4px;
+        font-size: 8px;
+      }
+      .bracket-source {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        border-top: 1px solid var(--line-2);
+        color: var(--muted);
+        font-size: 9px;
+      }
+      .bracket-source a {
+        color: var(--green-800);
+        font-weight: 850;
       }
       .scorer-list {
         padding: 4px 0;
@@ -2090,36 +2215,6 @@
         font-size: 8.5px;
         font-weight: 900;
       }
-      .odds-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 10px;
-      }
-      .odds-table th,
-      .odds-table td {
-        padding: 12px;
-        border-bottom: 1px solid var(--line-2);
-        text-align: center;
-      }
-      .odds-table th:first-child,
-      .odds-table td:first-child {
-        text-align: left;
-      }
-      .odds-table th {
-        color: var(--faint);
-        font-size: 8px;
-        text-transform: uppercase;
-      }
-      .odds-table td:not(:first-child) {
-        font-weight: 850;
-        color: var(--green-800);
-      }
-      .responsible {
-        padding: 11px 13px;
-        color: var(--muted);
-        font-size: 8px;
-        line-height: 1.5;
-      }
       .h2h-summary {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -2470,8 +2565,7 @@
       html[data-theme="dark"] .search-trigger,
       html[data-theme="dark"] .icon-btn,
       html[data-theme="dark"] .sync-chip,
-      html[data-theme="dark"] .compact-btn,
-      html[data-theme="dark"] .odd {
+      html[data-theme="dark"] .compact-btn {
         background: #13241b;
         border-color: #30493c;
       }
@@ -2495,6 +2589,11 @@
       html[data-theme="dark"] .result-item:hover,
       html[data-theme="dark"] .big-table tbody tr:hover {
         background: #172d22;
+      }
+      html[data-theme="dark"] .bracket-match {
+        background: #13251b;
+        border-color: #30493c;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
       }
       html[data-theme="dark"] .empty-state,
       html[data-theme="dark"] .result-item,
@@ -2895,6 +2994,20 @@
         }
         .league-selector {
           padding: 10px;
+        }
+        .bracket-shell {
+          padding: 14px 12px 18px;
+          scroll-snap-type: x proximity;
+        }
+        .bracket-grid {
+          grid-auto-columns: min(78vw, 238px);
+          gap: 32px;
+        }
+        .bracket-round {
+          scroll-snap-align: start;
+        }
+        .bracket-match::after {
+          width: 32px;
         }
         .big-table .team-col {
           position: sticky;
@@ -3302,13 +3415,13 @@
           <div class="panel-head">
             <div>
               <h2 id="tableTitle">Premier League tabella</h2>
-              <p>Összesített · 2026/27-es szezon</p>
+              <p id="tableSubtitle">Összesített · 2026/27-es szezon</p>
             </div>
-            <span class="panel-meta">Forma · utolsó 5</span>
+            <span class="panel-meta" id="tableMeta">Forma · utolsó 5</span>
           </div>
           <div class="league-selector" data-selector="table"></div>
           <div class="big-table-wrap" id="bigTable"></div>
-          <div class="legend">
+          <div class="legend" id="tableLegend">
             <span><i style="background: var(--blue)"></i>Bajnokok Ligája</span
             ><span><i style="background: var(--amber)"></i>Európa-liga</span
             ><span><i style="background: var(--red)"></i>Kiesés</span>
@@ -3388,7 +3501,7 @@
       · <a href="https://rfef.es/es/competiciones/copa-de-sm-el-rey" target="_blank" rel="noreferrer">Copa del Rey</a>
       · <a href="https://www.legaseriea.it/coppa-italia/calendario-risultati" target="_blank" rel="noreferrer">Coppa Italia</a>
       · <a href="https://datencenter.dfb.de/competitions/33/seasons/current" target="_blank" rel="noreferrer">DFB-Pokal</a>
-      · <a href="https://www.fff.fr/competition/coupes/coupe-de-france.html" target="_blank" rel="noreferrer">Coupe de France</a>
+      · <a href="https://www.fff.fr/competition" target="_blank" rel="noreferrer">Coupe de France</a>
     </footer>
 
     <nav class="mobile-bottom" aria-label="Mobil navigáció">
@@ -3693,7 +3806,7 @@
           short: "CDF",
           color: "#1b3f92",
           logo: "https://www.fff.fr/favicon.ico",
-          source: "https://www.fff.fr/competition/coupes/coupe-de-france.html",
+          source: "https://www.fff.fr/competition",
           type: "cup",
           teams: [],
         },
@@ -4093,6 +4206,7 @@
       const UEFA_COMPETITIONS = { ucl: 1, uel: 14, uecl: 2019 };
       const EFL_API =
         "https://multi-club-matches.webapi.gc.eflservices.co.uk/v2";
+      const H2H_API = "https://www.thesportsdb.com/api/v1/json/123";
       const PL_API =
         "https://sdp-prem-prod.premier-league-prod.pulselive.com/api";
       const LALIGA_API = "https://apim.laliga.com/public-service/api/v1";
@@ -4106,6 +4220,10 @@
         matchLoadedAt = new Map(),
         detailCache = new Map(),
         detailInflight = new Map(),
+        h2hCache = new Map(),
+        h2hInflight = new Map(),
+        tournamentCache = new Map(),
+        tournamentInflight = new Map(),
         loadingDays = new Set();
       const laligaPrefetchWeeks = new Map(),
         serieAPrefetchDays = new Map(),
@@ -4131,7 +4249,8 @@
         dfbPokalSnapshot = null,
         federationCupChecks = new Map(),
         weekPrefetchPromise = null,
-        prefetchRetryTimer = null;
+        prefetchRetryTimer = null,
+        schedulePersistTimer = null;
 
       const TEAM_NAME_FIXES = {
         "AFC Bournemouth": "Bournemouth",
@@ -4210,6 +4329,86 @@
       }
       function dateForOffset(offset) {
         return new Date(`${dateKeyForOffset(offset)}T12:00:00Z`);
+      }
+      const SCHEDULE_CACHE_KEY = "botland_schedule_v3",
+        SCHEDULE_CACHE_FIELDS = [
+          "id",
+          "dateKey",
+          "kickoff",
+          "league",
+          "time",
+          "status",
+          "statusLabel",
+          "minute",
+          "home",
+          "away",
+          "hs",
+          "as",
+          "half",
+          "red",
+          "venue",
+          "city",
+          "attendance",
+          "referee",
+          "round",
+          "source",
+          "sourceUrl",
+        ];
+      function compactScheduleMatch(match) {
+        const compact = {};
+        SCHEDULE_CACHE_FIELDS.forEach((key) => (compact[key] = match[key]));
+        compact.homeLogo = TEAM_LOGOS[match.home] || "";
+        compact.awayLogo = TEAM_LOGOS[match.away] || "";
+        return compact;
+      }
+      function persistScheduleCache() {
+        try {
+          const allowed = new Set(
+              Array.from({ length: 8 }, (_, day) => dateKeyForOffset(day)),
+            ),
+            days = {};
+          for (const [date, matches] of matchCache)
+            if (allowed.has(date))
+              days[date] = matches.map(compactScheduleMatch);
+          storageSet(
+            SCHEDULE_CACHE_KEY,
+            JSON.stringify({ version: 3, savedAt: Date.now(), days }),
+          );
+        } catch {}
+      }
+      function queueSchedulePersistence() {
+        clearTimeout(schedulePersistTimer);
+        schedulePersistTimer = setTimeout(persistScheduleCache, 180);
+      }
+      function hydrateScheduleCache() {
+        try {
+          const saved = JSON.parse(storageGet(SCHEDULE_CACHE_KEY, "null"));
+          if (!saved || saved.version !== 3 || !saved.days) return false;
+          const age = Date.now() - Number(saved.savedAt || 0);
+          let hydrated = false;
+          Object.entries(saved.days).forEach(([date, rows]) => {
+            const offset = dateOffsetFromToday(date),
+              maxAge = offset === 0 ? 120000 : 6 * 3600000;
+            if (offset < 0 || offset > 7 || age > maxAge || !Array.isArray(rows))
+              return;
+            const matches = rows
+              .filter((row) => LEAGUES[row.league])
+              .map((row) => {
+                if (row.homeLogo) TEAM_LOGOS[row.home] = row.homeLogo;
+                if (row.awayLogo) TEAM_LOGOS[row.away] = row.awayLogo;
+                registerTeam(row.league, row.home, row.homeLogo);
+                registerTeam(row.league, row.away, row.awayLogo);
+                return makeMatch({ ...row, raw: null });
+              })
+              .map((match) => ({ ...match, day: offset }));
+            matchCache.set(date, matches);
+            matchLoadedAt.set(date, Number(saved.savedAt || Date.now()));
+            hydrated = true;
+          });
+          return hydrated;
+        } catch {
+          return false;
+        }
       }
       function longDate(offset = 0) {
         return new Intl.DateTimeFormat("hu-HU", {
@@ -4290,7 +4489,6 @@
             as: data.as,
             half: data.half || null,
             red: data.red || [0, 0],
-            odds: [],
             venue: data.venue || "—",
             city: data.city || "—",
             attendance: data.attendance || "—",
@@ -4355,10 +4553,11 @@
       const officialMirrorQueue = [];
       let officialMirrorRunning = false,
         officialMirrorLastRequest = 0;
-      function queueOfficialMirror(task, lowPriority = false) {
+      function queueOfficialMirror(task, lowPriority = false, urgent = false) {
         return new Promise((resolve, reject) => {
-          const item = { task, resolve, reject, lowPriority };
-          if (lowPriority) officialMirrorQueue.push(item);
+          const item = { task, resolve, reject, lowPriority, urgent };
+          if (urgent) officialMirrorQueue.unshift(item);
+          else if (lowPriority) officialMirrorQueue.push(item);
           else {
             const firstLowPriority = officialMirrorQueue.findIndex(
               (queued) => queued.lowPriority,
@@ -4398,6 +4597,7 @@
                 timeoutMs: options.timeoutMs ?? 20000,
               }),
             options.prefetch === true,
+            options.urgent === true,
           ),
           marker = "Markdown Content:",
           payload = (text.includes(marker)
@@ -4596,54 +4796,56 @@
         { prefetch = false } = {},
       ) {
         const competitionId = UEFA_COMPETITIONS[id],
-          cacheKey = `${id}:${target}`,
-          path = `/matches?competitionId=${competitionId}&seasonYear=${SEASON_YEAR + 1}&fromDate=${target}&toDate=${target}&offset=0&limit=100&order=ASC`,
+          fromDate = prefetch ? shiftDateKey(todayAnchorKey, 1) : target,
+          toDate = prefetch ? shiftDateKey(todayAnchorKey, 7) : target,
+          cacheKey = prefetch
+            ? `${id}:week:${fromDate}:${toDate}`
+            : `${id}:${target}`,
+          path = `/matches?competitionId=${competitionId}&seasonYear=${SEASON_YEAR + 1}&fromDate=${fromDate}&toDate=${toDate}&offset=0&limit=100&order=ASC`,
           json = await loadUefaSnapshot(cacheKey, path, prefetch);
         return (Array.isArray(json) ? json : json.matches || [])
-          .map((raw) => {
-            const date = new Date(raw.kickOffTime?.dateTime),
-              home = registerTeam(
-                id,
-                uefaText(raw.homeTeam),
-                raw.homeTeam?.mediumLogoUrl || raw.homeTeam?.logoUrl,
-              ),
-              away = registerTeam(
-                id,
-                uefaText(raw.awayTeam),
-                raw.awayTeam?.mediumLogoUrl || raw.awayTeam?.logoUrl,
-              ),
-              status = statusOf(raw.status),
-              minute =
-                raw.minute?.minute ||
-                raw.minuteOfPlay ||
-                raw.clock?.minute ||
-                "";
-            return makeMatch({
-              id: `${id}-${raw.id}`,
-              dateKey: localDateKey(date),
-              kickoff: date.toISOString(),
-              league: id,
-              time: kickoffTime(date),
-              status,
-              statusLabel: statusText(raw.status, status),
-              minute: String(minute).replace(/\D/g, ""),
-              home,
-              away,
-              hs: uefaScore(raw, "home"),
-              as: uefaScore(raw, "away"),
-              venue:
-                raw.stadium?.translations?.officialName?.EN ||
-                raw.stadium?.translations?.name?.EN,
-              city: raw.stadium?.city?.translations?.name?.EN,
-              attendance: raw.matchAttendance,
-              referee: uefaReferee(raw),
-              round: uefaRound(raw),
-              source: "UEFA",
-              sourceUrl: LEAGUES[id].source,
-              raw,
-            });
-          })
+          .map((raw) => mapUefaScheduleMatch(id, raw))
           .filter((match) => match.dateKey === target);
+      }
+      function mapUefaScheduleMatch(id, raw) {
+        const date = new Date(raw.kickOffTime?.dateTime),
+          home = registerTeam(
+            id,
+            uefaText(raw.homeTeam),
+            raw.homeTeam?.mediumLogoUrl || raw.homeTeam?.logoUrl,
+          ),
+          away = registerTeam(
+            id,
+            uefaText(raw.awayTeam),
+            raw.awayTeam?.mediumLogoUrl || raw.awayTeam?.logoUrl,
+          ),
+          status = statusOf(raw.status),
+          minute =
+            raw.minute?.minute || raw.minuteOfPlay || raw.clock?.minute || "";
+        return makeMatch({
+          id: `${id}-${raw.id}`,
+          dateKey: localDateKey(date),
+          kickoff: date.toISOString(),
+          league: id,
+          time: kickoffTime(date),
+          status,
+          statusLabel: statusText(raw.status, status),
+          minute: String(minute).replace(/\D/g, ""),
+          home,
+          away,
+          hs: uefaScore(raw, "home"),
+          as: uefaScore(raw, "away"),
+          venue:
+            raw.stadium?.translations?.officialName?.EN ||
+            raw.stadium?.translations?.name?.EN,
+          city: raw.stadium?.city?.translations?.name?.EN,
+          attendance: raw.matchAttendance,
+          referee: uefaReferee(raw),
+          round: uefaRound(raw),
+          source: "UEFA",
+          sourceUrl: LEAGUES[id].source,
+          raw,
+        });
       }
       const loadUcl = (target, options) =>
         loadUefaCompetition("ucl", target, options);
@@ -4896,48 +5098,49 @@
                   }
                 }),
               );
-        return detailed.map((raw) => {
-          const date = new Date(raw.matchDateUtc),
-            home = registerTeam(
-              "coppa",
-              raw.home?.shortName || raw.home?.officialName,
-              serieLogo(raw.home),
-            ),
-            away = registerTeam(
-              "coppa",
-              raw.away?.shortName || raw.away?.officialName,
-              serieLogo(raw.away),
-            ),
-            status = statusOf(raw.status),
-            minute =
-              raw.additionalTime > 0
-                ? `${raw.time}+${raw.additionalTime}`
-                : raw.time;
-          return makeMatch({
-            id: `coppa-${raw.matchId}`,
-            dateKey: localDateKey(date),
-            kickoff: date.toISOString(),
-            league: "coppa",
-            time: kickoffTime(date),
-            status,
-            statusLabel: statusText(raw.phase || raw.status, status),
-            minute,
-            home,
-            away,
-            hs: finiteScore(raw.providerHomeScore ?? raw.homeScorePush),
-            as: finiteScore(raw.providerAwayScore ?? raw.awayScorePush),
-            red: [
-              raw.home?.officialRedCards?.length || raw.home?.redCards?.length || 0,
-              raw.away?.officialRedCards?.length || raw.away?.redCards?.length || 0,
-            ],
-            venue: raw.stadiumName,
-            city: raw.cityName,
-            attendance: raw.attendance,
-            round: raw.matchSet?.name || day.name || "Coppa Italia",
-            source: "Lega Serie A",
-            sourceUrl: LEAGUES.coppa.source,
-            raw,
-          });
+        return detailed.map((raw) => mapCoppaMatch(raw, day));
+      }
+      function mapCoppaMatch(raw, day = {}) {
+        const date = new Date(raw.matchDateUtc),
+          home = registerTeam(
+            "coppa",
+            raw.home?.shortName || raw.home?.officialName,
+            serieLogo(raw.home),
+          ),
+          away = registerTeam(
+            "coppa",
+            raw.away?.shortName || raw.away?.officialName,
+            serieLogo(raw.away),
+          ),
+          status = statusOf(raw.status),
+          minute =
+            raw.additionalTime > 0
+              ? `${raw.time}+${raw.additionalTime}`
+              : raw.time;
+        return makeMatch({
+          id: `coppa-${raw.matchId}`,
+          dateKey: localDateKey(date),
+          kickoff: date.toISOString(),
+          league: "coppa",
+          time: kickoffTime(date),
+          status,
+          statusLabel: statusText(raw.phase || raw.status, status),
+          minute,
+          home,
+          away,
+          hs: finiteScore(raw.providerHomeScore ?? raw.homeScorePush),
+          as: finiteScore(raw.providerAwayScore ?? raw.awayScorePush),
+          red: [
+            raw.home?.officialRedCards?.length || raw.home?.redCards?.length || 0,
+            raw.away?.officialRedCards?.length || raw.away?.redCards?.length || 0,
+          ],
+          venue: raw.stadiumName,
+          city: raw.cityName,
+          attendance: raw.attendance,
+          round: raw.matchSet?.name || day.name || "Coppa Italia",
+          source: "Lega Serie A",
+          sourceUrl: LEAGUES.coppa.source,
+          raw,
         });
       }
 
@@ -5441,7 +5644,7 @@
       const loadCoupeDeFrance = (_target, { prefetch = false } = {}) =>
         checkFederationCup(
           "coupedefrance",
-          "https://r.jina.ai/http://www.fff.fr/competition/coupes/coupe-de-france.html",
+          "https://r.jina.ai/http://www.fff.fr/competition",
           prefetch,
         );
 
@@ -5755,6 +5958,188 @@
         })().finally(() => leagueDataInflight.delete(id));
         leagueDataInflight.set(id, request);
         return request;
+      }
+
+      const UEFA_TABLE_IDS = new Set(["ucl", "uel", "uecl"]);
+      function uniqueTournamentMatches(rows) {
+        return [
+          ...new Map(
+            rows
+              .filter((match) => match?.id && match?.home && match?.away)
+              .map((match) => [match.id, match]),
+          ).values(),
+        ].sort((a, b) => String(a.kickoff).localeCompare(String(b.kickoff)));
+      }
+      function knownTournamentMatches(id) {
+        const rows = [...matchCache.values()]
+          .flat()
+          .filter((match) => match.league === id);
+        if (id === "eflcup" && eflCupSnapshot?.matches)
+          rows.push(...eflCupSnapshot.matches);
+        if (id === "facup" && faCupSnapshot?.matches)
+          rows.push(...faCupSnapshot.matches);
+        if (id === "dfbpokal" && dfbPokalSnapshot?.matches)
+          rows.push(...dfbPokalSnapshot.matches);
+        return uniqueTournamentMatches(rows);
+      }
+      async function fetchUefaStandings(id) {
+        const json = await officialMirrorJson(
+            `https://standings.uefa.com/v1/standings?competitionId=${UEFA_COMPETITIONS[id]}&seasonYear=${SEASON_YEAR + 1}`,
+            { urgent: true },
+          ),
+          tables = Array.isArray(json) ? json : json?.standings || [],
+          table = [...tables].sort(
+            (a, b) => (b.items?.length || 0) - (a.items?.length || 0),
+          )[0],
+          rows = (table?.items || []).map((entry) => {
+            const team = registerTeam(
+              id,
+              uefaText(entry.team),
+              entry.team?.mediumLogoUrl || entry.team?.logoUrl,
+            );
+            return {
+              team,
+              pos: entry.rank,
+              pl: entry.played,
+              w: entry.won,
+              d: entry.drawn,
+              l: entry.lost,
+              gf: entry.goalsFor,
+              ga: entry.goalsAgainst,
+              gd: entry.goalDifference,
+              pts: entry.points,
+              form: [],
+              clubId: String(entry.team?.id || entry.teamId || ""),
+            };
+          });
+        STANDINGS[id] = rows.sort((a, b) => (a.pos || 99) - (b.pos || 99));
+        if (rows.length)
+          LEAGUES[id].teams = [...new Set(rows.map((row) => row.team))].sort(
+            (a, b) => a.localeCompare(b, "hu"),
+          );
+        return rows;
+      }
+      async function fetchCoppaTournamentMatches() {
+        const season = encodeURIComponent(COPPA_ITALIA_SEASON);
+        if (!coppaMatchdays) {
+          const days = await officialFetch(
+            `${SERIE_A_API}/seasons/${season}/matchdays?locale=en-GB`,
+          );
+          coppaMatchdays = days.matchdays || [];
+        }
+        const results = await Promise.allSettled(
+          coppaMatchdays.map((day) =>
+            cachedPromise(coppaPrefetchDays, String(day.matchSetId), () =>
+              officialFetch(
+                `${SERIE_A_API}/seasons/${season}/matches?matchDayId=${encodeURIComponent(day.matchSetId)}&locale=en-GB`,
+              ),
+            ).then((json) =>
+              (json.matches || []).map((raw) => mapCoppaMatch(raw, day)),
+            ),
+          ),
+        );
+        if (results.every((result) => result.status === "rejected"))
+          throw results[0].reason;
+        return uniqueTournamentMatches(
+          results.flatMap((result) =>
+            result.status === "fulfilled" ? result.value : [],
+          ),
+        );
+      }
+      async function fetchTournamentMatches(id) {
+        if (UEFA_TABLE_IDS.has(id)) {
+          const url = `${UEFA_API}/matches?competitionId=${UEFA_COMPETITIONS[id]}&seasonYear=${SEASON_YEAR + 1}&fromDate=${SEASON_YEAR}-06-01&toDate=${SEASON_YEAR + 1}-06-30&offset=0&limit=500&order=ASC`,
+            json = await officialMirrorJson(url, { urgent: true }),
+            rows = (Array.isArray(json) ? json : json.matches || []).map(
+              (raw) => mapUefaScheduleMatch(id, raw),
+            );
+          return uniqueTournamentMatches(rows);
+        }
+        if (id === "eflcup") {
+          await loadEflCup(todayAnchorKey);
+          return uniqueTournamentMatches(eflCupSnapshot?.matches || []);
+        }
+        if (id === "facup") {
+          await loadFaCup(todayAnchorKey);
+          return uniqueTournamentMatches(faCupSnapshot?.matches || []);
+        }
+        if (id === "coppa") return fetchCoppaTournamentMatches();
+        if (id === "dfbpokal") {
+          await loadDfbPokal(todayAnchorKey);
+          return uniqueTournamentMatches(dfbPokalSnapshot?.matches || []);
+        }
+        if (id === "copadelrey")
+          await loadCopaDelRey(todayAnchorKey, { prefetch: false });
+        if (id === "coupedefrance")
+          await loadCoupeDeFrance(todayAnchorKey, { prefetch: false });
+        return knownTournamentMatches(id);
+      }
+      async function ensureTournamentData(id, force = false) {
+        if (!LEAGUES[id] || LEAGUES[id].type !== "cup") return;
+        const existing = tournamentCache.get(id),
+          known = knownTournamentMatches(id);
+        if (!existing && known.length)
+          tournamentCache.set(id, {
+            matches: known,
+            loadedAt: 0,
+            loading: true,
+            error: "",
+          });
+        if (
+          !force &&
+          existing?.loadedAt &&
+          Date.now() - existing.loadedAt < 300000
+        )
+          return;
+        if (tournamentInflight.has(id)) return tournamentInflight.get(id);
+        const request = (async () => {
+          const standingTask = UEFA_TABLE_IDS.has(id)
+              ? fetchUefaStandings(id)
+              : null,
+            matchTask = fetchTournamentMatches(id).then((matches) => {
+              tournamentCache.set(id, {
+                matches: matches.length
+                  ? matches
+                  : tournamentCache.get(id)?.matches || known,
+                loadedAt: 0,
+                loading: true,
+                error: "",
+              });
+              if (currentView === "table" && tableCompetitionId() === id)
+                renderLeagueViews();
+              return matches;
+            }),
+            tasks = standingTask ? [matchTask, standingTask] : [matchTask];
+          const results = await Promise.allSettled(tasks),
+            matchResult = results[0],
+            fallback = tournamentCache.get(id)?.matches || known;
+          tournamentCache.set(id, {
+            matches:
+              matchResult.status === "fulfilled" && matchResult.value.length
+                ? matchResult.value
+                : fallback,
+            loadedAt: Date.now(),
+            loading: false,
+            error:
+              matchResult.status === "rejected"
+                ? matchResult.reason?.message || "Adatforrás-hiba"
+                : "",
+          });
+          if (results[1]?.status === "rejected")
+            console.warn(`${LEAGUES[id].name} tabella:`, results[1].reason);
+          if (matchResult.status === "rejected")
+            console.warn(`${LEAGUES[id].name} ágrajz:`, matchResult.reason);
+          if (currentView === "table" && tableCompetitionId() === id)
+            renderLeagueViews();
+        })().finally(() => tournamentInflight.delete(id));
+        tournamentInflight.set(id, request);
+        renderTable();
+        return request;
+      }
+      function ensureCompetitionViewData(id, force = false) {
+        return LEAGUES[id]?.type === "cup"
+          ? ensureTournamentData(id, force)
+          : ensureLeagueData(id, force);
       }
 
       function normalizeStats(rows) {
@@ -6958,6 +7343,104 @@
         eflcup: loadEflCupDetail,
         dfbpokal: loadDfbPokalDetail,
       };
+
+      const H2H_TEAM_NAMES = {
+        "Paris SG": "Paris Saint-Germain",
+        "Atlético Madrid": "Atletico Madrid",
+        "Bayern München": "Bayern Munich",
+        "Mönchengladbach": "Borussia Monchengladbach",
+        "Köln": "FC Koln",
+        Inter: "Inter Milan",
+        "AS Roma": "Roma",
+        "AC Milan": "Milan",
+        Tottenham: "Tottenham Hotspur",
+      };
+      function h2hSearchName(name) {
+        return String(H2H_TEAM_NAMES[name] || name || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/&/g, "and")
+          .replace(/[^a-zA-Z0-9]+/g, "_")
+          .replace(/^_+|_+$/g, "");
+      }
+      function h2hPairKey(m) {
+        return [h2hSearchName(m.home), h2hSearchName(m.away)]
+          .sort()
+          .join("::")
+          .toLowerCase();
+      }
+      async function loadExternalH2H(m) {
+        const key = h2hPairKey(m),
+          cached = h2hCache.get(key);
+        if (cached && Date.now() - cached.loadedAt < 86400000)
+          return cached.value;
+        if (h2hInflight.has(key)) return h2hInflight.get(key);
+        const request = (async () => {
+          const home = h2hSearchName(m.home),
+            away = h2hSearchName(m.away),
+            seasons = Array.from({ length: 4 }, (_, index) =>
+              SEASON_YEAR - index,
+            ),
+            calls = seasons.flatMap((year) =>
+              [
+                [home, away],
+                [away, home],
+              ].map(([first, second]) =>
+                officialFetch(
+                  `${H2H_API}/searchevents.php?e=${encodeURIComponent(`${first}_vs_${second}`)}&s=${year}-${year + 1}`,
+                  { timeoutMs: 8000 },
+                ),
+              ),
+            ),
+            results = await Promise.allSettled(calls);
+          if (results.every((result) => result.status === "rejected"))
+            throw results[0].reason;
+          const cutoff = Math.min(
+              Date.now() + 60000,
+              m.status === "finished"
+                ? Date.now() + 60000
+                : Date.parse(m.kickoff) - 60000,
+            ),
+            unique = new Map();
+          results.forEach((result) => {
+            if (result.status !== "fulfilled") return;
+            const events = result.value?.event || result.value?.events || [];
+            (Array.isArray(events) ? events : []).forEach((event) => {
+              const when = Date.parse(event.strTimestamp || event.dateEvent || ""),
+                homeScore = Number(event.intHomeScore),
+                awayScore = Number(event.intAwayScore);
+              if (
+                String(event.strSport || "Soccer").toLowerCase() !== "soccer" ||
+                !Number.isFinite(when) ||
+                when >= cutoff ||
+                !Number.isFinite(homeScore) ||
+                !Number.isFinite(awayScore)
+              )
+                return;
+              unique.set(String(event.idEvent || `${when}-${event.strEvent}`), {
+                when,
+                date: new Intl.DateTimeFormat("hu-HU", {
+                  timeZone: APP_TIME_ZONE,
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                }).format(new Date(when)),
+                label: `${event.strHomeTeam || m.home} – ${event.strAwayTeam || m.away}`,
+                score: `${homeScore}:${awayScore}`,
+              });
+            });
+          });
+          const value = [...unique.values()]
+            .sort((a, b) => b.when - a.when)
+            .slice(0, 5)
+            .map(({ when, ...row }) => row);
+          h2hCache.set(key, { value, loadedAt: Date.now() });
+          return value;
+        })().finally(() => h2hInflight.delete(key));
+        h2hInflight.set(key, request);
+        return request;
+      }
+
       function persistMatchDetails(m, detail, requestStartedAt = 0) {
         const previous = detailCache.get(m.id) || {},
           saved = { ...previous, ...detail },
@@ -7016,7 +7499,7 @@
       }
       async function loadMatchDetails(m, force = false) {
         const loader = DETAIL_LOADERS[m?.league];
-        if (!m || !loader) return;
+        if (!m) return;
         const cached = detailCache.get(m.id),
           untilKickoff = Date.parse(m.kickoff) - Date.now(),
           ttl =
@@ -7046,8 +7529,34 @@
         )
           renderSheet();
         const requestStartedAt = Date.now(),
-          request = loader(m)
-            .then((detail) => persistMatchDetails(m, detail, requestStartedAt))
+          officialTask = loader
+            ? loader(m)
+            : Promise.resolve({ detailsComplete: true }),
+          request = Promise.allSettled([officialTask, loadExternalH2H(m)])
+            .then((results) => {
+              const officialResult = results[0],
+                h2hResult = results[1],
+                detail =
+                  officialResult.status === "fulfilled"
+                    ? officialResult.value
+                    : { detailsComplete: false };
+              if (h2hResult.status === "fulfilled") {
+                detail.h2h = h2hResult.value;
+                detail.h2hSourceUrl = "https://www.thesportsdb.com/";
+                detail.h2hError = "";
+              } else {
+                detail.h2hError =
+                  h2hResult.reason?.message || "A H2H-adatforrás most nem válaszolt";
+              }
+              if (officialResult.status === "rejected" && !loader)
+                detail.detailsComplete = true;
+              persistMatchDetails(m, detail, requestStartedAt);
+              if (officialResult.status === "rejected")
+                console.warn(
+                  `${LEAGUES[m.league].name} meccsrészletek:`,
+                  officialResult.reason,
+                );
+            })
             .catch((error) => {
               const detailsError =
                   error?.message || "Hivatalos részletfeed-hiba",
@@ -7111,6 +7620,7 @@
               }
               switchView("matches");
               renderAll();
+              prioritizeSelectedSource();
             }),
         );
         restoreFocus(focus);
@@ -7160,6 +7670,45 @@
           day === 0
         )
           refreshData(false, day, true);
+        else prioritizeSelectedSource();
+      }
+      function prioritizeSelectedSource() {
+        const id = selectedLeague,
+          target = dateKeyForOffset(selectedDay),
+          progress = sourceProgressByDay.get(target);
+        if (
+          id === "all" ||
+          !OFFICIAL_LOADERS?.[id] ||
+          !loadingDays.has(target) ||
+          progress?.has(id)
+        )
+          return;
+        const key = `${target}:${id}`;
+        if (fastLeagueInflight.has(key)) return fastLeagueInflight.get(key);
+        const request = OFFICIAL_LOADERS[id](target, { prefetch: false })
+          .then((value) => {
+            commitSourceProgress(
+              target,
+              selectedDay,
+              id,
+              { status: "fulfilled", value },
+              false,
+            );
+            return value;
+          })
+          .catch((error) => {
+            commitSourceProgress(
+              target,
+              selectedDay,
+              id,
+              { status: "rejected", reason: error },
+              false,
+            );
+            console.warn(`${LEAGUES[id].name} gyors betöltése:`, error);
+          })
+          .finally(() => fastLeagueInflight.delete(key));
+        fastLeagueInflight.set(key, request);
+        return request;
       }
       function visibleMatches() {
         return MATCHES.filter(
@@ -7238,7 +7787,11 @@
         });
         const matches = visibleMatches();
         if (!matches.length) {
-          const loading = loadingDays.has(dateKeyForOffset(selectedDay));
+          const target = dateKeyForOffset(selectedDay),
+            loading =
+              loadingDays.has(target) &&
+              (selectedLeague === "all" ||
+                !sourceProgressByDay.get(target)?.has(selectedLeague));
           $("#matchFeed").innerHTML =
             `${warningHtml()}<div class="empty-state ${loading ? "loading" : ""}"><div class="empty-icon">${icon(loading ? "i-refresh" : favoriteOnly ? "i-star" : "i-calendar")}</div><h3>${loading ? "Hivatalos adatok betöltése…" : favoriteOnly ? "Még nincs kedvenc mérkőzésed" : "Nincs mérkőzés ezen a napon"}</h3><p>${loading ? "A bajnokságok és kupasorozatok hivatalos forrásait ellenőrizzük." : favoriteOnly ? "A csillag ikonra kattintva itt gyűjtheted össze a követni kívánt meccseket." : "A hivatalos források ezen a dátumon nem közölnek mérkőzést, vagy a szűrő nem ad találatot."}</p>${sourceChecks()}</div>`;
           restoreFocus(focus);
@@ -7309,6 +7862,11 @@
       function standingsFor(id) {
         return STANDINGS[id] || [];
       }
+      function tableCompetitionId() {
+        return selectedLeague !== "all" && LEAGUES[selectedLeague]
+          ? selectedLeague
+          : "pl";
+      }
       function standingLeagueId() {
         return selectedLeague !== "all" && LEAGUES[selectedLeague]?.type !== "cup"
           ? selectedLeague
@@ -7333,10 +7891,10 @@
       }
       function leagueSelector(type) {
         return Object.entries(LEAGUES)
-          .filter(([, league]) => league.type !== "cup")
+          .filter(([, league]) => type === "table" || league.type !== "cup")
           .map(
             ([id, l]) =>
-              `<button class="league-pill ${standingLeagueId() === id ? "active" : ""}" data-pick-league="${id}" data-type="${type}">${leagueLogo(id, "sm")}${l.name}</button>`,
+              `<button class="league-pill ${(type === "table" ? tableCompetitionId() : standingLeagueId()) === id ? "active" : ""}" data-pick-league="${id}" data-type="${type}">${leagueLogo(id, "sm")}${l.name}</button>`,
           )
           .join("");
       }
@@ -7348,32 +7906,290 @@
               renderLeagueNav();
               renderMiniTable();
               renderLeagueViews();
-              ensureLeagueData(selectedLeague);
+              if (b.dataset.type === "table")
+                ensureCompetitionViewData(selectedLeague);
+              else ensureLeagueData(selectedLeague);
             }),
         );
       }
+      function stageLabel(value) {
+        const text = String(value || "Kupakör"),
+          key = text.toLowerCase();
+        if (/first qualifying|1st qualifying/.test(key)) return "1. selejtezőkör";
+        if (/second qualifying|2nd qualifying/.test(key)) return "2. selejtezőkör";
+        if (/third qualifying|3rd qualifying/.test(key)) return "3. selejtezőkör";
+        if (/knockout.*play|play.?off.*knockout/.test(key))
+          return "Kieséses rájátszás";
+        if (/play.?off/.test(key)) return "Rájátszás";
+        if (/round of 16|last 16|achtelfinale|ottavi|huitièmes|nyolcad/.test(key))
+          return "Nyolcaddöntő";
+        if (/quarter|viertelfinale|quarti|negyed/.test(key)) return "Negyeddöntő";
+        if (/semi|halbfinale|semifinal|elődöntő/.test(key)) return "Elődöntő";
+        if (/finale|\bfinal\b|döntő/.test(key)) return "Döntő";
+        return text;
+      }
+      function isLeagueStageMatch(match) {
+        const raw = match.raw || {},
+          label = `${match.round || ""} ${raw.round?.metaData?.type || ""}`.toLowerCase();
+        return (
+          raw.round?.mode === "GROUP" ||
+          /league phase|group stage|group standings|ligaszakasz|csoport/.test(label)
+        );
+      }
+      function bracketStages(id, matches) {
+        const groups = new Map(),
+          eflRounds = new Map();
+        if (id === "eflcup") {
+          const byDate = [...matches]
+              .sort((a, b) => String(a.dateKey).localeCompare(String(b.dateKey)))
+              .reduce((map, match) => {
+                if (!map.has(match.dateKey)) map.set(match.dateKey, []);
+                map.get(match.dateKey).push(match);
+                return map;
+              }, new Map()),
+            clusters = [];
+          for (const [date, rows] of byDate) {
+            const last = clusters.at(-1),
+              gap = last
+                ? (Date.parse(`${date}T12:00:00Z`) -
+                    Date.parse(`${last.lastDate}T12:00:00Z`)) /
+                  86400000
+                : Infinity;
+            if (!last || gap > 5)
+              clusters.push({ firstDate: date, lastDate: date, rows: [...rows] });
+            else {
+              last.lastDate = date;
+              last.rows.push(...rows);
+            }
+          }
+          const hasPreliminary = (clusters[0]?.rows.length || 0) <= 4,
+            labels = hasPreliminary
+              ? [
+                  "Előselejtező",
+                  "1. forduló",
+                  "2. forduló",
+                  "3. forduló",
+                  "Nyolcaddöntő",
+                  "Negyeddöntő",
+                  "Elődöntő",
+                  "Döntő",
+                ]
+              : [
+                  "1. forduló",
+                  "2. forduló",
+                  "3. forduló",
+                  "Nyolcaddöntő",
+                  "Negyeddöntő",
+                  "Elődöntő",
+                  "Döntő",
+                ];
+          clusters.forEach((cluster, index) =>
+            cluster.rows.forEach((match) =>
+              eflRounds.set(match.id, {
+                key: `efl-round-${index}`,
+                label: labels[index] || `${index + 1}. forduló`,
+                order: index,
+              }),
+            ),
+          );
+        }
+        matches
+          .filter((match) => !UEFA_TABLE_IDS.has(id) || !isLeagueStageMatch(match))
+          .forEach((match) => {
+            const raw = match.raw || {},
+              eflRound = eflRounds.get(match.id),
+              label = eflRound?.label || stageLabel(match.round),
+              key = String(
+                eflRound?.key || raw.round?.id || raw.matchSet?.id || label,
+              ),
+              order = Number(raw.round?.orderInCompetition),
+              stamp = Date.parse(match.kickoff) || 0;
+            if (!groups.has(key))
+              groups.set(key, {
+                key,
+                label,
+                order: eflRound?.order ?? (Number.isFinite(order) ? order : stamp),
+                firstKickoff: stamp,
+                matches: [],
+              });
+            const group = groups.get(key);
+            group.matches.push(match);
+            group.firstKickoff = Math.min(group.firstKickoff || stamp, stamp);
+          });
+        return [...groups.values()]
+          .sort((a, b) => a.order - b.order || a.firstKickoff - b.firstKickoff)
+          .map((stage) => {
+            const ties = new Map();
+            stage.matches.forEach((match) => {
+              const key = [match.home, match.away]
+                .sort((a, b) => a.localeCompare(b, "hu"))
+                .join("::");
+              if (!ties.has(key)) ties.set(key, []);
+              ties.get(key).push(match);
+            });
+            return {
+              ...stage,
+              ties: [...ties.values()].map((tie) =>
+                tie.sort((a, b) =>
+                  String(a.kickoff).localeCompare(String(b.kickoff)),
+                ),
+              ),
+            };
+          });
+      }
+      function tieScore(tie, team) {
+        let total = 0,
+          hasScore = false;
+        tie.forEach((match) => {
+          const value = match.home === team ? match.hs : match.as;
+          if (value !== null && value !== undefined) {
+            total += Number(value) || 0;
+            hasScore = true;
+          }
+        });
+        return hasScore ? total : null;
+      }
+      function bracketTieMarkup(tie) {
+        const first = tie[0],
+          teams = [first.home, first.away],
+          scores = teams.map((team) => tieScore(tie, team)),
+          winner =
+            scores[0] !== null && scores[1] !== null && scores[0] !== scores[1]
+              ? teams[scores[0] > scores[1] ? 0 : 1]
+              : uefaText(
+                  tie.at(-1)?.raw?.winner?.aggregate?.team ||
+                    tie.at(-1)?.raw?.winner?.match?.team,
+                ) ||
+                tie.at(-1)?.raw?.matchWinner?.name ||
+                tie.at(-1)?.raw?.matchWinner?.officialName,
+          dates = tie.map((match) => match.dateKey).filter(Boolean),
+          dateLabel =
+            dates.length > 1 && dates[0] !== dates.at(-1)
+              ? `${dates[0].slice(5).replace("-", ".")}–${dates.at(-1).slice(5).replace("-", ".")}`
+              : dates[0]?.slice(5).replace("-", ".") || "Időpont később",
+          scoreNote = tie.length > 1 ? `${tie.length} mérkőzés · összesítés` : first.statusLabel,
+          tag = first.id ? "button" : "div";
+        return `<${tag} class="bracket-match"${first.id ? ` data-bracket-match="${esc(first.id)}" aria-label="${esc(`${teams[0]} – ${teams[1]} mérkőzés megnyitása`)}"` : ""}>${teams
+          .map(
+            (team, index) =>
+              `<div class="bracket-team ${winner === team ? "winner" : ""}">${crest(team)}<span>${esc(team)}</span><b>${scores[index] ?? "–"}</b></div>`,
+          )
+          .join("")}<div class="bracket-match-meta"><span>${esc(dateLabel)}</span><span>${esc(scoreNote)}</span></div></${tag}>`;
+      }
+      function pendingBracketMarkup(id) {
+        const stagesByCompetition = {
+            facup: [
+              "1. forduló",
+              "2. forduló",
+              "3. forduló",
+              "4. forduló",
+              "Nyolcaddöntő",
+              "Negyeddöntő",
+              "Elődöntő",
+              "Döntő",
+            ],
+            copadelrey: [
+              "1. forduló",
+              "2. forduló",
+              "3. forduló",
+              "Nyolcaddöntő",
+              "Negyeddöntő",
+              "Elődöntő",
+              "Döntő",
+            ],
+            coupedefrance: [
+              "7. forduló",
+              "8. forduló",
+              "Legjobb 64",
+              "Legjobb 32",
+              "Nyolcaddöntő",
+              "Negyeddöntő",
+              "Elődöntő",
+              "Döntő",
+            ],
+          },
+          labels = stagesByCompetition[id] || [
+            "Következő forduló",
+            "Negyeddöntő",
+            "Elődöntő",
+            "Döntő",
+          ];
+        return `<div class="bracket-shell"><div class="bracket-grid">${labels
+          .map(
+            (label) =>
+              `<section class="bracket-round"><div class="bracket-round-head"><strong>${esc(label)}</strong><span>Sorsolásra vár</span></div><div class="bracket-games"><div class="bracket-match bracket-placeholder"><div><strong>Hivatalos párosításra vár</strong><span>Jelenleg nincs közzétéve</span></div></div></div></section>`,
+          )
+          .join("")}</div></div><div class="bracket-source"><span>A váz nem tartalmaz mintaeredményt; a párosítás még nincs közzétéve.</span><a href="${esc(LEAGUES[id].source)}" target="_blank" rel="noreferrer">Hivatalos forrás ↗</a></div>`;
+      }
+      function bracketMarkup(id) {
+        const state = tournamentCache.get(id),
+          matches = state?.matches?.length
+            ? state.matches
+            : knownTournamentMatches(id),
+          stages = bracketStages(id, matches);
+        if (!stages.length) {
+          const loading = state?.loading || tournamentInflight.has(id);
+          return loading
+            ? `<div class="official-empty"><strong>Hivatalos ágrajz betöltése…</strong>A már ismert párosításokat közvetlenül a sorozat adatforrásából kérjük le.</div>`
+            : pendingBracketMarkup(id);
+        }
+        return `<div class="bracket-shell"><div class="bracket-grid">${stages
+          .map(
+            (stage) =>
+              `<section class="bracket-round"><div class="bracket-round-head"><strong>${esc(stage.label)}</strong><span>${stage.ties.length} párharc</span></div><div class="bracket-games">${stage.ties.map(bracketTieMarkup).join("")}</div></section>`,
+          )
+          .join("")}</div></div><div class="bracket-source"><span>Az ágrajz a hivatalosan közzétett párosításokat mutatja.</span><a href="${esc(LEAGUES[id].source)}" target="_blank" rel="noreferrer">Hivatalos forrás ↗</a></div>`;
+      }
+      function standingsTableMarkup(id, rows) {
+        const isUefa = UEFA_TABLE_IDS.has(id),
+          relCount = 3;
+        if (!rows.length)
+          return `<div class="official-empty"><strong>Még nincs közzétett tabella</strong>A ${esc(LEAGUES[id].name)} hivatalos adatforrása a ligaszakasz kezdetekor közli a rangsort.</div>`;
+        return `<table class="big-table"><thead><tr><th>#</th><th class="team-col">Csapat</th><th>M</th><th>GY</th><th>D</th><th>V</th><th>Gólok</th><th>GK</th><th>Forma</th><th>P</th></tr></thead><tbody>${rows
+          .map((r, i) => {
+            const zone = isUefa
+              ? i < 8
+                ? "zone-cl"
+                : i < 24
+                  ? "zone-el"
+                  : "zone-rel"
+              : i < 4
+                ? "zone-cl"
+                : i === 4
+                  ? "zone-el"
+                  : i >= rows.length - relCount
+                    ? "zone-rel"
+                    : "";
+            return `<tr class="${zone}"><td class="rank-cell">${r.pos}</td><td class="team-col"><span class="table-team">${crest(r.team)}${esc(r.team)}</span></td><td>${r.pl}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${r.gf}:${r.ga}</td><td>${r.gd > 0 ? "+" : ""}${r.gd}</td><td>${formHtml(r.form)}</td><td class="pts">${r.pts}</td></tr>`;
+          })
+          .join("")}</tbody></table>`;
+      }
       function renderTable() {
-        const id = standingLeagueId(),
+        const id = tableCompetitionId(),
           l = LEAGUES[id],
           rows = standingsFor(id),
-          relCount = 3;
-        $("#tableTitle").textContent = l.name + " tabella";
+          isCup = l.type === "cup",
+          isUefa = UEFA_TABLE_IDS.has(id);
+        $("#tableTitle").textContent = isCup
+          ? `${l.name} · ${isUefa ? "tabella és ágrajz" : "ágrajz"}`
+          : l.name + " tabella";
+        $("#tableSubtitle").textContent = isCup
+          ? `Hivatalos sorozatadatok · ${SEASON_YEAR}/${String(SEASON_YEAR + 1).slice(-2)}`
+          : `Összesített · ${SEASON_YEAR}/${String(SEASON_YEAR + 1).slice(-2)}-es szezon`;
+        $("#tableMeta").textContent = isCup ? "Hivatalos párosítások" : "Forma · utolsó 5";
         $('[data-selector="table"]').innerHTML = leagueSelector("table");
-        $("#bigTable").innerHTML = rows.length
-          ? `<table class="big-table"><thead><tr><th>#</th><th class="team-col">Csapat</th><th>M</th><th>GY</th><th>D</th><th>V</th><th>Gólok</th><th>GK</th><th>Forma</th><th>P</th></tr></thead><tbody>${rows
-              .map((r, i) => {
-                const zone =
-                  i < 4
-                    ? "zone-cl"
-                    : i === 4
-                      ? "zone-el"
-                      : i >= rows.length - relCount
-                        ? "zone-rel"
-                        : "";
-                return `<tr class="${zone}"><td class="rank-cell">${r.pos}</td><td class="team-col"><span class="table-team">${crest(r.team)}${esc(r.team)}</span></td><td>${r.pl}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${r.gf}:${r.ga}</td><td>${r.gd > 0 ? "+" : ""}${r.gd}</td><td>${formHtml(r.form)}</td><td class="pts">${r.pts}</td></tr>`;
-              })
-              .join("")}</tbody></table>`
-          : `<div class="official-empty"><strong>Még nincs közzétett tabella</strong>A ${esc(l.name)} hivatalos adatforrása jelenleg nem közöl rangsort.</div>`;
+        $("#bigTable").innerHTML = isCup
+          ? `${isUefa ? standingsTableMarkup(id, rows) : ""}${bracketMarkup(id)}`
+          : standingsTableMarkup(id, rows);
+        $("#tableLegend").innerHTML = isUefa
+          ? '<span><i style="background:var(--blue)"></i>1–8: nyolcaddöntő</span><span><i style="background:var(--amber)"></i>9–24: rájátszás</span><span><i style="background:var(--red)"></i>25–36: kiesés</span>'
+          : isCup
+            ? '<span><i style="background:var(--green-400)"></i>Hivatalos sorsolási ág</span>'
+            : '<span><i style="background:var(--blue)"></i>Bajnokok Ligája</span><span><i style="background:var(--amber)"></i>Európa-liga</span><span><i style="background:var(--red)"></i>Kiesés</span>';
+        $$('[data-bracket-match]', $("#bigTable")).forEach(
+          (button) =>
+            (button.onclick = () => openMatch(button.dataset.bracketMatch)),
+        );
       }
       function renderScorers() {
         const id = standingLeagueId(),
@@ -7499,6 +8315,8 @@
         currentView = view;
         if (view !== "matches" && selectedLeague === "all")
           selectedLeague = "pl";
+        if (view === "scorers" && LEAGUES[selectedLeague]?.type === "cup")
+          selectedLeague = "pl";
         $("#matchesView").hidden = view !== "matches";
         $("#tableView").hidden = view !== "table";
         $("#scorersView").hidden = view !== "scorers";
@@ -7508,7 +8326,8 @@
         renderLeagueViews();
         titleState();
         syncActiveNav();
-        if (view !== "matches") ensureLeagueData(selectedLeague);
+        if (view === "table") ensureCompetitionViewData(selectedLeague);
+        if (view === "scorers") ensureLeagueData(selectedLeague);
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
       function renderAll() {
@@ -7553,7 +8372,6 @@
           ["summary", "Összefoglaló"],
           ["stats", "Statisztikák"],
           ["lineups", "Felállások"],
-          ["odds", "Oddsok"],
           ["h2h", "H2H"],
         ];
         return `<nav class="sheet-tabs" role="tablist" aria-label="Mérkőzésadatok">${tabs.map((t) => `<button class="sheet-tab ${activeSheetTab === t[0] ? "active" : ""}" role="tab" aria-selected="${activeSheetTab === t[0]}" data-sheet-tab="${t[0]}">${t[1]}</button>`).join("")}</nav>`;
@@ -7669,21 +8487,18 @@
           };
         return `<div class="detail-card"><div class="detail-title">Hivatalos felállások <span style="font-size:8px;color:var(--green-800)">HIVATALOS</span></div><div class="pitch-grid">${pitchMarkup(home, m.home)}${pitchMarkup(away, m.away, true)}</div><div class="bench"><div class="bench-col"><strong>${esc(m.home)} · cserepad</strong>${benchMarkup(home)}${home.manager ? `<p><b>Edző:</b> ${esc(home.manager)}</p>` : ""}</div><div class="bench-col"><strong>${esc(m.away)} · cserepad</strong>${benchMarkup(away)}${away.manager ? `<p><b>Edző:</b> ${esc(away.manager)}</p>` : ""}</div></div></div>`;
       }
-      function oddsTab(m) {
-        return officialUnavailable(
-          m,
-          "Nincs hivatalos oddsadat",
-          "A hivatalos bajnokság- és kupaoldalak nem közölnek egységes fogadási odds-feedet, ezért itt nem jelenítünk meg külső vagy mintaadatot.",
-        );
-      }
       function h2hTab(m) {
-        if (!m.h2h?.length)
+        if (!m.h2h?.length) {
+          if (m.detailsLoading) return detailLoadingCard();
           return officialUnavailable(
             m,
-            "Nincs hivatalos H2H-adat",
-            "Ehhez a párosításhoz a jelenlegi liga-feed nem közöl egymás elleni mérleget.",
+            "Nincs elérhető H2H-adat",
+            m.h2hError
+              ? "Az egymás elleni eredmények adatforrása most nem válaszolt; a következő megnyitáskor újrapróbáljuk."
+              : "Ehhez a párosításhoz nem találtunk korábbi mérkőzést az elmúlt négy szezonból.",
           );
-        return `<div class="detail-card">${m.h2h.map((r) => `<div class="h2h-match"><time>${esc(r.date)}</time><span>${esc(r.label)}</span><b>${esc(r.score)}</b></div>`).join("")}</div>`;
+        }
+        return `<div class="detail-card"><div class="detail-title">Legutóbbi egymás elleni mérkőzések <a href="${esc(m.h2hSourceUrl || "https://www.thesportsdb.com/")}" target="_blank" rel="noreferrer" style="font-size:8px;color:var(--green-800)">FORRÁS ↗</a></div>${m.h2h.map((r) => `<div class="h2h-match"><time>${esc(r.date)}</time><span>${esc(r.label)}</span><b>${esc(r.score)}</b></div>`).join("")}</div>`;
       }
       async function shareMatch(m) {
         const text = `${m.home} – ${m.away} ${m.hs ?? ""}:${m.as ?? ""} · BotlandScore`;
@@ -7709,7 +8524,6 @@
             summary: summaryTab,
             stats: statsTab,
             lineups: lineupsTab,
-            odds: oddsTab,
             h2h: h2hTab,
           };
         host.innerHTML =
@@ -7736,7 +8550,10 @@
       function openMatch(id) {
         activeMatch =
           MATCHES.find((m) => m.id === id) ||
-          [...matchCache.values()].flat().find((m) => m.id === id);
+          [...matchCache.values()].flat().find((m) => m.id === id) ||
+          [...tournamentCache.values()]
+            .flatMap((entry) => entry.matches || [])
+            .find((m) => m.id === id);
         if (!activeMatch) return;
         const backdrop = $("#sheetBackdrop");
         if (!backdrop.classList.contains("open"))
@@ -7817,6 +8634,7 @@
               switchView("matches");
               closeSearch();
               renderAll();
+              prioritizeSelectedSource();
             }),
         );
         $$("[data-search-team]").forEach(
@@ -7829,6 +8647,7 @@
               switchView("matches");
               closeSearch();
               renderAll();
+              prioritizeSelectedSource();
               showToast(`${selectedTeam} mérkőzései`);
             }),
         );
@@ -7874,19 +8693,91 @@
         coupedefrance: loadCoupeDeFrance,
       };
       const refreshInflight = new Map(),
-        refreshQueuedDays = new Set();
+        refreshQueuedDays = new Set(),
+        sourceProgressByDay = new Map(),
+        fastLeagueInflight = new Map();
       let nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS,
         refreshTimer = null,
         refreshing = false,
         refreshCycle = 0,
-        activeRefreshes = 0;
+        activeRefreshes = 0,
+        progressRenderFrame = null;
+      function sortDayMatches(matches) {
+        return matches.sort(
+          (a, b) =>
+            String(a.kickoff).localeCompare(String(b.kickoff)) ||
+            a.league.localeCompare(b.league),
+        );
+      }
+      function queueProgressRender() {
+        if (progressRenderFrame !== null) return;
+        progressRenderFrame = requestAnimationFrame(() => {
+          progressRenderFrame = null;
+          renderAll();
+        });
+      }
+      function commitSourceProgress(target, day, id, result, prefetch) {
+        sourceProgressByDay.get(target)?.add(id);
+        const current = matchCache.get(target) || [],
+          errors = new Set(matchErrorCache.get(target) || []);
+        let merged = current;
+        if (result.status === "fulfilled") {
+          merged = sortDayMatches([
+            ...current.filter((match) => match.league !== id),
+            ...result.value.map((match) => ({ ...match, day })),
+          ]);
+          errors.delete(id);
+          if (!prefetch) DATA_STATUS[id] = "ok";
+        } else {
+          errors.add(id);
+          if (!prefetch) DATA_STATUS[id] = "error";
+        }
+        matchCache.set(target, merged);
+        matchErrorCache.set(target, [...errors]);
+        if (dateKeyForOffset(selectedDay) === target) {
+          MATCHES = merged.map((match) => ({ ...match, day: selectedDay }));
+          loadErrors = [...errors];
+          if (selectedLeague === "all" || selectedLeague === id)
+            queueProgressRender();
+        }
+      }
       async function loadDateBundle(target, day, { prefetch = false } = {}) {
         loadingDays.add(target);
+        sourceProgressByDay.set(target, new Set());
         if (dateKeyForOffset(selectedDay) === target) renderFeed();
         try {
-          const ids = Object.keys(OFFICIAL_LOADERS),
+          const priorityId =
+              dateKeyForOffset(selectedDay) === target &&
+              selectedLeague !== "all"
+                ? selectedLeague
+                : "",
+            ids = Object.keys(OFFICIAL_LOADERS).sort(
+              (a, b) => Number(b === priorityId) - Number(a === priorityId),
+            ),
             results = await Promise.allSettled(
-              ids.map((id) => OFFICIAL_LOADERS[id](target, { prefetch })),
+              ids.map((id) =>
+                OFFICIAL_LOADERS[id](target, { prefetch })
+                  .then((value) => {
+                    commitSourceProgress(
+                      target,
+                      day,
+                      id,
+                      { status: "fulfilled", value },
+                      prefetch,
+                    );
+                    return value;
+                  })
+                  .catch((error) => {
+                    commitSourceProgress(
+                      target,
+                      day,
+                      id,
+                      { status: "rejected", reason: error },
+                      prefetch,
+                    );
+                    throw error;
+                  }),
+              ),
             ),
             previous = matchCache.get(target) || [],
             next = [],
@@ -7912,14 +8803,11 @@
                 );
             }
           });
-          next.sort(
-            (a, b) =>
-              String(a.kickoff).localeCompare(String(b.kickoff)) ||
-              a.league.localeCompare(b.league),
-          );
+          sortDayMatches(next);
           return { matches: next, errors, states };
         } finally {
           loadingDays.delete(target);
+          sourceProgressByDay.delete(target);
           if (dateKeyForOffset(selectedDay) === target) renderFeed();
         }
       }
@@ -7944,6 +8832,7 @@
                 target,
                 bundle.matches.map((m) => ({ ...m })),
               );
+              queueSchedulePersistence();
               matchErrorCache.set(target, [...bundle.errors]);
               if (bundle.errors.length < Object.keys(OFFICIAL_LOADERS).length)
                 matchLoadedAt.set(target, Date.now());
@@ -7958,7 +8847,9 @@
               }
             }
           };
-          await Promise.all([worker(), worker()]);
+          await Promise.all(
+            Array.from({ length: PREFETCH_DAYS }, () => worker()),
+          );
           document.documentElement.dataset.weekPrefetch = partial
             ? "partial"
             : "ready";
@@ -8033,6 +8924,7 @@
               target,
               bundle.matches.map((m) => ({ ...m })),
             );
+            queueSchedulePersistence();
             matchErrorCache.set(target, [...bundle.errors]);
             notifyFavoriteChanges(previousMatches, bundle.matches);
             if (dateKeyForOffset(selectedDay) === target) {
@@ -8280,8 +9172,11 @@
         weekPrefetchPromise = null;
         laligaPrefetchWeeks.clear();
         serieAPrefetchDays.clear();
+        coppaPrefetchDays.clear();
         bundesPrefetchDays.clear();
         ligue1PrefetchWeeks.clear();
+        uefaPrefetchDays.clear();
+        uefaSnapshots.clear();
         renderAll();
         if (activeMatch && $("#sheetBackdrop").classList.contains("open"))
           renderSheet();
@@ -8311,6 +9206,13 @@
             `Utolsó hivatalos frissítés: ${new Intl.DateTimeFormat("hu-HU", { timeZone: APP_TIME_ZONE, hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(loadedAt)}`;
       }
       async function boot() {
+        const hydrated = hydrateScheduleCache(),
+          cachedToday = matchCache.get(dateKeyForOffset(0));
+        if (cachedToday)
+          MATCHES = cachedToday.map((match) => ({ ...match, day: 0 }));
+        document.documentElement.dataset.scheduleCache = hydrated
+          ? "hit"
+          : "miss";
         renderAll();
         updateClock();
         setInterval(updateClock, 1000);
