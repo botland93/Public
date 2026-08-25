@@ -4225,6 +4225,9 @@
         tournamentCache = new Map(),
         tournamentInflight = new Map(),
         loadingDays = new Set();
+      const sourceResultCache = new Map(),
+        sourceRequestInflight = new Map(),
+        lastFullScheduleRefresh = new Map();
       const laligaPrefetchWeeks = new Map(),
         serieAPrefetchDays = new Map(),
         coppaPrefetchDays = new Map(),
@@ -4250,7 +4253,8 @@
         federationCupChecks = new Map(),
         weekPrefetchPromise = null,
         prefetchRetryTimer = null,
-        schedulePersistTimer = null;
+        schedulePersistTimer = null,
+        detailPersistTimer = null;
 
       const TEAM_NAME_FIXES = {
         "AFC Bournemouth": "Bournemouth",
@@ -4330,7 +4334,8 @@
       function dateForOffset(offset) {
         return new Date(`${dateKeyForOffset(offset)}T12:00:00Z`);
       }
-      const SCHEDULE_CACHE_KEY = "botland_schedule_v3",
+      const SCHEDULE_CACHE_KEY = "botland_schedule_v4",
+        DETAIL_CACHE_KEY = "botland_details_v1",
         SCHEDULE_CACHE_FIELDS = [
           "id",
           "dateKey",
@@ -4354,11 +4359,36 @@
           "source",
           "sourceUrl",
         ];
+      function compactScheduleRaw(match) {
+        const raw = match.raw || {};
+        if (match.league === "laliga")
+          return {
+            slug: raw.slug,
+            id: raw.id,
+            match_id: raw.match_id,
+            home_team: raw.home_team?.id ? { id: raw.home_team.id } : null,
+            away_team: raw.away_team?.id ? { id: raw.away_team.id } : null,
+            home_formation: raw.home_formation,
+            away_formation: raw.away_formation,
+          };
+        if (match.league === "bundes")
+          return {
+            dflDatalibraryCompetitionId: raw.dflDatalibraryCompetitionId,
+            dflDatalibrarySeasonId: raw.dflDatalibrarySeasonId,
+            dflDatalibraryMatchdayId: raw.dflDatalibraryMatchdayId,
+            dflDatalibraryMatchId: raw.dflDatalibraryMatchId,
+            matchId: raw.matchId,
+          };
+        if (match.league === "eflcup" || match.league === "dfbpokal")
+          return { detailUrl: raw.detailUrl };
+        return { matchId: raw.matchId, id: raw.id };
+      }
       function compactScheduleMatch(match) {
         const compact = {};
         SCHEDULE_CACHE_FIELDS.forEach((key) => (compact[key] = match[key]));
         compact.homeLogo = TEAM_LOGOS[match.home] || "";
         compact.awayLogo = TEAM_LOGOS[match.away] || "";
+        compact.raw = compactScheduleRaw(match);
         return compact;
       }
       function persistScheduleCache() {
@@ -4372,7 +4402,7 @@
               days[date] = matches.map(compactScheduleMatch);
           storageSet(
             SCHEDULE_CACHE_KEY,
-            JSON.stringify({ version: 3, savedAt: Date.now(), days }),
+            JSON.stringify({ version: 4, savedAt: Date.now(), days }),
           );
         } catch {}
       }
@@ -4382,13 +4412,21 @@
       }
       function hydrateScheduleCache() {
         try {
-          const saved = JSON.parse(storageGet(SCHEDULE_CACHE_KEY, "null"));
-          if (!saved || saved.version !== 3 || !saved.days) return false;
+          const current = storageGet(SCHEDULE_CACHE_KEY, ""),
+            saved = JSON.parse(
+              current || storageGet("botland_schedule_v3", "null"),
+            );
+          if (
+            !saved ||
+            ![3, 4].includes(saved.version) ||
+            !saved.days
+          )
+            return false;
           const age = Date.now() - Number(saved.savedAt || 0);
           let hydrated = false;
           Object.entries(saved.days).forEach(([date, rows]) => {
             const offset = dateOffsetFromToday(date),
-              maxAge = offset === 0 ? 120000 : 6 * 3600000;
+              maxAge = 24 * 3600000;
             if (offset < 0 || offset > 7 || age > maxAge || !Array.isArray(rows))
               return;
             const matches = rows
@@ -4398,7 +4436,7 @@
                 if (row.awayLogo) TEAM_LOGOS[row.away] = row.awayLogo;
                 registerTeam(row.league, row.home, row.homeLogo);
                 registerTeam(row.league, row.away, row.awayLogo);
-                return makeMatch({ ...row, raw: null });
+                return makeMatch({ ...row, raw: row.raw || null });
               })
               .map((match) => ({ ...match, day: offset }));
             matchCache.set(date, matches);
@@ -4406,6 +4444,50 @@
             hydrated = true;
           });
           return hydrated;
+        } catch {
+          return false;
+        }
+      }
+      function persistDetailCache() {
+        try {
+          const entries = [...detailCache.entries()]
+            .filter(([, value]) => value?.detailsLoadedAt || value?.h2hLoadedAt)
+            .sort(
+              (a, b) =>
+                Math.max(b[1].detailsLoadedAt || 0, b[1].h2hLoadedAt || 0) -
+                Math.max(a[1].detailsLoadedAt || 0, a[1].h2hLoadedAt || 0),
+            )
+            .slice(0, 30);
+          storageSet(
+            DETAIL_CACHE_KEY,
+            JSON.stringify({ version: 1, savedAt: Date.now(), entries }),
+          );
+        } catch {}
+      }
+      function queueDetailPersistence() {
+        clearTimeout(detailPersistTimer);
+        detailPersistTimer = setTimeout(persistDetailCache, 180);
+      }
+      function hydrateDetailCache() {
+        try {
+          const saved = JSON.parse(storageGet(DETAIL_CACHE_KEY, "null"));
+          if (!saved || saved.version !== 1 || !Array.isArray(saved.entries))
+            return false;
+          const oldestAllowed = Date.now() - 7 * 86400000;
+          saved.entries.forEach(([id, value]) => {
+            if (
+              id &&
+              value &&
+              Math.max(value.detailsLoadedAt || 0, value.h2hLoadedAt || 0) >=
+                oldestAllowed
+            )
+              detailCache.set(String(id), {
+                ...value,
+                detailsLoading: false,
+                h2hLoading: false,
+              });
+          });
+          return detailCache.size > 0;
         } catch {
           return false;
         }
@@ -4522,7 +4604,7 @@
           );
         try {
           const response = await fetch(url, {
-            cache: "no-store",
+            cache: options.cacheMode || "no-cache",
             headers: { Accept: "application/json", ...(options.headers || {}) },
             signal: controller.signal,
           });
@@ -4540,7 +4622,7 @@
           );
         try {
           const response = await fetch(url, {
-            cache: "no-store",
+            cache: options.cacheMode || "no-cache",
             headers: { Accept: "text/html,text/plain,*/*", ...(options.headers || {}) },
             signal: controller.signal,
           });
@@ -6482,9 +6564,15 @@
             .concat(
               `${LALIGA_API}/matches/${encodeURIComponent(slug)}?contentLanguage=es&subscription-key=${LALIGA_KEY}`,
             ),
-          results = await Promise.allSettled(
-            urls.map((url) => officialFetch(url)),
-          );
+          requests = urls.map((url) => officialFetch(url));
+        requests[1]
+          .then((statsJson) =>
+            publishPartialMatchDetails(m, {
+              stats: mapLaLigaDetail(m.raw || {}, {}, statsJson, {}, {}).stats,
+            }),
+          )
+          .catch(() => {});
+        const results = await Promise.allSettled(requests);
         if (results.every((r) => r.status === "rejected"))
           throw results[0].reason;
         return {
@@ -6650,12 +6738,20 @@
           base = `${SERIE_A_API}/seasons/${encodeURIComponent(seasonId)}`,
           plural = `${base}/matches/${matchId}`,
           singular = `${base}/match/${matchId}`,
-          results = await Promise.allSettled([
+          requests = [
             officialFetch(`${plural}/feed?locale=en-GB`),
             officialFetch(`${singular}/teamstats?locale=en-GB`),
             officialFetch(`${plural}/lineups?locale=en-GB`),
             officialFetch(`${singular}/matchfacts?locale=en-GB`),
-          ]);
+          ];
+        requests[1]
+          .then((teamStats) =>
+            publishPartialMatchDetails(m, {
+              stats: mapSerieADetail(m.raw || {}, {}, teamStats, {}, {}).stats,
+            }),
+          )
+          .catch(() => {});
+        const results = await Promise.allSettled(requests);
         if (results.every((r) => r.status === "rejected"))
           throw results[0].reason;
         return {
@@ -6845,9 +6941,13 @@
             `${PL_API}/v3/matches/${id}/lineups`,
             `${PL_API}/v1/matches/${id}/officials`,
           ],
-          results = await Promise.allSettled(
-            urls.map((url) => officialFetch(url)),
-          );
+          requests = urls.map((url) => officialFetch(url));
+        requests[2]
+          .then((stats) =>
+            publishPartialMatchDetails(m, { stats: mapPremierStats(stats) }),
+          )
+          .catch(() => {});
+        const results = await Promise.allSettled(requests);
         if (results.every((result) => result.status === "rejected"))
           throw results[0].reason;
         const value = (index, fallback) =>
@@ -7063,11 +7163,17 @@
       async function loadBundesDetail(m) {
         const { comp, season, day, match } = bundesIds(m),
           path = `${comp}/seasons/${season}/matchdays/${day}/${match}`,
-          results = await Promise.allSettled([
+          requests = [
             officialFetch(`${BUNDES_API}/all/${path}/stats.json?donotcache`),
             officialFetch(`${BUNDES_API}/all/${path}/lineup.json?donotcache`),
             officialFetch(`${BUNDES_API}/en/${path}.json?donotcache`),
-          ]);
+          ];
+        requests[0]
+          .then((stats) =>
+            publishPartialMatchDetails(m, { stats: mapBundesStats(stats) }),
+          )
+          .catch(() => {});
+        const results = await Promise.allSettled(requests);
         if (results.every((result) => result.status === "rejected"))
           throw results[0].reason;
         const value = (index, fallback) =>
@@ -7254,30 +7360,15 @@
           });
         return { home: mapSide(raw.homeTeam), away: mapSide(raw.awayTeam) };
       }
-      async function loadUefaDetail(match) {
-        const matchId = match.raw?.id || match.id.replace(/^[^-]+-/, ""),
-          options = { timeoutMs: 20000 },
-          results = await Promise.allSettled([
-            uefaOfficialFetch(`/matches/${encodeURIComponent(matchId)}`, options),
-            uefaOfficialFetch(
-              `/matches/${encodeURIComponent(matchId)}/lineups`,
-              options,
-            ),
-            uefaOfficialFetch(
-              `/matches/${encodeURIComponent(matchId)}/events?filter=LINEUP&order=ASC&limit=200&offset=0`,
-              options,
-            ),
-            officialMirrorJson(
-              `https://matchstats.uefa.com/v1/team-statistics/${encodeURIComponent(matchId)}`,
-              options,
-            ),
-          ]);
-        if (results[0].status === "rejected") throw results[0].reason;
-        const raw = results[0].value,
-          lineupRaw = results[1].status === "fulfilled" ? results[1].value : {},
-          eventRaw = results[2].status === "fulfilled" ? results[2].value : [],
-          statsRaw = results[3].status === "fulfilled" ? results[3].value : [],
-          status = statusOf(raw.status),
+      function mapUefaDetail(
+        match,
+        raw,
+        statsRaw = [],
+        lineupRaw = {},
+        eventRaw = [],
+        detailsComplete = false,
+      ) {
+        const status = statusOf(raw.status),
           minute =
             raw.minute?.minute || raw.minuteOfPlay || raw.clock?.minute || match.minute;
         return {
@@ -7296,8 +7387,52 @@
           minute: minute ? String(minute).replace(/\D/g, "") : "",
           status,
           statusLabel: statusText(raw.status, status),
-          detailsComplete: results.every((result) => result.status === "fulfilled"),
+          detailsComplete,
         };
+      }
+      async function loadUefaDetail(match) {
+        const matchId = match.raw?.id || match.id.replace(/^[^-]+-/, ""),
+          encodedId = encodeURIComponent(matchId),
+          raw = await uefaOfficialFetch(`/matches/${encodedId}`, {
+            timeoutMs: 20000,
+            urgent: true,
+          });
+        publishPartialMatchDetails(match, mapUefaDetail(match, raw));
+        const statsRequest = officialMirrorJson(
+            `https://matchstats.uefa.com/v1/team-statistics/${encodedId}`,
+            { timeoutMs: 20000, urgent: true },
+          ),
+          lineupRequest = uefaOfficialFetch(`/matches/${encodedId}/lineups`, {
+            timeoutMs: 20000,
+          }),
+          eventRequest = uefaOfficialFetch(
+            `/matches/${encodedId}/events?filter=LINEUP&order=ASC&limit=200&offset=0`,
+            { timeoutMs: 20000 },
+          );
+        statsRequest
+          .then((stats) =>
+            publishPartialMatchDetails(match, {
+              stats: mapUefaStats(stats, raw),
+            }),
+          )
+          .catch(() => {});
+        const results = await Promise.allSettled([
+            statsRequest,
+            lineupRequest,
+            eventRequest,
+          ]),
+          value = (index, fallback) =>
+            results[index].status === "fulfilled"
+              ? results[index].value
+              : fallback;
+        return mapUefaDetail(
+          match,
+          raw,
+          value(0, []),
+          value(1, {}),
+          value(2, []),
+          results.every((result) => result.status === "fulfilled"),
+        );
       }
       async function loadEflCupDetail(match) {
         if (!match.raw?.detailUrl) return {};
@@ -7441,6 +7576,45 @@
         return request;
       }
 
+      function syncMatchDetailState(m, saved) {
+        Object.assign(m, saved);
+        for (const list of matchCache.values())
+          for (const item of list)
+            if (item.id === m.id) Object.assign(item, saved);
+        if (activeMatch?.id === m.id) Object.assign(activeMatch, saved);
+      }
+      function publishPartialMatchDetails(m, detail) {
+        const previous = detailCache.get(m.id) || {},
+          saved = {
+            ...previous,
+            ...detail,
+            detailsLoading: true,
+            detailsComplete: false,
+            detailsError: "",
+          },
+          hasLineup = (value) =>
+            (value?.home?.starters?.length || 0) +
+              (value?.away?.starters?.length || 0) >
+            0;
+        for (const key of ["events", "stats"])
+          if (
+            Array.isArray(detail[key]) &&
+            !detail[key].length &&
+            Array.isArray(previous[key]) &&
+            previous[key].length
+          )
+            saved[key] = previous[key];
+        if (!hasLineup(detail.lineups) && hasLineup(previous.lineups))
+          saved.lineups = previous.lineups;
+        detailCache.set(m.id, saved);
+        syncMatchDetailState(m, saved);
+        queueDetailPersistence();
+        if (
+          activeMatch?.id === m.id &&
+          $("#sheetBackdrop").classList.contains("open")
+        )
+          renderSheet();
+      }
       function persistMatchDetails(m, detail, requestStartedAt = 0) {
         const previous = detailCache.get(m.id) || {},
           saved = { ...previous, ...detail },
@@ -7491,15 +7665,72 @@
           ? ""
           : "A hivatalos részletfeed egy része átmenetileg nem érhető el";
         detailCache.set(m.id, saved);
-        Object.assign(m, saved);
-        for (const list of matchCache.values())
-          for (const item of list)
-            if (item.id === m.id) Object.assign(item, saved);
-        if (activeMatch?.id === m.id) Object.assign(activeMatch, saved);
+        syncMatchDetailState(m, saved);
+        queueDetailPersistence();
+      }
+      function persistH2HDetails(m, detail) {
+        const previous = detailCache.get(m.id) || {},
+          saved = {
+            ...previous,
+            ...detail,
+            h2hLoadedAt: Date.now(),
+            h2hLoading: false,
+          };
+        if (
+          Array.isArray(detail.h2h) &&
+          !detail.h2h.length &&
+          Array.isArray(previous.h2h) &&
+          previous.h2h.length
+        )
+          saved.h2h = previous.h2h;
+        detailCache.set(m.id, saved);
+        syncMatchDetailState(m, saved);
+        queueDetailPersistence();
+      }
+      async function loadMatchH2H(m) {
+        const cached = detailCache.get(m.id);
+        const ttl = cached?.h2hError ? 60000 : 86400000;
+        if (
+          cached &&
+          Date.now() - (cached.h2hLoadedAt || 0) < ttl
+        ) {
+          Object.assign(m, cached);
+          return cached.h2h || [];
+        }
+        if (m.h2hLoading) return [];
+        m.h2hLoading = true;
+        m.h2hError = "";
+        if (
+          activeMatch?.id === m.id &&
+          $("#sheetBackdrop").classList.contains("open")
+        )
+          renderSheet();
+        try {
+          const h2h = await loadExternalH2H(m);
+          persistH2HDetails(m, {
+            h2h,
+            h2hSourceUrl: "https://www.thesportsdb.com/",
+            h2hError: "",
+          });
+          return h2h;
+        } catch (error) {
+          persistH2HDetails(m, {
+            h2hError:
+              error?.message || "A H2H-adatforrás most nem válaszolt",
+          });
+          return [];
+        } finally {
+          if (
+            activeMatch?.id === m.id &&
+            $("#sheetBackdrop").classList.contains("open")
+          )
+            renderSheet();
+        }
       }
       async function loadMatchDetails(m, force = false) {
-        const loader = DETAIL_LOADERS[m?.league];
         if (!m) return;
+        const loader = DETAIL_LOADERS[m.league];
+        if (activeSheetTab === "h2h") loadMatchH2H(m);
         const cached = detailCache.get(m.id),
           untilKickoff = Date.parse(m.kickoff) - Date.now(),
           ttl =
@@ -7532,46 +7763,20 @@
           officialTask = loader
             ? loader(m)
             : Promise.resolve({ detailsComplete: true }),
-          request = Promise.allSettled([officialTask, loadExternalH2H(m)])
-            .then((results) => {
-              const officialResult = results[0],
-                h2hResult = results[1],
-                detail =
-                  officialResult.status === "fulfilled"
-                    ? officialResult.value
-                    : { detailsComplete: false };
-              if (h2hResult.status === "fulfilled") {
-                detail.h2h = h2hResult.value;
-                detail.h2hSourceUrl = "https://www.thesportsdb.com/";
-                detail.h2hError = "";
-              } else {
-                detail.h2hError =
-                  h2hResult.reason?.message || "A H2H-adatforrás most nem válaszolt";
-              }
-              if (officialResult.status === "rejected" && !loader)
-                detail.detailsComplete = true;
-              persistMatchDetails(m, detail, requestStartedAt);
-              if (officialResult.status === "rejected")
-                console.warn(
-                  `${LEAGUES[m.league].name} meccsrészletek:`,
-                  officialResult.reason,
-                );
-            })
+          request = officialTask
+            .then((detail) => persistMatchDetails(m, detail, requestStartedAt))
             .catch((error) => {
               const detailsError =
                   error?.message || "Hivatalos részletfeed-hiba",
-                failed = { detailsLoading: false, detailsError };
-              Object.assign(m, failed);
-              const prior = detailCache.get(m.id);
-              if (prior)
-                Object.assign(prior, failed, {
-                  detailsComplete: false,
-                  detailsLoadedAt: 0,
-                });
-              for (const list of matchCache.values())
-                for (const item of list)
-                  if (item.id === m.id) Object.assign(item, failed);
-              if (activeMatch?.id === m.id) Object.assign(activeMatch, failed);
+                failed = { detailsLoading: false, detailsError },
+                prior = detailCache.get(m.id) || {};
+              Object.assign(prior, failed, {
+                detailsComplete: false,
+                detailsLoadedAt: 0,
+              });
+              detailCache.set(m.id, prior);
+              syncMatchDetailState(m, prior);
+              queueDetailPersistence();
               console.warn(`${LEAGUES[m.league].name} meccsrészletek:`, error);
             })
             .finally(() => {
@@ -7679,13 +7884,12 @@
         if (
           id === "all" ||
           !OFFICIAL_LOADERS?.[id] ||
-          !loadingDays.has(target) ||
           progress?.has(id)
         )
           return;
         const key = `${target}:${id}`;
         if (fastLeagueInflight.has(key)) return fastLeagueInflight.get(key);
-        const request = OFFICIAL_LOADERS[id](target, { prefetch: false })
+        const request = loadScheduleSource(id, target, { prefetch: false })
           .then((value) => {
             commitSourceProgress(
               target,
@@ -8489,7 +8693,8 @@
       }
       function h2hTab(m) {
         if (!m.h2h?.length) {
-          if (m.detailsLoading) return detailLoadingCard();
+          if (m.h2hLoading)
+            return `<div class="detail-card"><div class="official-empty"><strong>H2H-adatok betöltése…</strong>A korábbi egymás elleni mérkőzéseket a háttérben, a hivatalos statisztikáktól függetlenül töltjük le.</div></div>`;
           return officialUnavailable(
             m,
             "Nincs elérhető H2H-adat",
@@ -8675,6 +8880,7 @@
       };
       const REFRESH_INTERVAL_MS = 5000,
         BACKGROUND_REFRESH_MS = 15000,
+        FULL_SCHEDULE_REFRESH_MS = 45000,
         PREFETCH_DAYS = 7;
       const OFFICIAL_LOADERS = {
         pl: loadPremierLeague,
@@ -8709,6 +8915,75 @@
             a.league.localeCompare(b.league),
         );
       }
+      function sourceCacheTtl(id, target, prefetch = false) {
+        if (prefetch || target !== dateKeyForOffset(0)) return 300000;
+        const now = Date.now(),
+          matches = (matchCache.get(target) || []).filter(
+            (match) => match.league === id,
+          ),
+          timeSensitive = matches.some((match) => {
+            const kickoff = Date.parse(match.kickoff);
+            return (
+              match.status === "live" ||
+              (match.status === "upcoming" &&
+                kickoff <= now + 15 * 60000 &&
+                kickoff >= now - 4 * 3600000)
+            );
+          });
+        return timeSensitive ? 3000 : 20000;
+      }
+      function loadScheduleSource(
+        id,
+        target,
+        { prefetch = false, force = false } = {},
+      ) {
+        const key = `${target}:${id}`,
+          cached = sourceResultCache.get(key),
+          ttl = sourceCacheTtl(id, target, prefetch);
+        if (!force && cached && Date.now() - cached.loadedAt < ttl)
+          return Promise.resolve(cached.value);
+        if (sourceRequestInflight.has(key))
+          return sourceRequestInflight.get(key);
+        const request = OFFICIAL_LOADERS[id](target, { prefetch })
+          .then((value) => {
+            sourceResultCache.set(key, { value, loadedAt: Date.now() });
+            return value;
+          })
+          .finally(() => sourceRequestInflight.delete(key));
+        sourceRequestInflight.set(key, request);
+        return request;
+      }
+      function scheduleRefreshSources(target, day, manual = false) {
+        const allIds = Object.keys(OFFICIAL_LOADERS);
+        if (
+          manual ||
+          day !== 0 ||
+          !lastFullScheduleRefresh.has(target) ||
+          Date.now() - lastFullScheduleRefresh.get(target) >=
+            FULL_SCHEDULE_REFRESH_MS
+        )
+          return allIds;
+        const ids = new Set(),
+          now = Date.now(),
+          todayMatches = matchCache.get(target) || [];
+        if (selectedLeague !== "all" && OFFICIAL_LOADERS[selectedLeague])
+          ids.add(selectedLeague);
+        todayMatches.forEach((match) => {
+          const kickoff = Date.parse(match.kickoff),
+            nearKickoff =
+              match.status === "upcoming" &&
+              kickoff <= now + 15 * 60000 &&
+              kickoff >= now - 4 * 3600000;
+          if (match.status === "live" || nearKickoff) ids.add(match.league);
+        });
+        if (
+          activeMatch?.dateKey === target &&
+          (activeMatch.status === "live" ||
+            Date.parse(activeMatch.kickoff) <= now + 15 * 60000)
+        )
+          ids.add(activeMatch.league);
+        return [...ids];
+      }
       function queueProgressRender() {
         if (progressRenderFrame !== null) return;
         progressRenderFrame = requestAnimationFrame(() => {
@@ -8734,6 +9009,7 @@
         }
         matchCache.set(target, merged);
         matchErrorCache.set(target, [...errors]);
+        if (result.status === "fulfilled") queueSchedulePersistence();
         if (dateKeyForOffset(selectedDay) === target) {
           MATCHES = merged.map((match) => ({ ...match, day: selectedDay }));
           loadErrors = [...errors];
@@ -8741,7 +9017,32 @@
             queueProgressRender();
         }
       }
-      async function loadDateBundle(target, day, { prefetch = false } = {}) {
+      async function settledMapWithLimit(items, limit, task) {
+        const results = new Array(items.length);
+        let cursor = 0;
+        const worker = async () => {
+          while (cursor < items.length) {
+            const index = cursor++;
+            try {
+              results[index] = {
+                status: "fulfilled",
+                value: await task(items[index]),
+              };
+            } catch (reason) {
+              results[index] = { status: "rejected", reason };
+            }
+          }
+        };
+        await Promise.all(
+          Array.from({ length: Math.min(limit, items.length) }, () => worker()),
+        );
+        return results;
+      }
+      async function loadDateBundle(
+        target,
+        day,
+        { prefetch = false, sourceIds = null, force = false } = {},
+      ) {
         loadingDays.add(target);
         sourceProgressByDay.set(target, new Set());
         if (dateKeyForOffset(selectedDay) === target) renderFeed();
@@ -8751,46 +9052,54 @@
               selectedLeague !== "all"
                 ? selectedLeague
                 : "",
-            ids = Object.keys(OFFICIAL_LOADERS).sort(
+            ids = (sourceIds || Object.keys(OFFICIAL_LOADERS)).sort(
               (a, b) => Number(b === priorityId) - Number(a === priorityId),
-            ),
-            results = await Promise.allSettled(
-              ids.map((id) =>
-                OFFICIAL_LOADERS[id](target, { prefetch })
-                  .then((value) => {
-                    commitSourceProgress(
-                      target,
-                      day,
-                      id,
-                      { status: "fulfilled", value },
-                      prefetch,
-                    );
-                    return value;
-                  })
-                  .catch((error) => {
-                    commitSourceProgress(
-                      target,
-                      day,
-                      id,
-                      { status: "rejected", reason: error },
-                      prefetch,
-                    );
-                    throw error;
-                  }),
+            );
+          const fetchSource = (id) =>
+              loadScheduleSource(id, target, { prefetch, force })
+                .then((value) => {
+                  commitSourceProgress(
+                    target,
+                    day,
+                    id,
+                    { status: "fulfilled", value },
+                    prefetch,
+                  );
+                  return value;
+                })
+                .catch((error) => {
+                  commitSourceProgress(
+                    target,
+                    day,
+                    id,
+                    { status: "rejected", reason: error },
+                    prefetch,
+                  );
+                  throw error;
+                }),
+            results = prefetch
+              ? await settledMapWithLimit(ids, 3, fetchSource)
+              : await Promise.allSettled(ids.map(fetchSource)),
+            previous = matchCache.get(target) || [],
+            requested = new Set(ids),
+            next = previous
+              .filter((match) => !requested.has(match.league))
+              .map((match) => ({ ...match, day })),
+            errors = new Set(
+              (matchErrorCache.get(target) || []).filter(
+                (id) => !requested.has(id),
               ),
             ),
-            previous = matchCache.get(target) || [],
-            next = [],
-            errors = [],
             states = {};
           results.forEach((result, index) => {
             const id = ids[index];
             if (result.status === "fulfilled") {
               states[id] = "ok";
+              errors.delete(id);
               next.push(...result.value.map((m) => ({ ...m, day })));
             } else {
               states[id] = "error";
-              errors.push(id);
+              errors.add(id);
               next.push(
                 ...previous
                   .filter((m) => m.league === id)
@@ -8804,7 +9113,7 @@
             }
           });
           sortDayMatches(next);
-          return { matches: next, errors, states };
+          return { matches: next, errors: [...errors], states, requestedIds: ids };
         } finally {
           loadingDays.delete(target);
           sourceProgressByDay.delete(target);
@@ -8815,6 +9124,11 @@
         if (weekPrefetchPromise) return weekPrefetchPromise;
         document.documentElement.dataset.weekPrefetch = "loading";
         weekPrefetchPromise = (async () => {
+          await new Promise((resolve) => {
+            if ("requestIdleCallback" in window)
+              window.requestIdleCallback(resolve, { timeout: 1200 });
+            else setTimeout(resolve, 500);
+          });
           const queue = Array.from({ length: PREFETCH_DAYS }, (_, i) => i + 1);
           let partial = false;
           const worker = async () => {
@@ -8848,7 +9162,7 @@
             }
           };
           await Promise.all(
-            Array.from({ length: PREFETCH_DAYS }, () => worker()),
+            Array.from({ length: 2 }, () => worker()),
           );
           document.documentElement.dataset.weekPrefetch = partial
             ? "partial"
@@ -8893,7 +9207,14 @@
         queueIfBusy = manual,
       ) {
         const requestedDay = Number(dayOverride ?? 0),
-          target = dateKeyForOffset(requestedDay);
+          target = dateKeyForOffset(requestedDay),
+          sourceIds = scheduleRefreshSources(target, requestedDay, manual);
+        if (!sourceIds.length) {
+          document.documentElement.dataset.lastRefreshAttempt =
+            new Date().toISOString();
+          document.documentElement.dataset.lastRefreshTarget = target;
+          return matchCache.get(target) || [];
+        }
         if (refreshInflight.has(target)) {
           if (queueIfBusy) refreshQueuedDays.add(target);
           return refreshInflight.get(target);
@@ -8914,9 +9235,16 @@
           }
           try {
             const previousMatches = matchCache.get(target) || [],
-              bundle = await loadDateBundle(target, dayAtStart),
-              successCount =
-                Object.keys(OFFICIAL_LOADERS).length - bundle.errors.length;
+              bundle = await loadDateBundle(target, dayAtStart, {
+                sourceIds,
+                force: manual,
+              }),
+              failedRequested = bundle.requestedIds.filter((id) =>
+                bundle.errors.includes(id),
+              ).length,
+              successCount = bundle.requestedIds.length - failedRequested;
+            if (bundle.requestedIds.length === Object.keys(OFFICIAL_LOADERS).length)
+              lastFullScheduleRefresh.set(target, Date.now());
             Object.entries(bundle.states).forEach(
               ([id, state]) => (DATA_STATUS[id] = state),
             );
@@ -9206,11 +9534,15 @@
             `Utolsó hivatalos frissítés: ${new Intl.DateTimeFormat("hu-HU", { timeZone: APP_TIME_ZONE, hour: "2-digit", minute: "2-digit", second: "2-digit" }).format(loadedAt)}`;
       }
       async function boot() {
-        const hydrated = hydrateScheduleCache(),
+        const detailsHydrated = hydrateDetailCache(),
+          hydrated = hydrateScheduleCache(),
           cachedToday = matchCache.get(dateKeyForOffset(0));
         if (cachedToday)
           MATCHES = cachedToday.map((match) => ({ ...match, day: 0 }));
         document.documentElement.dataset.scheduleCache = hydrated
+          ? "hit"
+          : "miss";
+        document.documentElement.dataset.detailCache = detailsHydrated
           ? "hit"
           : "miss";
         renderAll();
@@ -9219,7 +9551,7 @@
         startPolling();
         await refreshData(false, 0, false);
         prefetchWeekOnce();
-        Object.keys(LEAGUES).forEach((id) => ensureLeagueData(id));
+        ensureLeagueData(selectedLeague === "all" ? "pl" : selectedLeague);
       }
       boot();
     </script>
