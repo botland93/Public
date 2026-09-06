@@ -4227,7 +4227,10 @@
         loadingDays = new Set();
       const sourceResultCache = new Map(),
         sourceRequestInflight = new Map(),
-        lastFullScheduleRefresh = new Map();
+        lastFullScheduleRefresh = new Map(),
+        sourceFetchedAt = new Map(),
+        liveSourceInflight = new Map(),
+        jsonRequestInflight = new Map();
       const laligaPrefetchWeeks = new Map(),
         serieAPrefetchDays = new Map(),
         coppaPrefetchDays = new Map(),
@@ -4396,13 +4399,18 @@
           const allowed = new Set(
               Array.from({ length: 8 }, (_, day) => dateKeyForOffset(day)),
             ),
-            days = {};
+            days = {},
+            checkedAt = {},
+            errors = {};
           for (const [date, matches] of matchCache)
-            if (allowed.has(date))
+            if (allowed.has(date)) {
               days[date] = matches.map(compactScheduleMatch);
+              checkedAt[date] = matchLoadedAt.get(date) || 0;
+              errors[date] = matchErrorCache.get(date) || [];
+            }
           storageSet(
             SCHEDULE_CACHE_KEY,
-            JSON.stringify({ version: 4, savedAt: Date.now(), days }),
+            JSON.stringify({ version: 4, savedAt: Date.now(), days, checkedAt, errors }),
           );
         } catch {}
       }
@@ -4440,7 +4448,9 @@
               })
               .map((match) => ({ ...match, day: offset }));
             matchCache.set(date, matches);
-            matchLoadedAt.set(date, Number(saved.savedAt || Date.now()));
+            // Saving another day must never make an old fixture list fresh.
+            matchLoadedAt.set(date, Number(saved.checkedAt?.[date] || 0));
+            matchErrorCache.set(date, (saved.errors?.[date] || []).filter((id) => LEAGUES[id]));
             hydrated = true;
           });
           return hydrated;
@@ -4587,7 +4597,7 @@
           },
           cached = detailCache.get(match.id);
         if (!cached) return match;
-        Object.assign(match, cached);
+        applyCachedDetails(match, cached);
         match.status = data.status;
         match.statusLabel = data.statusLabel || statusText("", data.status);
         match.minute = data.minute || cached.minute || "";
@@ -4596,7 +4606,15 @@
         if (data.half) match.half = data.half;
         return match;
       }
-      async function officialFetch(url, options = {}) {
+      function officialFetch(url, options = {}) {
+        const key = JSON.stringify([url, options.headers || {}, options.cacheMode || "no-cache", options.timeoutMs || 4500]);
+        if (jsonRequestInflight.has(key)) return jsonRequestInflight.get(key);
+        const request = fetchOfficialJson(url, options)
+          .finally(() => jsonRequestInflight.delete(key));
+        jsonRequestInflight.set(key, request);
+        return request;
+      }
+      async function fetchOfficialJson(url, options = {}) {
         const controller = new AbortController(),
           timeout = setTimeout(
             () => controller.abort(),
@@ -4745,6 +4763,8 @@
           headers: LIGUE1_HEADERS,
         });
       function cachedPromise(map, key, loader) {
+        const existing = map.get(key);
+        if (existing?.expiresAt && existing.expiresAt <= Date.now()) map.delete(key);
         if (!map.has(key))
           map.set(
             key,
@@ -4755,6 +4775,8 @@
                 throw error;
               }),
           );
+        // Round/week snapshots also expire while the page stays open.
+        map.get(key).expiresAt ||= Date.now() + 300000;
         return map.get(key);
       }
       function plKickoff(match) {
@@ -7542,14 +7564,14 @@
             const events = result.value?.event || result.value?.events || [];
             (Array.isArray(events) ? events : []).forEach((event) => {
               const when = Date.parse(event.strTimestamp || event.dateEvent || ""),
-                homeScore = Number(event.intHomeScore),
-                awayScore = Number(event.intAwayScore);
+                homeScore = finiteScore(event.intHomeScore),
+                awayScore = finiteScore(event.intAwayScore);
               if (
                 String(event.strSport || "Soccer").toLowerCase() !== "soccer" ||
                 !Number.isFinite(when) ||
                 when >= cutoff ||
-                !Number.isFinite(homeScore) ||
-                !Number.isFinite(awayScore)
+                homeScore === null ||
+                awayScore === null
               )
                 return;
               unique.set(String(event.idEvent || `${when}-${event.strEvent}`), {
@@ -7576,12 +7598,24 @@
         return request;
       }
 
+      const SCORE_FIELDS = ["status", "statusLabel", "minute", "hs", "as", "half", "red"];
+      function applyCachedDetails(m, cached) {
+        // A detail/H2H cache is not a newer scoreboard or a running request.
+        const fields = { ...cached };
+        for (const key of [...SCORE_FIELDS, "detailsLoading", "h2hLoading"]) delete fields[key];
+        Object.assign(m, fields);
+        m.detailsLoading = detailInflight.has(m.id);
+        m.h2hLoading = matchH2HInflight.has(m.id);
+      }
+      const matchH2HInflight = new Map();
       function syncMatchDetailState(m, saved) {
-        Object.assign(m, saved);
+        const fields = { ...saved };
+        for (const key of SCORE_FIELDS) delete fields[key];
+        Object.assign(m, fields);
         for (const list of matchCache.values())
           for (const item of list)
-            if (item.id === m.id) Object.assign(item, saved);
-        if (activeMatch?.id === m.id) Object.assign(activeMatch, saved);
+            if (item.id === m.id) Object.assign(item, fields);
+        if (activeMatch?.id === m.id) Object.assign(activeMatch, fields);
       }
       function publishPartialMatchDetails(m, detail) {
         const previous = detailCache.get(m.id) || {},
@@ -7647,7 +7681,7 @@
         ])
           if (!present(saved[key]))
             saved[key] = [previous[key], m[key]].find(present) ?? saved[key];
-        if ((matchLoadedAt.get(m.dateKey) || 0) > requestStartedAt)
+        if ((sourceFetchedAt.get(`${m.dateKey}:${m.league}`) || 0) > requestStartedAt)
           for (const key of [
             "status",
             "statusLabel",
@@ -7658,6 +7692,17 @@
             "red",
           ])
             saved[key] = m[key];
+        // Only this fresh official response may update the current scoreboard.
+        const score = {};
+        for (const key of SCORE_FIELDS) {
+          if (Object.hasOwn(detail, key) && saved[key] != null) score[key] = saved[key];
+          delete saved[key];
+        }
+        Object.assign(m, score);
+        for (const list of matchCache.values())
+          for (const item of list)
+            if (item.id === m.id) Object.assign(item, score);
+        if (activeMatch?.id === m.id) Object.assign(activeMatch, score);
         saved.detailsComplete = detail.detailsComplete !== false;
         saved.detailsLoadedAt = Date.now();
         saved.detailsLoading = false;
@@ -7684,6 +7729,8 @@
         )
           saved.h2h = previous.h2h;
         detailCache.set(m.id, saved);
+        // An H2H result must not end an official details request in progress.
+        saved.detailsLoading = detailInflight.has(m.id);
         syncMatchDetailState(m, saved);
         queueDetailPersistence();
       }
@@ -7694,10 +7741,10 @@
           cached &&
           Date.now() - (cached.h2hLoadedAt || 0) < ttl
         ) {
-          Object.assign(m, cached);
+          applyCachedDetails(m, cached);
           return cached.h2h || [];
         }
-        if (m.h2hLoading) return [];
+        if (matchH2HInflight.has(m.id)) return matchH2HInflight.get(m.id);
         m.h2hLoading = true;
         m.h2hError = "";
         if (
@@ -7706,7 +7753,9 @@
         )
           renderSheet();
         try {
-          const h2h = await loadExternalH2H(m);
+          const request = loadExternalH2H(m);
+          matchH2HInflight.set(m.id, request);
+          const h2h = await request;
           persistH2HDetails(m, {
             h2h,
             h2hSourceUrl: "https://www.thesportsdb.com/",
@@ -7720,6 +7769,7 @@
           });
           return [];
         } finally {
+          matchH2HInflight.delete(m.id);
           if (
             activeMatch?.id === m.id &&
             $("#sheetBackdrop").classList.contains("open")
@@ -7748,7 +7798,7 @@
           cached &&
           Date.now() - (cached.detailsLoadedAt || 0) < ttl
         ) {
-          Object.assign(m, cached);
+          applyCachedDetails(m, cached);
           return;
         }
         if (detailInflight.has(m.id)) return detailInflight.get(m.id);
@@ -7760,9 +7810,9 @@
         )
           renderSheet();
         const requestStartedAt = Date.now(),
-          officialTask = loader
+          officialTask = Promise.resolve().then(() => loader
             ? loader(m)
-            : Promise.resolve({ detailsComplete: true }),
+            : { detailsComplete: true }),
           request = officialTask
             .then((detail) => persistMatchDetails(m, detail, requestStartedAt))
             .catch((error) => {
@@ -7880,6 +7930,7 @@
       function prioritizeSelectedSource() {
         const id = selectedLeague,
           target = dateKeyForOffset(selectedDay),
+          requestedDay = selectedDay,
           progress = sourceProgressByDay.get(target);
         if (
           id === "all" ||
@@ -7893,7 +7944,7 @@
           .then((value) => {
             commitSourceProgress(
               target,
-              selectedDay,
+              requestedDay,
               id,
               { status: "fulfilled", value },
               false,
@@ -7903,7 +7954,7 @@
           .catch((error) => {
             commitSourceProgress(
               target,
-              selectedDay,
+              requestedDay,
               id,
               { status: "rejected", reason: error },
               false,
@@ -8416,9 +8467,10 @@
           : `<div class="official-empty"><strong>Még nincs hivatalos góllövőlista</strong>A ${esc(l.name)} oldaláról nem érkezett játékosranglista ehhez a szezonhoz.</div>`;
       }
       function renderLeagueViews() {
+        if (currentView === "matches") return;
         const focus = focusSnapshot();
-        renderTable();
-        renderScorers();
+        if (currentView === "table") renderTable();
+        if (currentView === "scorers") renderScorers();
         bindLeagueSelectors();
         restoreFocus(focus);
       }
@@ -8899,8 +8951,9 @@
         coupedefrance: loadCoupeDeFrance,
       };
       const refreshInflight = new Map(),
-        refreshQueuedDays = new Set(),
+        refreshQueuedDays = new Map(),
         sourceProgressByDay = new Map(),
+        dayLoadingCount = new Map(),
         fastLeagueInflight = new Map();
       let nextRefreshAt = Date.now() + REFRESH_INTERVAL_MS,
         refreshTimer = null,
@@ -8944,9 +8997,11 @@
           return Promise.resolve(cached.value);
         if (sourceRequestInflight.has(key))
           return sourceRequestInflight.get(key);
-        const request = OFFICIAL_LOADERS[id](target, { prefetch })
+        const request = Promise.resolve().then(() => OFFICIAL_LOADERS[id](target, { prefetch }))
           .then((value) => {
-            sourceResultCache.set(key, { value, loadedAt: Date.now() });
+            const checkedAt = Date.now();
+            sourceResultCache.set(key, { value, loadedAt: checkedAt });
+            sourceFetchedAt.set(key, checkedAt);
             return value;
           })
           .finally(() => sourceRequestInflight.delete(key));
@@ -8979,7 +9034,8 @@
         if (
           activeMatch?.dateKey === target &&
           (activeMatch.status === "live" ||
-            Date.parse(activeMatch.kickoff) <= now + 15 * 60000)
+            (activeMatch.status === "upcoming" &&
+              Date.parse(activeMatch.kickoff) <= now + 15 * 60000))
         )
           ids.add(activeMatch.league);
         return [...ids];
@@ -8997,9 +9053,17 @@
           errors = new Set(matchErrorCache.get(target) || []);
         let merged = current;
         if (result.status === "fulfilled") {
+          // The same request can be shared by a poll and a date preload.
+          // Always commit the most recent source snapshot and detail cache.
+          const rows = sourceResultCache.get(`${target}:${id}`)?.value || result.value;
           merged = sortDayMatches([
             ...current.filter((match) => match.league !== id),
-            ...result.value.map((match) => ({ ...match, day })),
+            ...rows.map((match) => {
+              const row = { ...match, day };
+              const cached = detailCache.get(row.id);
+              if (cached) applyCachedDetails(row, cached);
+              return row;
+            }),
           ]);
           errors.delete(id);
           if (!prefetch) DATA_STATUS[id] = "ok";
@@ -9009,6 +9073,14 @@
         }
         matchCache.set(target, merged);
         matchErrorCache.set(target, [...errors]);
+        if (result.status === "fulfilled") {
+          notifyFavoriteChanges(current.filter((match) => match.league === id), merged.filter((match) => match.league === id));
+          if (activeMatch?.league === id && activeMatch.dateKey === target) {
+            const fresh = merged.find((match) => match.id === activeMatch.id);
+            if (fresh) Object.assign(activeMatch, fresh);
+            if ($("#sheetBackdrop").classList.contains("open")) renderSheet();
+          }
+        }
         if (result.status === "fulfilled") queueSchedulePersistence();
         if (dateKeyForOffset(selectedDay) === target) {
           MATCHES = merged.map((match) => ({ ...match, day: selectedDay }));
@@ -9038,13 +9110,25 @@
         );
         return results;
       }
+      function beginDayLoading(target) {
+        dayLoadingCount.set(target, (dayLoadingCount.get(target) || 0) + 1);
+        loadingDays.add(target);
+        if (!sourceProgressByDay.has(target)) sourceProgressByDay.set(target, new Set());
+      }
+      function endDayLoading(target) {
+        const remaining = (dayLoadingCount.get(target) || 1) - 1;
+        if (remaining > 0) { dayLoadingCount.set(target, remaining); return; }
+        dayLoadingCount.delete(target);
+        loadingDays.delete(target);
+        sourceProgressByDay.delete(target);
+        if (dateKeyForOffset(selectedDay) === target) renderFeed();
+      }
       async function loadDateBundle(
         target,
         day,
         { prefetch = false, sourceIds = null, force = false } = {},
       ) {
-        loadingDays.add(target);
-        sourceProgressByDay.set(target, new Set());
+        beginDayLoading(target);
         if (dateKeyForOffset(selectedDay) === target) renderFeed();
         try {
           const priorityId =
@@ -9096,7 +9180,9 @@
             if (result.status === "fulfilled") {
               states[id] = "ok";
               errors.delete(id);
-              next.push(...result.value.map((m) => ({ ...m, day })));
+              // A faster live poll may have updated this source while another
+              // source in this bundle was still pending. Do not roll it back.
+              next.push(...previous.filter((m) => m.league === id).map((m) => ({ ...m, day })));
             } else {
               states[id] = "error";
               errors.add(id);
@@ -9115,9 +9201,7 @@
           sortDayMatches(next);
           return { matches: next, errors: [...errors], states, requestedIds: ids };
         } finally {
-          loadingDays.delete(target);
-          sourceProgressByDay.delete(target);
-          if (dateKeyForOffset(selectedDay) === target) renderFeed();
+          endDayLoading(target);
         }
       }
       async function prefetchWeekOnce() {
@@ -9129,41 +9213,36 @@
               window.requestIdleCallback(resolve, { timeout: 1200 });
             else setTimeout(resolve, 500);
           });
-          const queue = Array.from({ length: PREFETCH_DAYS }, (_, i) => i + 1);
+          const anchor = todayAnchorKey,
+            days = Array.from({ length: PREFETCH_DAYS }, (_, i) => {
+              const day = i + 1, target = shiftDateKey(anchor, day);
+              return { day, target };
+            }).filter(({target}) => !matchCache.has(target) ||
+              (matchErrorCache.get(target) || []).length ||
+              Date.now() - (matchLoadedAt.get(target) || 0) >= 300000),
+            ids = Object.keys(OFFICIAL_LOADERS),
+            remaining = new Map(days.map(({target}) => [target, ids.length]));
+          days.forEach(({target}) => beginDayLoading(target));
+          // Finish each fast source's entire week before slow cup mirrors.
+          // Four background requests at most; selected-date requests bypass it.
+          const tasks = ids.flatMap(id => days.map(day => ({...day, id})));
           let partial = false;
-          const worker = async () => {
-            while (queue.length) {
-              const day = queue.shift(),
-                target = dateKeyForOffset(day),
-                knownErrors = matchErrorCache.get(target) || [],
-                fresh = Date.now() - (matchLoadedAt.get(target) || 0) < 300000;
-              if (matchCache.has(target) && !knownErrors.length && fresh)
-                continue;
-              const bundle = await loadDateBundle(target, day, {
-                prefetch: true,
-              });
-              matchCache.set(
-                target,
-                bundle.matches.map((m) => ({ ...m })),
-              );
-              queueSchedulePersistence();
-              matchErrorCache.set(target, [...bundle.errors]);
-              if (bundle.errors.length < Object.keys(OFFICIAL_LOADERS).length)
-                matchLoadedAt.set(target, Date.now());
-              if (bundle.errors.length) partial = true;
-              if (dateKeyForOffset(selectedDay) === target) {
-                MATCHES = (matchCache.get(target) || []).map((m) => ({
-                  ...m,
-                  day: selectedDay,
-                }));
-                loadErrors = [...bundle.errors];
-                renderAll();
+          await settledMapWithLimit(tasks, 4, async ({target, id}) => {
+            try {
+              const value = await loadScheduleSource(id, target, {prefetch:true});
+              commitSourceProgress(target, dateOffsetFromToday(target), id, {status:'fulfilled',value}, true);
+            } catch (reason) {
+              partial = true;
+              commitSourceProgress(target, dateOffsetFromToday(target), id, {status:'rejected',reason}, true);
+            } finally {
+              remaining.set(target, remaining.get(target) - 1);
+              if (!remaining.get(target)) {
+                if (!(matchErrorCache.get(target) || []).length) matchLoadedAt.set(target, Date.now());
+                endDayLoading(target);
+                queueSchedulePersistence();
               }
             }
-          };
-          await Promise.all(
-            Array.from({ length: 2 }, () => worker()),
-          );
+          });
           document.documentElement.dataset.weekPrefetch = partial
             ? "partial"
             : "ready";
@@ -9197,9 +9276,33 @@
         nextRefreshAt = Date.now() + interval;
         refreshTimer = setInterval(() => {
           nextRefreshAt = Date.now() + interval;
-          if (!document.hidden || canPollInBackground())
+          if (!document.hidden || canPollInBackground()) {
+            // Slow mirrors must not hold the entire day's live scoreboard.
+            if (refreshInflight.has(dateKeyForOffset(0))) refreshLiveSources();
+            if (activeMatch && $("#sheetBackdrop").classList.contains("open"))
+              loadMatchDetails(activeMatch);
             refreshData(false, 0, false);
+          }
         }, interval);
+      }
+      function refreshLiveSources() {
+        const target = dateKeyForOffset(0), now = Date.now();
+        const ids = new Set((matchCache.get(target) || []).filter((m) =>
+          m.status === "live" || (m.status === "upcoming" &&
+            Date.parse(m.kickoff) <= now + 15 * 60000 &&
+            Date.parse(m.kickoff) >= now - 4 * 3600000)
+        ).map((m) => m.league));
+        return Promise.allSettled([...ids].map((id) => {
+          const key = `${target}:${id}`;
+          if (liveSourceInflight.has(key)) return liveSourceInflight.get(key);
+          if (sourceRequestInflight.has(key)) return sourceRequestInflight.get(key);
+          const request = loadScheduleSource(id, target)
+            .then((value) => commitSourceProgress(target, 0, id, { status: "fulfilled", value }, false))
+            .catch((reason) => commitSourceProgress(target, 0, id, { status: "rejected", reason }, false))
+            .finally(() => liveSourceInflight.delete(key));
+          liveSourceInflight.set(key, request);
+          return request;
+        }));
       }
       async function refreshData(
         manual = false,
@@ -9216,7 +9319,7 @@
           return matchCache.get(target) || [];
         }
         if (refreshInflight.has(target)) {
-          if (queueIfBusy) refreshQueuedDays.add(target);
+          if (queueIfBusy) refreshQueuedDays.set(target, manual || refreshQueuedDays.get(target) || false);
           return refreshInflight.get(target);
         }
         const request = (async () => {
@@ -9234,8 +9337,7 @@
             refreshIcon.style.transition = "transform .5s";
           }
           try {
-            const previousMatches = matchCache.get(target) || [],
-              bundle = await loadDateBundle(target, dayAtStart, {
+            const bundle = await loadDateBundle(target, dayAtStart, {
                 sourceIds,
                 force: manual,
               }),
@@ -9254,7 +9356,6 @@
             );
             queueSchedulePersistence();
             matchErrorCache.set(target, [...bundle.errors]);
-            notifyFavoriteChanges(previousMatches, bundle.matches);
             if (dateKeyForOffset(selectedDay) === target) {
               MATCHES = bundle.matches.map((m) => ({ ...m, day: selectedDay }));
               loadErrors = bundle.errors;
@@ -9264,7 +9365,8 @@
             document.documentElement.dataset.lastRefreshTarget = target;
             if (successCount > 0) {
               loadedAt = new Date();
-              matchLoadedAt.set(target, Date.now());
+              if (bundle.requestedIds.length === Object.keys(OFFICIAL_LOADERS).length && !bundle.errors.length)
+                matchLoadedAt.set(target, Date.now());
               refreshCycle += 1;
               document.documentElement.dataset.refreshCycle =
                 String(refreshCycle);
@@ -9297,7 +9399,7 @@
                 );
             }
             const dataLeague = selectedLeague === "all" ? "pl" : selectedLeague;
-            ensureLeagueData(dataLeague);
+            if (currentView !== "matches") ensureLeagueData(dataLeague);
             if (successCount > 0)
               console.info(
                 `[BotlandScore] hivatalos frissítés #${refreshCycle}: ${target}, ${bundle.matches.length} mérkőzés, ${bundle.errors.length} forráshiba`,
@@ -9334,9 +9436,10 @@
             }
             updateClock();
             if (refreshQueuedDays.has(target)) {
+              const queuedManual = refreshQueuedDays.get(target);
               refreshQueuedDays.delete(target);
               const queuedOffset = dateOffsetFromToday(target);
-              queueMicrotask(() => refreshData(false, queuedOffset, false));
+              queueMicrotask(() => refreshData(queuedManual, queuedOffset, false));
             }
           }
         })();
@@ -9549,9 +9652,10 @@
         updateClock();
         setInterval(updateClock, 1000);
         startPolling();
-        await refreshData(false, 0, false);
-        prefetchWeekOnce();
-        ensureLeagueData(selectedLeague === "all" ? "pl" : selectedLeague);
+        const initialRefresh = refreshData(false, 0, false);
+        // Nearby dates should not wait for the slowest source on today's list.
+        setTimeout(() => prefetchWeekOnce(), 1200);
+        await initialRefresh;
       }
       boot();
     </script>
