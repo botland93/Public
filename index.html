@@ -17,7 +17,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
 
   <script>
     (function () {
@@ -45,8 +45,9 @@
       --gold-soft: #f7f0df;
       --green: #17724f;
       --shadow: 0 20px 55px rgba(34, 34, 69, 0.08);
-      --font-display: "Fraunces", Georgia, serif;
-      --font-body: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Inter Tight", "Arial Narrow", sans-serif;
+      --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-label: "IBM Plex Mono", ui-monospace, monospace;
       --container: 1180px;
       --radius: 14px;
     }
@@ -348,9 +349,11 @@
     .hero-grid {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(290px, 0.7fr);
-      gap: clamp(3rem, 8vw, 7rem);
-      align-items: center;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero-content {
+      min-width: 0;
     }
 
     .eyebrow,
@@ -358,9 +361,10 @@
     .card-label {
       margin: 0 0 1rem;
       color: var(--indigo);
-      font-size: 0.73rem;
+      font-family: var(--font-label);
+      font-size: 0.95rem;
       font-weight: 700;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
     }
 
@@ -379,7 +383,7 @@
     h1 {
       margin-bottom: 1.25rem;
       font-size: clamp(4.3rem, 8vw, 6.6rem);
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: -0.055em;
       line-height: 0.93;
       word-spacing: 0.06em;
@@ -397,7 +401,7 @@
     }
 
     .hero-copy {
-      max-width: 720px;
+      max-width: 1020px;
       margin-bottom: 1.15rem;
       color: var(--text-soft);
       font-size: clamp(1rem, 1.5vw, 1.14rem);
@@ -527,7 +531,7 @@
     }
 
     .section {
-      padding-block: clamp(4.8rem, 9vw, 7.4rem);
+      padding-block: clamp(3rem, 5.5vw, 4.6rem);
       border-bottom: 1px solid var(--line);
       scroll-margin-top: 70px;
     }
@@ -541,7 +545,7 @@
       grid-template-columns: minmax(170px, 0.42fr) minmax(0, 1.58fr);
       gap: clamp(2rem, 7vw, 7rem);
       align-items: start;
-      margin-bottom: clamp(2rem, 5vw, 4rem);
+      margin-bottom: clamp(1.6rem, 3vw, 2.6rem);
     }
 
     .section-heading h2 {
@@ -892,6 +896,7 @@
     .privacy {
       max-width: 620px;
       text-align: right;
+      scroll-margin-block: 1.5rem;
     }
 
     .privacy summary {
@@ -1055,7 +1060,7 @@
       }
 
       .section {
-        padding-block: 2.5rem;
+        padding-block: 2rem;
       }
 
       .section-heading {
@@ -1256,7 +1261,7 @@
     @media (max-width: 390px) {
       .eyebrow {
         margin-bottom: 0.6rem;
-        font-size: 0.62rem;
+        font-size: 0.82rem;
       }
 
       h1 {
@@ -1351,7 +1356,10 @@
         "Project coordination",
         "Process improvement",
         "Business-IT coordination",
-        "Structured data and reporting"
+      "Structured data and reporting",
+      "Communications",
+      "Content creation",
+      "Content management"
       ]
     }
   </script>
@@ -1407,7 +1415,7 @@
         <div class="hero-content rv">
           <p class="eyebrow">Digital operations · IT coordination</p>
           <h1>Botond Nagy</h1>
-          <p class="hero-role">Digital Operations | Business–IT Coordination</p>
+          <p class="hero-role">Digital Operations | Business–IT Coordination | Communications</p>
           <p class="hero-copy">
             I have over 10 years of experience in project coordination and digital operations. I manage internal systems, work with IT specialists and help improve digital processes. My work includes understanding user needs, coordinating changes, testing solutions and supporting colleagues.
           </p>
@@ -1417,27 +1425,6 @@
           </div>
         </div>
 
-        <aside class="profile-card rv" aria-label="Professional profile summary">
-          <div class="profile-head">
-            <div>
-              <strong>At a glance</strong>
-            </div>
-          </div>
-          <dl class="profile-list">
-            <div>
-              <dt>Focus</dt>
-              <dd>Digital Operations</dd>
-            </div>
-            <div>
-              <dt>Experience</dt>
-              <dd>10+ years</dd>
-            </div>
-            <div>
-              <dt>Strength</dt>
-              <dd>Business–IT Coordination</dd>
-            </div>
-          </dl>
-        </aside>
       </div>
     </section>
 
@@ -1446,10 +1433,11 @@
         <div class="section-heading">
           <p class="section-label">About</p>
           <div>
-            <h2>Projects and digital systems</h2>
+            <h2>Projects, systems and communications</h2>
             <div class="about-copy rv">
               <p>I have worked in project coordination and management for more than 10 years. Over time, digital systems and process improvement have become an important part of my work. Today, I combine project management with IT coordination, system administration, data workflows and user support.</p>
               <p>My work connects colleagues’ practical needs with technical implementation. I turn those needs into clear tasks for external IT partners, follow progress, test the results and document changes for everyday use.</p>
+              <p>Across both roles, I have handled communications, created communication materials and coordinated their production.</p>
             </div>
           </div>
         </div>
@@ -1480,6 +1468,7 @@
               <li>Coordinate with an external IT team and a GDPR expert on system security and personal-data handling.</li>
               <li>Manage complex Excel-based data processing and support wider process improvements.</li>
               <li>Coordinate events and partner-related operational activities.</li>
+              <li>Handle communications, create communication materials and coordinate their production.</li>
             </ul>
           </article>
 
@@ -1492,7 +1481,7 @@
             <ul class="responsibilities">
               <li>Worked with teachers, local-government representatives and public-sector stakeholders in environmental programmes.</li>
               <li>Coordinated communication with international partners.</li>
-              <li>Supported multi-partner projects, events, websites, publications and communication materials.</li>
+              <li>Created communication materials and coordinated their production for multi-partner projects, alongside websites, publications and events.</li>
               <li>Helped align different institutions, expectations and deliverables.</li>
             </ul>
           </article>
@@ -1593,12 +1582,15 @@
 
         <div class="skills-grid">
           <article class="skill-card rv">
-            <h3>Digital Operations</h3>
+            <h3>Digital Operations & Communications</h3>
             <ul class="skill-list">
               <li>Internal system administration</li>
               <li>User support</li>
               <li>Digital workflows</li>
               <li>Website content operations</li>
+              <li>Communication</li>
+              <li>Content Creation</li>
+              <li>Content Management</li>
               <li>Documentation</li>
             </ul>
           </article>
@@ -1630,7 +1622,7 @@
             <h3>Web & Emerging Tools</h3>
             <ul class="skill-list">
               <li>WordPress / CMS</li>
-              <li>Basic HTML, CSS and JavaScript understanding</li>
+              <li>Website content management</li>
               <li>Website testing</li>
               <li>AI-assisted task support</li>
               <li>GitHub Pages</li>
@@ -1654,11 +1646,11 @@
             <h3>Education</h3>
             <ul class="credential-list">
               <li>
-                <strong>Sapientia Hungarian University of Transylvania (EMTE)</strong>
-                <span>Public Relations · 2012–2015</span>
+                <strong>Sapientia Hungarian University of Transylvania</strong>
+                <span>Communication and Public Relations · 2012–2015</span>
               </li>
               <li>
-                <strong>Colegiul Național “Unirea”</strong>
+                <strong>“Unirea” National High School</strong>
                 <span>Natural Sciences · 2008–2012</span>
               </li>
             </ul>
@@ -1743,7 +1735,7 @@
         ["Contact","Kapcsolat","Contact"],
         ["Menu","Menü","Meniu"],
         ["Digital operations · IT coordination","Digitális működés · IT-koordináció","Operațiuni digitale · coordonare IT"],
-        ["Digital Operations | Business–IT Coordination","Digitális működés | Üzleti és IT-koordináció","Operațiuni digitale | Coordonare business–IT"],
+        ["Digital Operations | Business–IT Coordination | Communications","Digitális működés | Üzleti és IT-koordináció | Kommunikáció","Operațiuni digitale | Coordonare business–IT | Comunicare"],
         ["I have over 10 years of experience in project coordination and digital operations. I manage internal systems, work with IT specialists and help improve digital processes. My work includes understanding user needs, coordinating changes, testing solutions and supporting colleagues.","Több mint 10 éves tapasztalatom van a projektkoordináció és a digitális működés területén. Belső rendszereket kezelek, IT-szakemberekkel dolgozom együtt, és segítem a digitális folyamatok fejlesztését. Munkám része a felhasználói igények megértése, a változtatások koordinálása, a megoldások tesztelése és a kollégák támogatása.","Am peste 10 ani de experiență în coordonarea proiectelor și operațiuni digitale. Administrez sisteme interne, colaborez cu specialiști IT și contribui la îmbunătățirea proceselor digitale. Activitatea mea include înțelegerea nevoilor utilizatorilor, coordonarea schimbărilor, testarea soluțiilor și sprijinirea colegilor."],
         ["Târgu Mureș, Romania","Marosvásárhely, Románia","Târgu Mureș, România"],
         ["See what I work on","Mivel foglalkozom","Vezi cu ce mă ocup"],
@@ -1754,7 +1746,8 @@
         ["10+ years","Több mint 10 év","Peste 10 ani"],
         ["Strength","Erősség","Punct forte"],
         ["Business–IT Coordination","Üzleti és IT-koordináció","Coordonare business–IT"],
-        ["Projects and digital systems","Projektek és digitális rendszerek","Proiecte și sisteme digitale"],
+        ["Projects, systems and communications","Projektek, rendszerek és kommunikáció","Proiecte, sisteme și comunicare"],
+        ["Across both roles, I have handled communications, created communication materials and coordinated their production.","Mindkét munkahelyemen foglalkoztam kommunikációval, kommunikációs anyagok készítésével és előállításuk koordinálásával.","În ambele roluri, m-am ocupat de comunicare, de realizarea materialelor de comunicare și de coordonarea producției acestora."],
         ["I have worked in project coordination and management for more than 10 years. Over time, digital systems and process improvement have become an important part of my work. Today, I combine project management with IT coordination, system administration, data workflows and user support.","Több mint 10 éve dolgozom projektkoordinációval és projektmenedzsmenttel. Idővel a digitális rendszerek és a folyamatfejlesztés a munkám fontos részévé váltak. Ma a projektmenedzsmentet IT-koordinációval, rendszeradminisztrációval, adatkezelési folyamatokkal és felhasználói támogatással kapcsolom össze.","Lucrez în coordonarea și managementul proiectelor de peste 10 ani. În timp, sistemele digitale și îmbunătățirea proceselor au devenit o parte importantă a activității mele. Astăzi combin managementul de proiect cu coordonarea IT, administrarea sistemelor, fluxurile de date și sprijinul pentru utilizatori."],
         ["My work connects colleagues’ practical needs with technical implementation. I turn those needs into clear tasks for external IT partners, follow progress, test the results and document changes for everyday use.","Munkám összekapcsolja a kollégák gyakorlati igényeit a technikai megvalósítással. Az igényeket egyértelmű feladatokká alakítom a külső IT-partnerek számára, nyomon követem a munkát, tesztelem az eredményeket, és dokumentálom a változásokat a mindennapi használathoz.","Activitatea mea face legătura dintre nevoile practice ale colegilor și implementarea tehnică. Transform aceste nevoi în sarcini clare pentru partenerii IT externi, urmăresc progresul, testez rezultatele și documentez schimbările pentru utilizarea de zi cu zi."],
         ["Professional experience","Szakmai tapasztalat","Experiență profesională"],
@@ -1768,12 +1761,13 @@
         ["Coordinate with an external IT team and a GDPR expert on system security and personal-data handling.","Egyeztetés egy külső IT-csapattal és GDPR-szakértővel a rendszerbiztonságról és a személyes adatok kezeléséről.","Colaborarea cu o echipă IT externă și cu un expert GDPR privind securitatea sistemului și prelucrarea datelor cu caracter personal."],
         ["Manage complex Excel-based data processing and support wider process improvements.","Összetett Excel-alapú adatfeldolgozás és a szervezeti folyamatfejlesztés támogatása.","Gestionarea prelucrării complexe a datelor în Excel și sprijinirea îmbunătățirii proceselor din organizație."],
         ["Coordinate events and partner-related operational activities.","Rendezvények és partnerekkel kapcsolatos operatív tevékenységek koordinálása.","Coordonarea evenimentelor și a activităților operaționale legate de parteneri."],
+        ["Handle communications, create communication materials and coordinate their production.","Kommunikációs feladatok ellátása, kommunikációs anyagok készítése és előállításuk koordinálása.","Gestionarea comunicării, realizarea materialelor de comunicare și coordonarea producției acestora."],
         ["October 2015 — December 2018","2015. október — 2018. december","Octombrie 2015 — decembrie 2018"],
         ["Earlier project and programme experience","Korábbi projekt- és programtapasztalat","Experiență anterioară în proiecte și programe"],
         ["Environmental nonprofit environment","Környezetvédelmi nonprofit környezet","Mediu nonprofit de protecție a mediului"],
         ["Worked with teachers, local-government representatives and public-sector stakeholders in environmental programmes.","Tanárokkal, önkormányzati képviselőkkel és közintézményi szereplőkkel való együttműködés környezetvédelmi programokban.","Colaborarea cu profesori, reprezentanți ai administrațiilor locale și actori din sectorul public în programe de mediu."],
         ["Coordinated communication with international partners.","A nemzetközi partnerekkel folytatott kommunikáció koordinálása.","Coordonarea comunicării cu parteneri internaționali."],
-        ["Supported multi-partner projects, events, websites, publications and communication materials.","Többpartneres projektek, rendezvények, weboldalak, kiadványok és kommunikációs anyagok támogatása.","Sprijinirea proiectelor cu mai mulți parteneri, a evenimentelor, site-urilor web, publicațiilor și materialelor de comunicare."],
+        ["Created communication materials and coordinated their production for multi-partner projects, alongside websites, publications and events.","Kommunikációs anyagok készítése és előállításuk koordinálása többpartneres projektekben, weboldalakkal, kiadványokkal és rendezvényekkel kapcsolatos feladatok mellett.","Realizarea materialelor de comunicare și coordonarea producției acestora în proiecte cu mai mulți parteneri, alături de activități legate de site-uri web, publicații și evenimente."],
         ["Helped align different institutions, expectations and deliverables.","Különböző intézmények, elvárások és eredmények összehangolásának segítése.","Sprijinirea alinierii dintre instituții, așteptări și rezultate de livrat."],
         ["Selected projects","Válogatott projektek","Proiecte selectate"],
         ["Online Grant Platform Development Coordination","Online pályázati platform fejlesztésének koordinálása","Coordonarea dezvoltării unei platforme online pentru cereri de finanțare"],
@@ -1806,6 +1800,10 @@
         ["User support","Felhasználói támogatás","Sprijin pentru utilizatori"],
         ["Digital workflows","Digitális munkafolyamatok","Fluxuri de lucru digitale"],
         ["Website content operations","Weboldalak tartalomkezelése","Administrarea conținutului site-urilor"],
+        ["Digital Operations & Communications","Digitális működés és kommunikáció","Operațiuni digitale și comunicare"],
+        ["Communication","Kommunikáció","Comunicare"],
+        ["Content Creation","Tartalomkészítés","Creare de conținut"],
+        ["Content Management","Tartalomkezelés","Administrarea conținutului"],
         ["Project & IT Coordination","Projekt- és IT-koordináció","Coordonare de proiect și IT"],
         ["Project coordination","Projektkoordináció","Coordonarea proiectelor"],
         ["Requirements gathering","Felhasználói igények összegyűjtése","Colectarea cerințelor"],
@@ -1816,13 +1814,15 @@
         ["Data & Office Tools","Adatok és irodai eszközök","Date și instrumente de birou"],
         ["Structured data preparation","Strukturált adatok előkészítése","Pregătirea datelor structurate"],
         ["Web & Emerging Tools","Webes és új technológiák","Instrumente web și tehnologii noi"],
-        ["Basic HTML, CSS and JavaScript understanding","Alapszintű HTML-, CSS- és JavaScript-ismeretek","Cunoștințe de bază de HTML, CSS și JavaScript"],
+        ["Website content management","Webes tartalomkezelés","Administrarea conținutului web"],
         ["Website testing","Weboldalak tesztelése","Testarea site-urilor"],
         ["AI-assisted task support","AI-val támogatott feladatvégzés","Sprijin asistat de AI pentru sarcini"],
         ["Education & Languages","Tanulmányok és nyelvek","Educație și limbi"],
         ["Background and working languages","Tanulmányok és munkanyelvek","Studii și limbi de lucru"],
         ["Education","Tanulmányok","Educație"],
-        ["Public Relations · 2012–2015","Közkapcsolatok · 2012–2015","Relații publice · 2012–2015"],
+        ["Sapientia Hungarian University of Transylvania","Sapientia Erdélyi Magyar Tudományegyetem","Universitatea Sapientia"],
+        ["“Unirea” National High School","Unirea Nemzeti Kollégium","Colegiul Național „Unirea”"],
+        ["Communication and Public Relations · 2012–2015","Kommunikáció és közkapcsolatok · 2012–2015","Comunicare și relații publice · 2012–2015"],
         ["Natural Sciences · 2008–2012","Természettudományok · 2008–2012","Științe ale naturii · 2008–2012"],
         ["Languages","Nyelvek","Limbi"],
         ["Hungarian","Magyar","Maghiară"],
@@ -1934,6 +1934,17 @@
       });
 
       setLanguage("en");
+
+      const privacyDetails = document.querySelector(".privacy");
+      privacyDetails.addEventListener("toggle", function () {
+        if (!privacyDetails.open) return;
+        requestAnimationFrame(function () {
+          privacyDetails.scrollIntoView({
+            block: "end",
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"
+          });
+        });
+      });
 
       document.querySelectorAll(".mobile-links a").forEach(function (link) {
         link.addEventListener("click", function () {
